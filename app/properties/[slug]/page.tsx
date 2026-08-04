@@ -57,7 +57,7 @@ export default async function PropertyPage({ params }: PageProps) {
         <p>
           {property.short}
         </p>
-        <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.2em] text-sage">
+        <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.2em] text-emerald">
           {property.price} · {property.area}
           {property.beds ? ` · ${property.beds}` : ""} · {property.status}
         </p>

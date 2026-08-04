@@ -19,7 +19,7 @@ export function Stamp({ label, tone = "muted", className }: StampProps) {
   return (
     <span
       className={cn(
-        "stamp inline-flex items-center border px-2.5 py-1 backdrop-blur-sm",
+        "stamp inline-flex items-center border px-2.5 py-1 backdrop-blur-sm transition-transform duration-300 hover:-rotate-6",
         tones[tone],
         className
       )}

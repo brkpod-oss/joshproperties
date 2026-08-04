@@ -12,7 +12,8 @@ Marketing site for **Josh Properties**, a luxury real-estate house in Hyderabad,
 
 - **Next.js 16.2.12** (App Router), React 19, TypeScript (strict)
 - **Tailwind CSS v4** — `@import "tailwindcss"` + `@theme inline` tokens in `app/globals.css`
-- **motion** (`motion/react`) for animation — not `framer-motion`
+- **motion** (`motion/react`) for micro-interactions — not `framer-motion`
+- **GSAP + ScrollTrigger** for scroll-scrubbed signature animation (hero word reveal, Method progress line, survey-line draws); `SmoothScroll.tsx` registers ScrollTrigger and syncs it with Lenis (`lenis.on("scroll", ScrollTrigger.update)`), exposing the instance as `window.__lenis`
 - **Lenis** smooth scroll, **lucide-react** icons, **clsx** + **tailwind-merge** via `cn()`
 - `next.config.ts` sets `turbopack.root` to the repo to silence the multiple-lockfile warning.
 
@@ -61,21 +62,23 @@ Marketing site for **Josh Properties**, a luxury real-estate house in Hyderabad,
 
 ## Design system
 
-The site speaks a **heritage-registry / title-office** language: cold paper and stone, ink type, and an emerald "seal" green. Every surface should read as an artifact of a private land registry — a folio, a ledger, a deed, a stamp — not as a generic marketing page.
+The site speaks a **Title Register Book** language: warm linen paper and ink, a deep **forest** green for dark chapters, and **brass** as the single accent. Every surface should read as an artifact of a private land registry — a folio, a ledger, a deed, a stamp — not as a generic marketing page.
 
-- **Colors are Tailwind theme tokens in `app/globals.css`:** `paper #f5f6f5`, `stone #e9ebe9`, `mist #dde0de`, `slate #646b67`, `ink #1c1e20`, `graphite #26282b`, `carbon #111315`, `chrome #b9bfc3`, `sage #9cc6ad` (dark-mode accent), `emerald #1f6a4a` (seal/verified — the ONE accent), `pine #173f2e` (emerald hover/dark). Use tokens, not raw hex.
-- **Fonts load via `next/font` in `app/fonts.ts`:** `Cormorant Garamond` (display), `Schibsted Grotesk` (body — no 300 weight; use 400–600), `JetBrains Mono` (mono/registry metadata). Exposed as `font-display`, `font-body`, `font-mono`.
+- **Colors are Tailwind theme tokens in `app/globals.css`:** `paper #f8f5f0`, `stone #f1ebe2`, `mist #e7e0d4`, `slate #7a7263`, `ink #0e0e0b`, `graphite #201c14`, `carbon #1a2e1e` (the forest dark), `chrome #a79e8c`, `sage #c2b8a3` (clay), `emerald #c5a26b` (the brass accent), `pine #143825` (brass hover/dark). Brass aliases: `brass`, `forest`, `clay`, `line`, `paper-dark`. **`emerald`/`pine`/`carbon`/`sage` still mean brass/forest/dark/clay respectively — `emerald` IS the brass accent.** Use tokens, not raw hex. Plan-named variables (`--paper`, `--ink`, `--forest`, `--brass`, `--clay`, `--line`, `--text-hero`, `--text-h2`, `--text-label`) are also defined in `:root`.
+- **Fonts load via `next/font` in `app/fonts.ts`:** `Instrument Serif` (display — weight 400 only, normal + italic), `Sora` (body — 300–600), `IBM Plex Mono` (mono/registry metadata). Exposed as `font-display`, `font-body`, `font-mono`.
 - **Registry devices (reuse, don't re-invent):**
   - `components/ui/Seal.tsx` — circular JP monogram seal ("Josh Properties · Private Advisory"). Use as watermark (large, `text-paper/[0.07]` on dark, `text-emerald/[0.07]` on paper) or as a small brand mark.
-  - `components/ui/Stamp.tsx` — corner stamp with tones `available` (emerald), `sold` (slate, rotated), `reserved` (chrome), `muted`. Used on `PropertyCard` for status.
+  - `components/ui/Stamp.tsx` — corner stamp with tones `available` (brass), `sold` (slate, rotated), `reserved` (chrome), `muted`; rotates -6deg on hover. Used on `PropertyCard` for status.
   - `components/motion/Parallax.tsx` — `useScroll`/`useTransform` y-parallax; wrap images in `absolute inset-[-12%]` inside an `overflow-hidden` container. Disables under reduced motion.
   - Double-frame "document" cards: `border border-ink/15 outline outline-1 outline-ink/10 outline-offset-[3px]` (Story folio, Stats ledger, Footer deed band).
-- **Utilities in `globals.css`:** `.eyebrow` (mono, 11px, 0.22em, uppercase), `.stamp` (mono, 9px, 0.2em, uppercase), `.rule-solid`, `.vignette`, `.film-grain`, `.animate-marquee`, `heroZoom`.
+- **Utilities in `globals.css`:** `.eyebrow` (mono, 11px, 0.22em, uppercase), `.stamp` (mono, 9px, 0.2em, uppercase), `.rule-solid`, `.vignette`, `.film-grain`, `.animate-marquee`, `heroZoom`, `.animate-wave` (voice-note waveform), `.brass-shimmer` (hover shimmer on brass elements), `.field-underline` + `.group-field:focus-within` (brass underline grows from center on form focus).
+- **Signature GSAP:** Hero word-reveal + brass survey-line draw in `components/sections/HeroIntro.tsx`; Method (Process) sticky headline + brass progress-line fill in `components/sections/Process.tsx`. Both self-disable under reduced motion and clean up via `gsap.context()`.
+- **Voice notes:** `Testimonials` renders clients as WhatsApp-style voice notes — brass play/pause toggles a `.animate-wave` on the waveform bars. No blockquote styling.
 - **Copy discipline (anti-slop):** NO em-dashes (use commas/colons/periods; en-dashes only in numeric ranges like `₹1–3 Cr`). No "Khammam", "Victory Atelier", "coordination charges" (except the deliberate FAQ line), no eyebrow on every section.
 - **Eyebrow restraint:** max ~1 eyebrow per 3 sections. Home page currently uses three: hero kicker, "The collection" (Featured), "The farmland" (FarmlandBand). Don't add more.
-- **Shape lock:** all-sharp system (radius 0–2px). No rounded cards; the only circles are the Seal. Timelines use sharp index squares, not circles.
+- **Shape lock:** all-sharp system (radius 0–2px). No rounded cards; the only circles are the Seal and voice-note play buttons. Timelines use sharp index squares, not circles.
 - **Respect `prefers-reduced-motion` global CSS and the marquee fallback.**
-- **Dark/light arc:** dark opening (Hero/Stats), long light "documents" chapter (Featured→Faq), dark close (FarmlandBand/FinalCta). Keep this triptych; don't scatter dark sections through the light chapter.
+- **Dark/light arc:** dark opening (Hero/Stats), long light "documents" chapter (Featured→WhyJosh), dark chapters (FarmlandBand, Method/Process, FinalCta), light close. Keep this triptych; don't scatter dark sections through the light chapter.
 
 ## SEO / metadata
 

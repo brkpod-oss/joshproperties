@@ -4,6 +4,7 @@ export type Spec = { label: string; value: string };
 
 export type Property = {
   slug: string;
+  folio: string;
   title: string;
   category: PropertyCategory;
   location: string;
@@ -22,6 +23,7 @@ export type Property = {
 export const properties: Property[] = [
   {
     slug: "jubilee-house",
+    folio: "001",
     title: "The Jubilee House",
     category: "villa",
     location: "Jubilee Hills, Hyderabad",
@@ -50,6 +52,7 @@ export const properties: Property[] = [
   },
   {
     slug: "kokapet-retreat",
+    folio: "002",
     title: "The Kokapet Retreat",
     category: "villa",
     location: "Kokapet, Hyderabad",
@@ -74,6 +77,7 @@ export const properties: Property[] = [
   },
   {
     slug: "medchal-farmhouse",
+    folio: "003",
     title: "The Medchal Farmhouse",
     category: "villa",
     location: "Medchal, Hyderabad",
@@ -98,6 +102,7 @@ export const properties: Property[] = [
   },
   {
     slug: "skyline-penthouse",
+    folio: "004",
     title: "The Skyline Penthouse",
     category: "apartment",
     location: "Financial District, Hyderabad",
@@ -123,6 +128,7 @@ export const properties: Property[] = [
   },
   {
     slug: "park-residences",
+    folio: "005",
     title: "The Park Residences",
     category: "apartment",
     location: "Gachibowli, Hyderabad",
@@ -145,6 +151,7 @@ export const properties: Property[] = [
   },
   {
     slug: "boulevard-duplex",
+    folio: "006",
     title: "The Boulevard Duplex",
     category: "apartment",
     location: "Banjara Hills, Hyderabad",
@@ -167,6 +174,7 @@ export const properties: Property[] = [
   },
   {
     slug: "shadkaralle-green-belt",
+    folio: "007",
     title: "Shadkaralle Green Belt",
     category: "farmland",
     location: "Shankarpally, Hyderabad",
@@ -190,6 +198,7 @@ export const properties: Property[] = [
   },
   {
     slug: "moinabad-plots",
+    folio: "008",
     title: "Moinabad Plot Enclave",
     category: "farmland",
     location: "Moinabad, Hyderabad",
@@ -214,6 +223,7 @@ export const properties: Property[] = [
   },
   {
     slug: "chevella-river-plate",
+    folio: "009",
     title: "Chevella River Plate",
     category: "farmland",
     location: "Chevella, Hyderabad",

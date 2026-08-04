@@ -20,17 +20,17 @@ export function FinalCta() {
         className="pointer-events-none absolute left-1/2 top-0 h-[560px] w-[860px] -translate-x-1/2 -translate-y-1/3 rounded-full"
         style={{
           background:
-            "radial-gradient(closest-side, rgba(31,106,74,0.32), transparent 70%)",
+            "radial-gradient(closest-side, rgba(197,162,107,0.32), transparent 70%)",
         }}
       />
       <div className="relative mx-auto max-w-[1440px] px-6 py-32 text-center sm:px-12 lg:px-20 lg:py-48">
         <Reveal delay={0.05}>
-          <Seal className="mx-auto h-16 w-16 text-sage/85" />
+          <Seal className="mx-auto h-16 w-16 text-emerald/85" />
         </Reveal>
         <Reveal delay={0.1}>
           <h2 className="mx-auto mt-8 max-w-[18ch] text-balance font-display text-5xl font-light leading-[1.02] tracking-[-0.02em] text-paper lg:text-7xl">
             Every great purchase begins with a{" "}
-            <span className="text-sage">private call.</span>
+            <span className="text-emerald">private call.</span>
           </h2>
         </Reveal>
         <Reveal delay={0.2}>
@@ -57,7 +57,7 @@ export function FinalCta() {
                 href={site.phoneHref}
                 variant="outline"
                 size="lg"
-                className="border-sage/50 text-sage hover:bg-sage/10"
+                className="border-emerald/50 text-emerald hover:bg-emerald/10"
               >
                 <Phone size={16} strokeWidth={1.5} />
                 {site.phone}
@@ -68,7 +68,7 @@ export function FinalCta() {
                 href={site.whatsapp}
                 variant="ghost"
                 size="lg"
-                className="text-paper/70 hover:text-sage"
+                className="text-paper/70 hover:text-emerald"
               >
                 <MessageCircle size={16} strokeWidth={1.5} />
                 WhatsApp the concierge

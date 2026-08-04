@@ -39,7 +39,7 @@ export function FloatingCta() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with Josh Properties on WhatsApp"
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald text-carbon shadow-lg shadow-emerald/25 transition-transform duration-300 hover:-translate-y-0.5 hover:bg-sage"
+        className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald text-carbon shadow-lg shadow-emerald/25 transition-transform duration-300 hover:-translate-y-0.5 hover:bg-pine"
       >
         <MessageCircle size={22} strokeWidth={1.5} />
       </a>

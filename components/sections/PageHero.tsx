@@ -24,7 +24,7 @@ export function PageHero({ eyebrow, title, seed, children }: PageHeroProps) {
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-carbon via-carbon/50 to-carbon/60" />
       <div className="relative mx-auto max-w-[1440px] px-6 pb-20 pt-44 sm:px-12 lg:px-20 lg:pb-28 lg:pt-56">
-        <p className="eyebrow text-sage">{eyebrow}</p>
+        <p className="eyebrow text-emerald">{eyebrow}</p>
         <RevealMask delay={0.1}>
           <h1 className="mt-6 max-w-[20ch] text-balance font-display text-5xl font-light leading-[1.02] tracking-[-0.02em] text-paper lg:text-7xl">
             {title}

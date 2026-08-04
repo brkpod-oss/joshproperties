@@ -10,7 +10,7 @@ export function Stats() {
           <div className="border border-paper/15 bg-graphite">
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-paper/15 px-6 py-5 sm:px-10">
               <p className="stamp text-paper/60">Title register · Select entries</p>
-              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-sage/90">
+              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-emerald/90">
                 Folio I–IV
               </p>
             </div>
@@ -23,7 +23,7 @@ export function Stats() {
                       {stat.numeral}
                     </span>
                     <div>
-                      <span className="font-display text-7xl font-light leading-none text-sage tabular-nums lg:text-8xl">
+                      <span className="font-display text-7xl font-light leading-none text-emerald tabular-nums lg:text-8xl">
                         <CountUp value={stat.value} suffix={stat.suffix} />
                       </span>
                       <p className="mt-6 max-w-[16ch] text-[15px] leading-snug text-paper/80">

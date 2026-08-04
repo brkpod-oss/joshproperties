@@ -59,7 +59,7 @@ export function Cursor() {
         <motion.div
           animate={{ scale: pressed ? 0.5 : 1 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
-          className="-ml-[3px] -mt-[3px] h-1.5 w-1.5 rounded-full bg-sage"
+          className="-ml-[3px] -mt-[3px] h-1.5 w-1.5 rounded-full bg-emerald"
         />
       </motion.div>
       <motion.div

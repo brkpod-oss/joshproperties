@@ -68,7 +68,7 @@ export function DossierForm() {
   }
 
   const inputClass =
-    "w-full border-b border-ink/20 bg-transparent py-3 text-[15px] text-ink placeholder:text-ink/35 transition-colors focus:border-emerald focus:outline-none";
+    "w-full bg-transparent py-3 text-[15px] text-ink placeholder:text-ink/35 focus:outline-none";
 
   if (sent) {
     return (
@@ -96,7 +96,7 @@ export function DossierForm() {
   return (
     <form onSubmit={submit} className="space-y-10">
       <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
-        <div>
+        <div className="group-field relative border-b border-ink/20">
           <label htmlFor="name" className="eyebrow text-slate">
             Name
           </label>
@@ -110,8 +110,9 @@ export function DossierForm() {
             onChange={set("name")}
             className={inputClass}
           />
+          <span className="field-underline" aria-hidden />
         </div>
-        <div>
+        <div className="group-field relative border-b border-ink/20">
           <label htmlFor="phone" className="eyebrow text-slate">
             Phone
           </label>
@@ -125,6 +126,7 @@ export function DossierForm() {
             onChange={set("phone")}
             className={inputClass}
           />
+          <span className="field-underline" aria-hidden />
         </div>
       </div>
 
@@ -182,7 +184,7 @@ export function DossierForm() {
         </div>
       </div>
 
-      <div>
+      <div className="group-field relative border-b border-ink/20">
         <label htmlFor="message" className="eyebrow text-slate">
           Anything else? (optional)
         </label>
@@ -194,6 +196,7 @@ export function DossierForm() {
           onChange={set("message")}
           className={cn(inputClass, "resize-none")}
         />
+        <span className="field-underline" aria-hidden />
       </div>
 
       {error && (
@@ -209,7 +212,7 @@ export function DossierForm() {
 
       <button
         type="submit"
-        className="group inline-flex items-center gap-3 bg-emerald px-9 py-4 text-[12px] font-medium uppercase tracking-[0.12em] text-paper transition-colors duration-300 hover:bg-pine active:scale-[0.98]"
+        className="group brass-shimmer inline-flex items-center gap-3 bg-emerald px-9 py-4 text-[12px] font-medium uppercase tracking-[0.12em] text-paper transition-colors duration-300 hover:bg-pine active:scale-[0.98]"
       >
         <Send size={15} strokeWidth={1.5} />
         Request the private dossier

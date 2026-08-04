@@ -31,7 +31,7 @@ export function FarmlandBand() {
           <Reveal delay={0.2}>
             <a
               href="/farmlands"
-              className="group inline-flex items-center gap-3 border border-sage/40 px-7 py-3.5 text-[12px] font-medium uppercase tracking-[0.12em] text-sage transition-colors duration-300 hover:bg-sage/10"
+              className="group inline-flex items-center gap-3 border border-emerald/40 px-7 py-3.5 text-[12px] font-medium uppercase tracking-[0.12em] text-emerald transition-colors duration-300 hover:bg-emerald/10"
             >
               Explore the land
               <ArrowRight

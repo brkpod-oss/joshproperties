@@ -4,9 +4,9 @@ import { useState } from "react";
 import { masterplan } from "@/data/farmland";
 
 const statusStyles: Record<string, { fill: string; stroke: string }> = {
-  Available: { fill: "rgba(31,106,74,0.3)", stroke: "#1f6a4a" },
-  Reserved: { fill: "rgba(100,107,103,0.28)", stroke: "#646b67" },
-  Sold: { fill: "rgba(28,30,32,0.2)", stroke: "#1c1e20" },
+  Available: { fill: "rgba(197,162,107,0.32)", stroke: "#c5a26b" },
+  Reserved: { fill: "rgba(122,114,99,0.3)", stroke: "#7a7263" },
+  Sold: { fill: "rgba(14,14,11,0.22)", stroke: "#0e0e0b" },
 };
 
 export function FarmlandMap() {
@@ -35,8 +35,8 @@ export function FarmlandMap() {
             y="2"
             width="96"
             height="96"
-            fill="rgba(245,246,245,0.7)"
-            stroke="rgba(100,107,103,0.5)"
+            fill="rgba(248,245,240,0.7)"
+            stroke="rgba(122,114,99,0.5)"
             strokeWidth="0.15"
           />
           <line
@@ -44,7 +44,7 @@ export function FarmlandMap() {
             y1="90"
             x2="96"
             y2="90"
-            stroke="rgba(100,107,103,0.4)"
+            stroke="rgba(122,114,99,0.4)"
             strokeWidth="0.2"
             strokeDasharray="2 0.7"
           />
@@ -52,7 +52,7 @@ export function FarmlandMap() {
             <path
               d="M0 88 C 25 72, 40 92, 60 80 S 90 62, 100 68"
               fill="none"
-              stroke="rgba(107,106,103,0.6)"
+              stroke="rgba(122,114,99,0.6)"
               strokeWidth="1.3"
               strokeDasharray="1 0.8"
             />
@@ -83,7 +83,7 @@ export function FarmlandMap() {
                   y={p.y + 12.5}
                   textAnchor="middle"
                   fontSize="3.2"
-                  fill={isActive ? "#1a1a1a" : "#646b67"}
+                  fill={isActive ? "#1a1a1a" : "#7a7263"}
                   fontFamily="JetBrains Mono, monospace"
                 >
                   {p.id}

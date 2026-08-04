@@ -134,7 +134,7 @@ export function Navbar() {
                     <a
                       href={l.href}
                       onClick={() => setOpen(false)}
-                      className="font-display text-[2.5rem] font-light leading-none tracking-[-0.02em] text-paper transition-colors hover:text-sage sm:text-5xl"
+                      className="font-display text-[2.5rem] font-light leading-none tracking-[-0.02em] text-paper transition-colors hover:text-emerald sm:text-5xl"
                     >
                       {l.label}
                     </a>
@@ -149,7 +149,7 @@ export function Navbar() {
                   <Link
                     href="/contact"
                     onClick={() => setOpen(false)}
-                    className="font-display text-[2.5rem] font-light leading-none tracking-[-0.02em] text-sage sm:text-5xl"
+                    className="font-display text-[2.5rem] font-light leading-none tracking-[-0.02em] text-emerald sm:text-5xl"
                   >
                     Enquire
                   </Link>

@@ -16,7 +16,7 @@ export function ChapterMarker({ kicker, tone = "light", className }: ChapterMark
     <div
       className={cn(
         "flex items-center gap-4",
-        tone === "dark" ? "text-sage" : "text-emerald",
+        tone === "dark" ? "text-emerald" : "text-emerald",
         className
       )}
     >

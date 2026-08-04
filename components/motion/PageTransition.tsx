@@ -31,13 +31,17 @@ export function PageTransition() {
           initial={{ y: "100%" }}
           animate={{ y: 0 }}
           exit={{ y: "-100%" }}
-          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
           <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-slate">
-            Josh Properties
+            Turning to the folio
           </span>
-          <span className="font-display text-4xl font-light tracking-[0.14em] text-ink">
-            JOSH
+          <span className="flex items-center gap-4">
+            <span aria-hidden className="h-px w-10 bg-brass/60" />
+            <span className="font-display text-4xl font-light tracking-[0.14em] text-ink">
+              JOSH
+            </span>
+            <span aria-hidden className="h-px w-10 bg-brass/60" />
           </span>
           <span className="stamp border border-emerald/70 px-3 py-1.5 text-emerald">
             RERA P02400005461

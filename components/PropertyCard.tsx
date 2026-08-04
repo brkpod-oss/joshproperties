@@ -41,7 +41,7 @@ export function PropertyCard({ property, large, className }: PropertyCardProps) 
         </div>
 
         {property.category === "apartment" && (
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_110%,rgba(10,18,40,0.95)_0%,rgba(10,18,40,0.35)_45%,transparent_70%)] opacity-0 transition-opacity duration-1000 ease-out group-hover:opacity-100" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_110%,rgba(14,14,11,0.95)_0%,rgba(14,14,11,0.35)_45%,transparent_70%)] opacity-0 transition-opacity duration-1000 ease-out group-hover:opacity-100" />
         )}
 
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-carbon/75 via-transparent to-transparent" />
@@ -57,13 +57,13 @@ export function PropertyCard({ property, large, className }: PropertyCardProps) 
                   : "reserved"
             }
           />
-          <span className="stamp flex items-center border border-paper/40 bg-carbon/40 px-2.5 py-1 text-paper/80">
-            {property.category}
+          <span className="stamp flex items-center border border-brass/60 bg-carbon/40 px-2.5 py-1 text-brass">
+            Folio {property.folio}
           </span>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 p-6">
-          <p className="eyebrow text-sage">{property.location}</p>
+          <p className="eyebrow text-emerald">{property.location}</p>
           <h3 className="mt-2 font-display text-3xl font-light text-paper">
             {property.title}
           </h3>

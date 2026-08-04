@@ -98,7 +98,7 @@ export function DayNightCity() {
           aria-hidden
           className="pointer-events-none absolute inset-0"
           style={{
-            background: "radial-gradient(120% 90% at 50% 20%, rgba(255,190,130,0.4), transparent 65%)",
+            background: "radial-gradient(120% 90% at 50% 20%, rgba(197,162,107,0.45), transparent 65%)",
             opacity: warm,
           }}
         />
@@ -107,7 +107,7 @@ export function DayNightCity() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(10,16,38,0.7) 0%, rgba(10,16,38,0.15) 40%, rgba(10,16,38,0.9) 100%)",
+              "linear-gradient(180deg, rgba(12,14,10,0.7) 0%, rgba(12,14,10,0.15) 40%, rgba(12,14,10,0.9) 100%)",
             opacity: cool,
           }}
         />
@@ -149,7 +149,7 @@ export function DayNightCity() {
             value={pos}
             aria-label="Change the city outlook from day to night"
             onChange={(e) => setPos(Number(e.target.value))}
-            className="relative z-10 h-full w-full cursor-ew-resize appearance-none bg-transparent [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border [&::-webkit-slider-thumb]:border-emerald [&::-webkit-slider-thumb]:bg-paper [&::-webkit-slider-thumb]:shadow-[0_0_0_5px_rgba(31,106,74,0.22)] [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border [&::-moz-range-thumb]:border-emerald [&::-moz-range-thumb]:bg-paper"
+            className="relative z-10 h-full w-full cursor-ew-resize appearance-none bg-transparent [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border [&::-webkit-slider-thumb]:border-emerald [&::-webkit-slider-thumb]:bg-paper [&::-webkit-slider-thumb]:shadow-[0_0_0_5px_rgba(197,162,107,0.28)] [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border [&::-moz-range-thumb]:border-emerald [&::-moz-range-thumb]:bg-paper"
           />
         </div>
       </div>

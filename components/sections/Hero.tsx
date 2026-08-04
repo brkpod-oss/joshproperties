@@ -1,11 +1,8 @@
 ﻿import { existsSync } from "fs";
 import path from "path";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
-import { MagneticButton } from "@/components/ui/MagneticButton";
-import { Button } from "@/components/ui/Button";
 import { Seal } from "@/components/ui/Seal";
-import { MaskLines } from "@/components/motion/MaskLines";
+import { HeroIntro } from "@/components/sections/HeroIntro";
 import { site } from "@/lib/site";
 
 const hasVideo = existsSync(path.join(process.cwd(), "public", "hero.mp4"));
@@ -49,62 +46,11 @@ export function Hero() {
       >
         <span className="h-px w-16 bg-paper/30" />
         <span>Josh Properties</span>
-        <span className="text-sage/80">Title office · Hyderabad</span>
+        <span className="text-brass/80">Title office · Hyderabad</span>
         <span className="h-px w-16 bg-paper/30" />
       </div>
 
-      <div className="relative mx-auto w-full max-w-[1440px] px-6 pb-16 pt-32 sm:px-12 lg:px-20 lg:pb-24">
-        <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-paper/60">
-          Private real-estate advisory
-        </p>
-
-        <MaskLines
-          delay={0.35}
-          stagger={0.16}
-          className="mt-8 font-display text-[clamp(3.5rem,10.5vw,8rem)] font-light leading-[0.95] tracking-[-0.02em]"
-          lines={[
-            { text: "Own the land.", className: "text-paper" },
-            {
-              text: "Live the skyline.",
-              italic: true,
-              className: "pb-2 text-sage",
-            },
-          ]}
-        />
-
-        <p className="mt-6 max-w-[52ch] text-pretty text-lg leading-relaxed text-paper/80">
-          Villas, apartments and cleared-title farmland across Hyderabad.
-          Verified, private, shown by appointment.
-        </p>
-
-        <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center">
-          <MagneticButton href="#collection">
-            <Button
-              href="#collection"
-              variant="filled"
-              size="lg"
-              className="group"
-            >
-              Explore the collection
-              <ArrowRight
-                size={16}
-                strokeWidth={1.5}
-                className="transition-transform duration-300 group-hover:translate-x-1"
-              />
-            </Button>
-          </MagneticButton>
-          <MagneticButton href="/farmlands">
-            <Button
-              href="/farmlands"
-              variant="ghost"
-              size="lg"
-              className="text-paper/70 hover:text-paper"
-            >
-              The farmlands
-            </Button>
-          </MagneticButton>
-        </div>
-      </div>
+      <HeroIntro />
     </section>
   );
 }

@@ -60,7 +60,7 @@ export function Footer() {
                 <li key={l.label}>
                   <a
                     href={l.href}
-                    className="text-[15px] text-paper/70 transition-colors hover:text-sage"
+                    className="text-[15px] text-paper/70 transition-colors hover:text-emerald"
                   >
                     {l.label}
                   </a>
@@ -82,7 +82,7 @@ export function Footer() {
                 <li key={l}>
                   <a
                     href="/farmlands"
-                    className="text-[15px] text-paper/70 transition-colors hover:text-sage"
+                    className="text-[15px] text-paper/70 transition-colors hover:text-emerald"
                   >
                     {l}
                   </a>
@@ -98,12 +98,12 @@ export function Footer() {
                 {site.address}
               </p>
               <p>
-                <a href={site.phoneHref} className="text-[15px] text-paper/70 transition-colors hover:text-sage">
+                <a href={site.phoneHref} className="text-[15px] text-paper/70 transition-colors hover:text-emerald">
                   {site.phone}
                 </a>
               </p>
               <p>
-                <a href={site.whatsapp} className="text-[15px] text-paper/70 transition-colors hover:text-sage">
+                <a href={site.whatsapp} className="text-[15px] text-paper/70 transition-colors hover:text-emerald">
                   WhatsApp
                 </a>
               </p>
