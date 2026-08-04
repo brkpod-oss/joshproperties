@@ -5,24 +5,21 @@
   --font-body: var(--font-body);
   --font-mono: var(--font-mono);
 
-  --color-ivory: #f7f6f2;
-  --color-linen: #efece5;
-  --color-pearl: #f4f1ea;
-  --color-bone: #e7e2d8;
-  --color-ash: #6f6b63;
-  --color-ink: #202020;
-  --color-obsidian: #141413;
-  --color-carbon: #0a0a0a;
-  --color-walnut: #2c221e;
-  --color-champagne: #e8d5a0;
-  --color-gold: #c8a86b;
-  --color-brass: #a68b5b;
-  --color-bronze: #8b7355;
-  --color-oil: #5c4a2e;
+  --color-paper: #f5f6f5;
+  --color-stone: #e9ebe9;
+  --color-mist: #dde0de;
+  --color-slate: #646b67;
+  --color-ink: #1c1e20;
+  --color-graphite: #26282b;
+  --color-carbon: #111315;
+  --color-chrome: #b9bfc3;
+  --color-sage: #9cc6ad;
+  --color-emerald: #1f6a4a;
+  --color-pine: #173f2e;
 }
 
 :root {
-  --bg: var(--color-ivory);
+  --bg: var(--color-paper);
   --fg: var(--color-ink);
 }
 
@@ -49,12 +46,12 @@ body {
 }
 
 ::selection {
-  background: var(--color-gold);
-  color: var(--color-carbon);
+  background: var(--color-emerald);
+  color: var(--color-paper);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-gold);
+  outline: 2px solid var(--color-emerald);
   outline-offset: 4px;
 }
 
@@ -72,15 +69,15 @@ body {
 }
 
 @layer utilities {
-  .gold-rule {
+  .rule {
     height: 1px;
     width: 120px;
-    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+    background: linear-gradient(90deg, transparent, var(--color-chrome), transparent);
   }
 
-  .gold-rule-solid {
+  .rule-solid {
     height: 1px;
-    background: rgba(200, 168, 107, 0.35);
+    background: rgba(185, 191, 195, 0.5);
   }
 
   .text-balance {
@@ -109,12 +106,12 @@ body {
     font-weight: 400;
   }
 
-  .atelier-card {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(40px) saturate(140%);
-    -webkit-backdrop-filter: blur(40px) saturate(140%);
-    border: 1px solid rgba(200, 168, 107, 0.2);
-    border-radius: 2px;
+  .stamp {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
   }
 
   .vignette::after {
@@ -122,11 +119,7 @@ body {
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background: radial-gradient(120% 120% at 50% 40%, transparent 55%, rgba(10, 10, 10, 0.34) 100%);
-  }
-
-  .warm-grade {
-    background: linear-gradient(180deg, rgba(10, 10, 10, 0.05) 0%, rgba(250, 248, 245, 0) 30%, rgba(10, 10, 10, 0.55) 100%);
+    background: radial-gradient(120% 120% at 50% 40%, transparent 55%, rgba(10, 12, 13, 0.34) 100%);
   }
 }
 
@@ -143,8 +136,20 @@ body {
   animation: marquee 45s linear infinite;
 }
 
+@keyframes heroZoom {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1.16);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee {
+    animation: none;
+  }
+  .animate-hero-zoom {
     animation: none;
   }
 }

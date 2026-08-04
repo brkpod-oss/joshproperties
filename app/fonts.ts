@@ -1,17 +1,17 @@
-import { Fraunces, JetBrains_Mono, Manrope } from "next/font/google";
+import { Cormorant_Garamond, JetBrains_Mono, Schibsted_Grotesk } from "next/font/google";
 
-export const display = Fraunces({
+export const display = Cormorant_Garamond({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
+  weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
   display: "swap",
 });
 
-export const body = Manrope({
+export const body = Schibsted_Grotesk({
   variable: "--font-body",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 

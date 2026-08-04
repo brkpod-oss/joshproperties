@@ -1,10 +1,10 @@
 export const partnerLogos = [
-  { name: "Häfele", note: "German hardware" },
-  { name: "Hettich", note: "Certified workshop" },
-  { name: "Century Ply", note: "Verified sheets" },
-  { name: "Asian Paints", note: "Beautiful Homes partner" },
-  { name: "Kajaria", note: "Tiles" },
-  { name: "Jaquar", note: "Lighting + bath" },
-  { name: "Greenply", note: "Secondary ply" },
-  { name: "Anchor", note: "Switches" },
+  { name: "Jubilee Hills", note: "villas" },
+  { name: "Kokapet", note: "lakefront" },
+  { name: "Gachibowli", note: "financial district" },
+  { name: "Shankarpally", note: "farmland" },
+  { name: "Moinabad", note: "lake country" },
+  { name: "Chevella", note: "river plots" },
+  { name: "Banjara Hills", note: "apartments" },
+  { name: "Medchal", note: "farmhouses" },
 ];

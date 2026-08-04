@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
@@ -16,7 +16,7 @@ export function ChapterMarker({ kicker, tone = "light", className }: ChapterMark
     <div
       className={cn(
         "flex items-center gap-4",
-        tone === "dark" ? "text-champagne" : "text-gold",
+        tone === "dark" ? "text-sage" : "text-emerald",
         className
       )}
     >
@@ -26,7 +26,7 @@ export function ChapterMarker({ kicker, tone = "light", className }: ChapterMark
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true, amount: 0.6 }}
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        className="gold-rule-solid w-16 origin-left"
+        className="rule-solid w-16 origin-left"
       />
       <span className="eyebrow">{kicker}</span>
     </div>

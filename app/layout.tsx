@@ -6,29 +6,30 @@ import { Footer } from "@/components/sections/Footer";
 import { FloatingCta } from "@/components/FloatingCta";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { Cursor } from "@/components/motion/Cursor";
+import { ScrollProgress } from "@/components/motion/ScrollProgress";
+import { PageTransition } from "@/components/motion/PageTransition";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://victoryatelier.in"),
+  metadataBase: new URL("https://joshproperties.in"),
   title: {
-    default: "Victory Atelier — Interior Design Studio in Khammam",
-    template: "%s · Victory Atelier",
+    default: "Josh Properties · Villas, Apartments & Farmlands in Hyderabad",
+    template: "%s · Josh Properties",
   },
-  description:
-    "Twelve years. Five hundred homes. Khammam's interior design studio with in-house craftsmanship, line-itemed quotes, Vastu-aware design and a ten-year warranty.",
+  description: site.position,
   keywords: [
-    "interior design Khammam",
-    "interior designers Telangana",
-    "modular kitchen Khammam",
-    "home interiors",
-    "Vastu interior design",
-    "Victory Interiors",
+    "farmlands for sale Hyderabad",
+    "villas in Hyderabad",
+    "apartments Jubilee Hills",
+    "agricultural land Telangana",
+    "cleared title farmland",
+    "Josh Properties",
   ],
   openGraph: {
     type: "website",
     locale: "en_IN",
     siteName: site.name,
-    title: "Victory Atelier — Interior Design Studio in Khammam",
+    title: "Josh Properties · Villas, Apartments & Farmlands in Hyderabad",
     description: site.tagline,
   },
   alternates: {
@@ -41,25 +42,25 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#faf8f5",
+  themeColor: "#f4f1ea",
   width: "device-width",
   initialScale: 1,
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "@id": "https://victoryatelier.in/#studio",
+  "@type": "RealEstateAgent",
+  "@id": "https://joshproperties.in/#agency",
   name: site.name,
   legalName: site.legalName,
   description: site.position,
-  foundingDate: "2012",
+  foundingDate: "2017",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "H.No. 12-3-45",
-    addressLocality: "Khammam",
+    streetAddress: "Road No. 12",
+    addressLocality: "Banjara Hills, Hyderabad",
     addressRegion: "Telangana",
-    postalCode: "507001",
+    postalCode: "500034",
     addressCountry: "IN",
   },
   telephone: site.phone,
@@ -78,22 +79,26 @@ export default function RootLayout({
       lang="en"
       className={`${display.variable} ${body.variable} ${mono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-ivory font-body text-ink">
+      <body className="flex min-h-full flex-col bg-paper font-body text-ink">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <a
-          href="#services"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-gold focus:px-5 focus:py-3 focus:text-carbon"
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-emerald focus:px-5 focus:py-3 focus:text-carbon"
         >
           Skip to content
         </a>
         <SmoothScroll />
+        <ScrollProgress />
         <Cursor />
+        <PageTransition />
         <div className="film-grain" aria-hidden />
         <Navbar />
-        <main className="flex-1">{children}</main>
+        <main id="main" className="flex-1">
+          {children}
+        </main>
         <Footer />
         <FloatingCta />
       </body>

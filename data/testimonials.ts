@@ -9,31 +9,31 @@ export type Testimonial = {
 export const testimonials: Testimonial[] = [
   {
     quote:
-      "We live in Dubai and bought a flat in Khammam in 2023. We needed a designer who could handle everything without us being there. They did our 2,800 sq.ft home in 14 weeks, sent weekly videos, and handed over a home we walked into with our kids — without a single thing to fix.",
-    name: "The Reddy Family",
-    context: "Dubai + Khammam",
-    project: "The Reddy Home · 2,800 sq.ft",
+      "We bought two five-acre plots at Shankarpally without once visiting the site. Josh flew the land, sent us the survey, and registered everything over three video calls from Dubai. Eighteen months later the title is still the cleanest paper I hold.",
+    name: "The Anand Family",
+    context: "Dubai + Hyderabad",
+    project: "Shankarpally · 10 acres",
     featured: true,
   },
   {
     quote:
-      "I'd been to Livspace in Hyderabad and almost signed. Then I met Victory Atelier and saw the same quality for thirty percent less, with a team I could actually call. Three years in, our home still feels new.",
-    name: "The Iyer Family",
-    context: "Khammam",
-    project: "The Iyer Apartment",
+      "Three developers had shown us the same villa with three different price stories. Josh showed it once, with the full title chain on the table, and the number they quoted was the number on the sale deed.",
+    name: "Dr. Meera K",
+    context: "Jubilee Hills",
+    project: "The Jubilee House",
   },
   {
     quote:
-      "Three other designers gave my mother generic layouts. Victory's designer sat with her for two hours, asked about the rituals she performs, the deities she prays to. The result is a pooja room my mother calls perfect.",
-    name: "The Krishnan Family",
-    context: "Khammam",
-    project: "The Krishnan Pooja Room",
+      "They advised us not to buy the first two properties we liked. That honesty is why we closed the third without hesitation.",
+    name: "The Rao Family",
+    context: "Hyderabad",
+    project: "Banjara Hills duplex",
   },
   {
     quote:
-      "They told us the project would take 14 weeks. It took 14 weeks. They said Häfele hinges. The hinges have Häfele stamped on them. This is what an interior firm should be.",
-    name: "The Sharma Family",
-    context: "Warangal",
-    project: "The Sharma Kitchen",
+      "The concierge walked us through registration like it was a rehearsal: every document in order, every fee itemised. We were in and out of the sub-registrar in under an hour.",
+    name: "The Pillai Family",
+    context: "Chennai + Hyderabad",
+    project: "Moinabad · 2 acres",
   },
 ];

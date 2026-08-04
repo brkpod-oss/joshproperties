@@ -1,10 +1,9 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { Plus } from "lucide-react";
 import { faqs } from "@/data/faqs";
-import { ChapterMarker } from "@/components/ui/ChapterMarker";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealMask } from "@/components/motion/RevealMask";
 
@@ -13,14 +12,11 @@ export function Faq() {
   const reduce = useReducedMotion();
 
   return (
-    <section id="faq" className="bg-linen">
+    <section id="faq" className="bg-stone">
       <div className="mx-auto max-w-[920px] px-6 py-28 sm:px-12 lg:py-40">
-        <Reveal>
-          <ChapterMarker kicker="Good to know" />
-        </Reveal>
         <RevealMask delay={0.1}>
-          <h2 className="mt-8 text-balance font-display text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ink lg:text-5xl">
-            The questions every Khammam homeowner asks.
+          <h2 className="text-balance font-display text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ink lg:text-5xl">
+            The questions every Hyderabad buyer asks.
           </h2>
         </RevealMask>
 
@@ -29,7 +25,7 @@ export function Faq() {
             const isOpen = open === i;
             return (
               <Reveal key={faq.question} delay={Math.min(i * 0.03, 0.15)}>
-                <div className="border-b border-gold/25">
+                <div className="border-b border-ink/15">
                   <button
                     type="button"
                     onClick={() => setOpen(isOpen ? null : i)}
@@ -40,7 +36,7 @@ export function Faq() {
                     <span
                       className={
                         isOpen
-                          ? "font-display text-xl font-normal text-gold lg:text-2xl"
+                          ? "font-display text-xl font-normal text-emerald lg:text-2xl"
                           : "font-display text-xl font-light text-ink lg:text-2xl"
                       }
                     >
@@ -49,7 +45,7 @@ export function Faq() {
                     <motion.span
                       animate={{ rotate: isOpen ? 45 : 0 }}
                       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                      className="flex h-9 w-9 shrink-0 items-center justify-center border border-gold/40 text-gold"
+                      className="flex h-9 w-9 shrink-0 items-center justify-center border border-ink/25 text-ink"
                     >
                       <Plus size={16} strokeWidth={1.5} />
                     </motion.span>

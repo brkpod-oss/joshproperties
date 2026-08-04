@@ -8,38 +8,37 @@ export type ProcessStep = {
 export const processSteps: ProcessStep[] = [
   {
     step: "I",
-    title: "Consultation",
-    week: "Week 0",
-    description: "A 60-minute conversation in our studio or your home. We listen — how the family lives, what frustrates it, what the budget reality is.",
+    title: "The First Call",
+    week: "Day 0",
+    description:
+      "A 30-minute call: what you are looking for, where, and the budget you mean, not the one you say. If we cannot serve it, we say so on the first call.",
   },
   {
     step: "II",
-    title: "Site Visit",
-    week: "Week 1",
-    description: "Laser-measured floor plan, a fifty-photo survey, a Vastu audit. We measure and photograph before we ever propose.",
+    title: "Private Viewing",
+    week: "Day 3–7",
+    description:
+      "An appointment-only viewing, scheduled around you. For farmlands, a drone flight is scheduled and the boundaries walked with a surveyor before you decide.",
   },
   {
     step: "III",
-    title: "Concept Design",
-    week: "Weeks 2–3",
-    description: "Two full concept directions — plans, renders of three key rooms, material and lighting palettes. You choose, or mix.",
+    title: "Title & Survey",
+    week: "Week 2",
+    description:
+      "Independent counsel runs the full chain of title, revenue records and survey maps. You receive the audit before any payment is discussed.",
   },
   {
     step: "IV",
-    title: "Detailed Design",
-    week: "Weeks 4–6",
-    description: "Every room in detail. Working drawings for the workshop, material specifications with vendor and price, a line-itemed quote.",
+    title: "Offer & Dossier",
+    week: "Week 3",
+    description:
+      "A line-itemed offer: price, registration, stamp duty, survey, fencing. The dossier is yours to keep, whether you buy or not.",
   },
   {
     step: "V",
-    title: "Execution",
-    week: "Weeks 7–13",
-    description: "Our craftsmen build in our workshop and install on site. Weekly photo and video updates, a site walk every Saturday.",
-  },
-  {
-    step: "VI",
-    title: "Final Handover",
-    week: "Week 14",
-    description: "A documented walkthrough, snags fixed within seven days, warranty cards, maintenance guide — and the keys to a finished home.",
+    title: "Booking & Registration",
+    week: "Week 4–6",
+    description:
+      "Token booking, then registration at the sub-registrar with our counsel at your side. The land or home changes hands the way it should: in writing, in full.",
   },
 ];

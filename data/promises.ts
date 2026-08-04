@@ -5,27 +5,23 @@ export type PromiseItem = {
 
 export const promises: PromiseItem[] = [
   {
-    title: "In-house craftsmen",
-    body: "Eight of our fourteen staff build your home in our own workshop. We do not outsource the work that defines the result.",
+    title: "Titles verified before we talk price",
+    body: "A full chain-of-title audit, revenue records and survey maps are run on every property before it is ever shown to you. No caveats, no 'we'll sort it out later'.",
   },
   {
-    title: "Line-itemed quotes",
-    body: "Every screw accounted for, every material named. No packages, no surprise charges — an extra is approved before it happens.",
+    title: "Drone surveys, not brochure maps",
+    body: "Every farmland is flown and the boundaries laid by survey before booking. What you see on the grid is exactly the soil you stand on.",
   },
   {
-    title: "Vastu, taken seriously",
-    body: "A Vastu consultant on staff. Placement, direction and material reviewed against your family's traditions — never used as a sales pitch.",
+    title: "Priced by the acre, line by line",
+    body: "Registration, stamp duty, survey and fencing are itemised in the offer letter. The number you are quoted is the number you pay.",
   },
   {
-    title: "Premium materials only",
-    body: "Häfele, Hettich, Century Ply, Asian Paints, Kajaria. Branded and traceable — no parallel-market imports, ever.",
+    title: "One concierge, start to finish",
+    body: "The person who shows you the land answers your calls at registration. No hand-offs, no rotating executives, no lost threads.",
   },
   {
-    title: "A real warranty",
-    body: "Ten years on all built-in work, one year of free snagging. We still answer the phone after handover.",
-  },
-  {
-    title: "One point of contact",
-    body: "A dedicated project manager, available on the phone within two hours every working day. You make decisions; we manage logistics.",
+    title: "Private, by appointment",
+    body: "Viewings are scheduled around you and never walk-up. If you are not ready to buy, the dossier stays with you, not in a CRM.",
   },
 ];

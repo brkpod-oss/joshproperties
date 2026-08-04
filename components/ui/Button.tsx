@@ -1,4 +1,5 @@
-import type { AnchorHTMLAttributes, ReactNode } from "react";
+﻿import type { AnchorHTMLAttributes, ReactNode } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 type Variant = "outline" | "ghost" | "filled";
@@ -15,9 +16,9 @@ const base =
 
 const variants: Record<Variant, string> = {
   outline:
-    "border border-ink/30 text-ink hover:border-gold hover:bg-gold/[0.06] text-[12px]",
-  ghost: "text-ink/60 hover:text-ink group-hover:text-gold text-[12px]",
-  filled: "bg-gold text-carbon hover:bg-brass text-[12px]",
+    "border border-ink/30 text-ink hover:border-emerald hover:bg-emerald/[0.06] text-[12px]",
+  ghost: "text-ink/60 hover:text-ink group-hover:text-emerald text-[12px]",
+  filled: "bg-emerald text-paper hover:bg-pine text-[12px]",
 };
 
 const sizes: Record<Size, string> = {
@@ -32,11 +33,28 @@ export function Button({
   children,
   ...props
 }: ButtonProps) {
+  const cls = cn(base, variants[variant], sizes[size], className);
+  const internal =
+    typeof props.href === "string" &&
+    props.href.startsWith("/") &&
+    !props.href.startsWith("#") &&
+    !props.href.startsWith("http");
+  const { href, ...rest } = props;
+
+  if (internal && href) {
+    return (
+      <Link
+        className={cls}
+        href={href}
+        {...(rest as Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href">)}
+      >
+        {children}
+      </Link>
+    );
+  }
+
   return (
-    <a
-      className={cn(base, variants[variant], sizes[size], className)}
-      {...props}
-    >
+    <a className={cls} {...props}>
       {children}
     </a>
   );

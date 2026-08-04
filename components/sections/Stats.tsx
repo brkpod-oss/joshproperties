@@ -1,25 +1,50 @@
-import { stats } from "@/data/stats";
+﻿import { stats } from "@/data/stats";
 import { CountUp } from "@/components/motion/CountUp";
 import { Reveal } from "@/components/motion/Reveal";
 
 export function Stats() {
   return (
-    <section className="bg-obsidian">
-      <div className="mx-auto grid max-w-[1440px] grid-cols-2 gap-y-16 px-6 py-24 sm:px-12 lg:grid-cols-4 lg:px-20 lg:py-32">
-        {stats.map((stat, i) => (
-          <Reveal key={stat.label} delay={i * 0.1} className="relative px-4">
-            <div className="flex flex-col items-start">
-              <span className="font-display text-sm italic text-brass">{stat.numeral}</span>
-              <span className="mt-6 font-display text-[5.5rem] font-light leading-none text-champagne tabular-nums lg:text-[7rem]">
-                <CountUp value={stat.value} suffix={stat.suffix} />
+    <section className="bg-graphite">
+      <div className="mx-auto max-w-[1440px] px-6 py-24 sm:px-12 lg:px-20 lg:py-32">
+        <Reveal>
+          <div className="border border-paper/15 bg-graphite">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-paper/15 px-6 py-5 sm:px-10">
+              <p className="stamp text-paper/60">Title register · Select entries</p>
+              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-sage/90">
+                Folio I–IV
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 divide-y divide-paper/15 sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4">
+              {stats.map((stat, i) => (
+                <Reveal key={stat.label} delay={i * 0.08}>
+                  <div className="group relative flex h-full flex-col justify-between gap-10 px-6 py-12 sm:px-10 lg:border-l lg:first:border-l-0 lg:border-paper/15">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-paper/40">
+                      {stat.numeral}
+                    </span>
+                    <div>
+                      <span className="font-display text-7xl font-light leading-none text-sage tabular-nums lg:text-8xl">
+                        <CountUp value={stat.value} suffix={stat.suffix} />
+                      </span>
+                      <p className="mt-6 max-w-[16ch] text-[15px] leading-snug text-paper/80">
+                        {stat.label}
+                      </p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-4 border-t border-paper/15 px-6 py-4 sm:px-10">
+              <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-paper/35">
+                As of {new Date().getFullYear()} · Internal register, verified by counsel
               </span>
-              <span className="gold-rule-solid mt-6 w-10" />
-              <span className="mt-4 max-w-[16ch] text-[15px] leading-snug text-pearl/80">
-                {stat.label}
+              <span aria-hidden className="hidden font-mono text-[10px] uppercase tracking-[0.24em] text-paper/35 sm:inline">
+                E. &amp; O.E.
               </span>
             </div>
-          </Reveal>
-        ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );

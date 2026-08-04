@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useReducedMotion, useSpring } from "motion/react";
@@ -9,6 +9,7 @@ export function Cursor() {
   const [enabled, setEnabled] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [pressed, setPressed] = useState(false);
+  const [label, setLabel] = useState<string | null>(null);
   const reduce = useReducedMotion();
 
   const x = useMotionValue(-100);
@@ -27,7 +28,9 @@ export function Cursor() {
     };
     const over = (e: PointerEvent) => {
       const target = e.target as HTMLElement | null;
+      const labelled = target?.closest<HTMLElement>("[data-cursor]");
       setHovering(!!target?.closest(HOVER_SELECTOR));
+      setLabel(labelled ? (labelled.getAttribute("data-cursor") ?? null) : null);
     };
     const down = () => setPressed(true);
     const up = () => setPressed(false);
@@ -56,7 +59,7 @@ export function Cursor() {
         <motion.div
           animate={{ scale: pressed ? 0.5 : 1 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
-          className="-ml-[3px] -mt-[3px] h-1.5 w-1.5 rounded-full bg-champagne"
+          className="-ml-[3px] -mt-[3px] h-1.5 w-1.5 rounded-full bg-sage"
         />
       </motion.div>
       <motion.div
@@ -65,11 +68,22 @@ export function Cursor() {
         aria-hidden
       >
         <motion.div
-          animate={{ scale: hovering ? 2.1 : 1, opacity: hovering ? 0.9 : 0.45 }}
+          animate={{
+            scale: hovering ? 2.1 : 1,
+            opacity: hovering ? 0.9 : 0.45,
+            width: label ? 92 : 40,
+            height: label ? 92 : 40,
+          }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="-ml-5 -mt-5 flex h-10 w-10 items-center justify-center rounded-full border border-gold/70"
+          className="-translate-x-1/2 -translate-y-1/2 flex items-center justify-center rounded-full border border-emerald/70"
         >
-          <span className="h-1 w-1 rounded-full bg-gold" />
+          {label ? (
+            <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-emerald">
+              {label}
+            </span>
+          ) : (
+            <span className="h-1 w-1 rounded-full bg-emerald" />
+          )}
         </motion.div>
       </motion.div>
     </>

@@ -5,15 +5,15 @@ import { ChapterMarker } from "@/components/ui/ChapterMarker";
 import { Reveal } from "@/components/motion/Reveal";
 
 export const metadata: Metadata = {
-  title: "Book a consultation",
+  title: "Enquire privately",
   description:
-    "Book a private interior design consultation in Khammam. We come to your home, listen for an hour, and bring material samples.",
+    "Enquire privately with Josh Properties. A concierge replies within two working days, no walk-ins, no mailing list.",
 };
 
 export default function ContactPage() {
   return (
     <>
-      <section className="bg-ivory">
+      <section className="bg-paper">
         <div className="mx-auto max-w-[1200px] px-6 pb-28 pt-16 sm:px-12 lg:px-20 lg:pb-40 lg:pt-24">
           <Reveal>
             <ChapterMarker kicker="Start here" />
@@ -22,15 +22,15 @@ export default function ContactPage() {
             <div>
               <Reveal delay={0.1}>
                 <h1 className="text-balance font-display text-4xl font-light leading-[1.02] tracking-[-0.02em] text-ink lg:text-6xl">
-                  Start with a conversation, not a sales pitch.
+                  A conversation, not a sales call.
                 </h1>
               </Reveal>
               <Reveal delay={0.2}>
                 <p className="mt-8 max-w-[50ch] text-pretty text-[17px] leading-relaxed text-ink/70">
-                  Tell us a little about your home and what you have in mind.
-                  Within two working days we&rsquo;ll call you to fix a time for
-                  a free in-home consultation. No obligation, no design fee —
-                  just a proper listen.
+                  Tell us what you are looking for and where. Within two
+                  working days a concierge, the same person who will sit
+                  beside you at registration, calls to arrange a private
+                  viewing.
                 </p>
               </Reveal>
               <Reveal delay={0.3}>
@@ -38,14 +38,14 @@ export default function ContactPage() {
               </Reveal>
             </div>
 
-            <aside className="lg:border-l lg:border-gold/20 lg:pl-14">
+            <aside className="lg:border-l lg:border-ink/15 lg:pl-14">
               <Reveal delay={0.15}>
-                <h2 className="eyebrow text-bronze">Direct line</h2>
+                <h2 className="eyebrow text-slate">The concierge line</h2>
                 <ul className="mt-6 space-y-6">
                   <li>
                     <a
                       href={site.phoneHref}
-                      className="font-display text-2xl font-light text-ink transition-colors hover:text-gold"
+                      className="font-display text-2xl font-light text-ink transition-colors hover:text-emerald"
                     >
                       {site.phone}
                     </a>
@@ -54,7 +54,7 @@ export default function ContactPage() {
                   <li>
                     <a
                       href={`mailto:${site.email}`}
-                      className="font-display text-2xl font-light text-ink transition-colors hover:text-gold"
+                      className="font-display text-2xl font-light text-ink transition-colors hover:text-emerald"
                     >
                       {site.email}
                     </a>
@@ -65,19 +65,19 @@ export default function ContactPage() {
                 </ul>
               </Reveal>
               <Reveal delay={0.25}>
-                <div className="mt-12 border-t border-gold/20 pt-10">
-                  <h2 className="eyebrow text-bronze">The Studio</h2>
+                <div className="mt-12 border-t border-ink/15 pt-10">
+                  <h2 className="eyebrow text-slate">The office</h2>
                   <address className="mt-5 not-italic">
                     <p className="text-[15px] leading-relaxed text-ink/70">
                       {site.address}
                     </p>
                     <p className="mt-1 text-sm text-ink/50">
-                      Walk-ins welcome by appointment
+                      Visits strictly by appointment
                     </p>
                   </address>
                   <div className="vignette relative mt-8 aspect-[4/3] overflow-hidden rounded-[2px]">
-                    {/* Replace with a real map embed or studio photograph */}
-                    <div className="absolute inset-0 bg-bone" />
+                    {/* Replace with an embedded map or the office storefront */}
+                    <div className="absolute inset-0 bg-mist" />
                   </div>
                 </div>
               </Reveal>

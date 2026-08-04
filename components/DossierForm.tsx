@@ -3,25 +3,17 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Check, Send } from "lucide-react";
+import { farmlandOptions } from "@/data/farmland";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 type FormState = {
   name: string;
   phone: string;
-  interest: string;
+  holding: string;
   budget: string;
   message: string;
 };
-
-const interests = [
-  "A villa",
-  "An apartment",
-  "Farmland",
-  "Private advisory",
-  "NRI purchase",
-  "Other",
-];
 
 const budgets = [
   "Under ₹1 Cr",
@@ -34,12 +26,12 @@ const budgets = [
 const initial: FormState = {
   name: "",
   phone: "",
-  interest: "",
+  holding: "",
   budget: "",
   message: "",
 };
 
-export function ContactForm() {
+export function DossierForm() {
   const [form, setForm] = useState<FormState>(initial);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -59,11 +51,11 @@ export function ContactForm() {
       return;
     }
     const text = [
-      `New enquiry - joshproperties.in`,
+      `Private dossier request - joshproperties.in`,
       ``,
       `Name: ${form.name}`,
       `Phone: ${form.phone}`,
-      `Looking for: ${form.interest || "-"}`,
+      `Holding: ${form.holding || "-"}`,
       `Budget: ${form.budget || "-"}`,
       form.message ? `\nNotes:\n${form.message}` : "",
     ].join("\n");
@@ -84,28 +76,25 @@ export function ContactForm() {
         initial={reduce ? false : { opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="mt-14 border border-emerald/40 bg-mist/60 p-10"
+        className="border border-emerald/40 bg-mist/60 p-10"
       >
         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald/15 text-emerald">
           <Check size={20} strokeWidth={1.5} />
         </span>
         <h2 className="mt-6 font-display text-3xl font-light text-ink">
-          Received.
+          Dossier requested.
         </h2>
         <p className="mt-3 max-w-[42ch] text-pretty text-[15px] leading-relaxed text-ink/65">
-          We&rsquo;ve opened WhatsApp with your details, hit send there and a
-          concierge will reply within two working days. Prefer to talk? Dial{" "}
-          <a href={site.phoneHref} className="text-emerald underline-offset-4 hover:underline">
-            {site.phone}
-          </a>
-          .
+          We&rsquo;ve opened WhatsApp with your details, hit send and the
+          concierge will reply within two working days with the private dossier
+          and a drone pass of the holding.
         </p>
       </motion.div>
     );
   }
 
   return (
-    <form onSubmit={submit} className="mt-14 space-y-10">
+    <form onSubmit={submit} className="space-y-10">
       <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className="eyebrow text-slate">
@@ -140,23 +129,35 @@ export function ContactForm() {
       </div>
 
       <div>
-        <p className="eyebrow text-slate">You are looking for</p>
+        <p className="eyebrow text-slate">Holding of interest</p>
         <div className="mt-4 flex flex-wrap gap-2">
-          {interests.map((i) => (
+          {farmlandOptions.map((o) => (
             <button
-              key={i}
+              key={o.slug}
               type="button"
-              onClick={() => setForm((f) => ({ ...f, interest: i }))}
+              onClick={() => setForm((f) => ({ ...f, holding: o.name }))}
               className={cn(
                 "border px-4 py-2 text-[13px] transition-colors",
-                form.interest === i
+                form.holding === o.name
                   ? "border-emerald bg-emerald/10 text-ink"
                   : "border-emerald/30 text-ink/60 hover:border-emerald/60"
               )}
             >
-              {i}
+              {o.name}
             </button>
           ))}
+          <button
+            type="button"
+            onClick={() => setForm((f) => ({ ...f, holding: "General enquiry" }))}
+            className={cn(
+              "border px-4 py-2 text-[13px] transition-colors",
+              form.holding === "General enquiry"
+                ? "border-emerald bg-emerald/10 text-ink"
+                : "border-emerald/30 text-ink/60 hover:border-emerald/60"
+            )}
+          >
+            General enquiry
+          </button>
         </div>
       </div>
 
@@ -188,7 +189,7 @@ export function ContactForm() {
         <textarea
           id="message"
           rows={4}
-          placeholder="Location, acres, timeline, NRI status..."
+          placeholder="Acres, timeline, water, title questions..."
           value={form.message}
           onChange={set("message")}
           className={cn(inputClass, "resize-none")}
@@ -211,10 +212,10 @@ export function ContactForm() {
         className="group inline-flex items-center gap-3 bg-emerald px-9 py-4 text-[12px] font-medium uppercase tracking-[0.12em] text-paper transition-colors duration-300 hover:bg-pine active:scale-[0.98]"
       >
         <Send size={15} strokeWidth={1.5} />
-        Enquire privately
+        Request the private dossier
       </button>
       <p className="text-[13px] text-ink/45">
-        No walk-ins, no pressure, no mailing list.
+        The dossier is yours to keep, and we never add you to a mailing list.
       </p>
     </form>
   );

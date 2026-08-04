@@ -5,43 +5,38 @@ export type Faq = {
 
 export const faqs: Faq[] = [
   {
-    question: "How long does a full home interior take?",
+    question: "Are the titles really clear?",
     answer:
-      "A typical full home runs twelve to sixteen weeks from site visit to handover. The schedule is written into the contract, and your project manager reports against it weekly.",
+      "Every property we show is run through an independent counsel before it is offered. You receive the chain-of-title audit, revenue records and survey maps, before any payment is discussed.",
   },
   {
-    question: "Do you work outside Khammam?",
+    question: "Do you work with NRI buyers?",
     answer:
-      "We take full project management across Khammam, Suryapet, Kodad, Wyra and Tallada, and design-led work in Warangal, Karimnagar and Nalgonda. Hyderabad projects are taken selectively, by referral.",
+      "Yes. Roughly a third of our buyers are NRI. Viewings happen over video with drone flyovers, and registration can be completed through a power of attorney with our counsel at the sub-registrar.",
   },
   {
-    question: "What is included in end-to-end interiors?",
+    question: "Can I buy farmland if I am not a farmer?",
     answer:
-      "Design, materials with your approval, fabrication, installation, painting, electrical, false ceiling, project management and snag resolution. One phone number, one project manager, one handover document.",
+      "Agricultural land in Telangana is open to individuals under the permitted categories. We verify your eligibility before we ever show you a plot, and we will tell you plainly if a holding is not open to you.",
   },
   {
-    question: "How is pricing structured?",
+    question: "What is included in the price you quote?",
     answer:
-      "Every project is quoted line by line — design fees, materials with brand and quantity, labour, hardware, supervision. Nothing is left vague, and nothing is added without your approval.",
+      "Everything itemised in your offer letter: price, registration, stamp duty, survey and fencing. No 'coordination charges', no last-minute additions. If it is not in the letter, you do not pay it.",
   },
   {
-    question: "Can I supply my own materials?",
+    question: "How is farmland measured?",
     answer:
-      "Yes. We will quote fabrication and labour separately, and we will be honest about warranty implications before you choose.",
+      "By revenue survey, not by our word. Every holding is flown by drone and the boundaries walked with a surveyor before booking. What is marked on the grid is the soil you own.",
   },
   {
-    question: "What is your warranty?",
+    question: "What does the private dossier contain?",
     answer:
-      "Ten years on all built-in work, plus a one-year snagging period where any issue is fixed at no cost. The warranty is written, not verbal.",
-  },
-  {
-    question: "Do you offer 3D visualization?",
-    answer:
-      "Every project is presented with full 3D renders before a single wall is touched. You approve the design you will live in, not a description of it.",
+      "Drone stills and video, the revenue survey, chain of title, soil and water notes, and a line-itemed offer. It is yours to keep whether you buy or not, and we never put it on a mailing list.",
   },
   {
     question: "How do I get started?",
     answer:
-      "Book a private consultation by phone, WhatsApp or the form on this page. The first meeting is free and lasts one hour. We listen before we propose.",
+      "A single 30-minute call with a concierge. Tell us what you are looking for and where. If we can serve it, we will schedule a private viewing within the week.",
   },
 ];
