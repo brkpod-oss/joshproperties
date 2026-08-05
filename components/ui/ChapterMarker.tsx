@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
@@ -25,10 +25,18 @@ export function ChapterMarker({ kicker, tone = "light", className }: ChapterMark
         initial={reduce ? false : { scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true, amount: 0.6 }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         className="rule-solid w-16 origin-left"
       />
-      <span className="eyebrow">{kicker}</span>
+      <motion.span
+        initial={reduce ? false : { opacity: 0, letterSpacing: "0.1em" }}
+        whileInView={{ opacity: 1, letterSpacing: "0.22em" }}
+        viewport={{ once: true, amount: 0.6 }}
+        transition={{ duration: 0.6, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
+        className="eyebrow"
+      >
+        {kicker}
+      </motion.span>
     </div>
   );
 }

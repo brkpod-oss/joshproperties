@@ -6,6 +6,7 @@ import { Footer } from "@/components/sections/Footer";
 import { FloatingCta } from "@/components/FloatingCta";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
+import { PremiumCursor } from "@/components/motion/PremiumCursor";
 import { PageTransition } from "@/components/motion/PageTransition";
 import "./globals.css";
 
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f8f5f0",
+  themeColor: "#faf8f3",
   width: "device-width",
   initialScale: 1,
 };
@@ -91,6 +92,7 @@ export default function RootLayout({
         </a>
         <SmoothScroll />
         <ScrollProgress />
+        <PremiumCursor />
         <PageTransition />
         <div className="film-grain" aria-hidden />
         <Navbar />

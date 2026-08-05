@@ -1,11 +1,13 @@
-﻿"use client";
+"use client";
 
+import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, MessageCircle, Phone } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { Seal } from "@/components/ui/Seal";
 import { Reveal } from "@/components/motion/Reveal";
+import { SlowZoom } from "@/components/motion/SlowZoom";
 import { site } from "@/lib/site";
 
 export function FinalCta() {
@@ -13,6 +15,19 @@ export function FinalCta() {
 
   return (
     <section id="enquire" className="relative overflow-hidden bg-graphite">
+      {/* Cinematic backdrop: faint architecture, slow zoom, dusk gradient */}
+      <div className="absolute inset-0">
+        <SlowZoom>
+          <Image
+            src="https://picsum.photos/seed/josh-final/2400/1200"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover opacity-40"
+          />
+        </SlowZoom>
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-[rgba(8,8,7,0.9)] via-[rgba(8,8,7,0.55)] to-[rgba(8,8,7,0.35)]" />
       <motion.div
         aria-hidden
         animate={reduce ? undefined : { opacity: [0.4, 0.7, 0.4] }}
@@ -20,7 +35,7 @@ export function FinalCta() {
         className="pointer-events-none absolute left-1/2 top-0 h-[560px] w-[860px] -translate-x-1/2 -translate-y-1/3 rounded-full"
         style={{
           background:
-            "radial-gradient(closest-side, rgba(197,162,107,0.32), transparent 70%)",
+            "radial-gradient(closest-side, rgba(193,163,109,0.3), transparent 70%)",
         }}
       />
       <div className="relative mx-auto max-w-[1440px] px-6 py-32 text-center sm:px-12 lg:px-20 lg:py-48">
@@ -43,7 +58,13 @@ export function FinalCta() {
         <Reveal delay={0.3}>
           <div className="mt-14 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <MagneticButton href="/contact">
-              <Button href="/contact" variant="filled" size="lg" className="group">
+              <Button
+                href="/contact"
+                variant="filled"
+                size="lg"
+                data-cursor="ENQUIRE"
+                className="group"
+              >
                 Enquire privately
                 <ArrowRight
                   size={16}

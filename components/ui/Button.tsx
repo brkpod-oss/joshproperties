@@ -1,4 +1,4 @@
-﻿import type { AnchorHTMLAttributes, ReactNode } from "react";
+import type { AnchorHTMLAttributes, ReactNode } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -18,7 +18,8 @@ const variants: Record<Variant, string> = {
   outline:
     "border border-ink/30 text-ink hover:border-emerald hover:bg-emerald/[0.06] text-[12px]",
   ghost: "text-ink/60 hover:text-ink group-hover:text-emerald text-[12px]",
-  filled: "bg-emerald text-paper hover:bg-pine text-[12px]",
+  filled:
+    "bg-emerald text-ink hover:bg-bronze hover:text-paper text-[12px]",
 };
 
 const sizes: Record<Size, string> = {

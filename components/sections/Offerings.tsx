@@ -1,4 +1,4 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { services } from "@/data/services";
@@ -39,14 +39,15 @@ export function Offerings() {
           </p>
         </Reveal>
 
-        <div className="mt-20 border-t border-ink/15">
+        <div className="mt-20 border-t border-ink/15 hover:[&_a:not(:hover)]:opacity-45">
           {featured.map((s, i) => (
             <Reveal key={s.slug} delay={i * 0.06}>
               <Link
                 href={s.href}
-                className="group grid grid-cols-1 gap-8 border-b border-ink/15 py-10 md:grid-cols-[auto_1fr_240px] md:items-center md:gap-10 lg:py-12"
+                data-cursor="VIEW"
+                className="group grid grid-cols-1 gap-8 border-b border-ink/15 py-10 transition-opacity duration-500 md:grid-cols-[auto_1fr_240px] md:items-center md:gap-10 lg:py-12"
               >
-                <span className="font-display text-2xl font-light italic text-slate">
+                <span className="font-display text-2xl font-light italic text-slate transition-colors duration-300 group-hover:text-emerald">
                   {s.numeral}
                 </span>
                 <div>
@@ -75,10 +76,11 @@ export function Offerings() {
             <Reveal delay={0.1}>
               <Link
                 href={advisory.href}
-                className="group flex items-center justify-between gap-6 py-10 transition-colors duration-300 lg:py-12"
+                data-cursor="ENQUIRE"
+                className="group flex items-center justify-between gap-6 py-10 transition-opacity duration-500 lg:py-12"
               >
                 <div>
-                  <span className="font-display text-2xl font-light italic text-slate">
+                  <span className="font-display text-2xl font-light italic text-slate transition-colors duration-300 group-hover:text-emerald">
                     {advisory.numeral}
                   </span>
                   <h3 className="mt-3 font-display text-3xl font-light text-ink transition-colors duration-300 group-hover:text-emerald lg:text-4xl">

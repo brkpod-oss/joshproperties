@@ -1,4 +1,4 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import { site } from "@/lib/site";
 
 const explore = [
@@ -11,9 +11,21 @@ const explore = [
 
 export function Footer() {
   return (
-    <footer className="bg-carbon text-paper">
-      <div className="rule-solid w-full opacity-60" />
-      <div className="mx-auto max-w-[1440px] px-6 pb-10 pt-20 sm:px-12 lg:px-20">
+    <footer className="relative overflow-hidden bg-carbon text-paper">
+      {/* Slow champagne glow, barely perceptible */}
+      <div
+        aria-hidden
+        className="animate-[footerGlow_14s_ease-in-out_infinite_alternate] pointer-events-none absolute -top-48 right-[-10%] h-[520px] w-[760px] rounded-full bg-[radial-gradient(closest-side,rgba(193,163,109,0.16),transparent_70%)]"
+      />
+      {/* Large magazine wordmark */}
+      <div aria-hidden className="pointer-events-none relative select-none">
+        <p className="px-6 text-center font-display text-[clamp(5rem,17vw,15rem)] font-light leading-[0.8] tracking-[0.1em] text-paper/[0.045]">
+          JOSH
+        </p>
+      </div>
+
+      <div className="rule-solid relative w-full opacity-60" />
+      <div className="relative mx-auto max-w-[1440px] px-6 pb-10 pt-20 sm:px-12 lg:px-20">
         <div className="mb-20 border border-paper/15 outline outline-1 outline-paper/10 outline-offset-[3px] px-6 py-8 sm:px-10">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <div>
@@ -60,7 +72,7 @@ export function Footer() {
                 <li key={l.label}>
                   <a
                     href={l.href}
-                    className="text-[15px] text-paper/70 transition-colors hover:text-emerald"
+                    className="link-underline text-[15px] text-paper/70 transition-colors hover:text-emerald"
                   >
                     {l.label}
                   </a>
@@ -82,7 +94,7 @@ export function Footer() {
                 <li key={l}>
                   <a
                     href="/farmlands"
-                    className="text-[15px] text-paper/70 transition-colors hover:text-emerald"
+                    className="link-underline text-[15px] text-paper/70 transition-colors hover:text-emerald"
                   >
                     {l}
                   </a>
@@ -98,12 +110,12 @@ export function Footer() {
                 {site.address}
               </p>
               <p>
-                <a href={site.phoneHref} className="text-[15px] text-paper/70 transition-colors hover:text-emerald">
+                <a href={site.phoneHref} className="link-underline text-[15px] text-paper/70 transition-colors hover:text-emerald">
                   {site.phone}
                 </a>
               </p>
               <p>
-                <a href={site.whatsapp} className="text-[15px] text-paper/70 transition-colors hover:text-emerald">
+                <a href={site.whatsapp} className="link-underline text-[15px] text-paper/70 transition-colors hover:text-emerald">
                   WhatsApp
                 </a>
               </p>

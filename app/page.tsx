@@ -1,4 +1,4 @@
-import { Hero } from "@/components/sections/Hero";
+import { CinematicHero } from "@/components/CinematicHero";
 import { TrustStrip } from "@/components/sections/TrustStrip";
 import { Stats } from "@/components/sections/Stats";
 import { Featured } from "@/components/sections/Featured";
@@ -14,7 +14,7 @@ import { FinalCta } from "@/components/sections/FinalCta";
 export default function Home() {
   return (
     <>
-      <Hero />
+      <CinematicHero />
       <TrustStrip />
       <Stats />
       <Featured />

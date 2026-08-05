@@ -4,6 +4,7 @@ import { ChapterMarker } from "@/components/ui/ChapterMarker";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealMask } from "@/components/motion/RevealMask";
 import { Parallax } from "@/components/motion/Parallax";
+import { SlowZoom } from "@/components/motion/SlowZoom";
 
 const grounds = [
   { name: "Shankarpally", note: "Green belt", seed: "josh-farm-1" },
@@ -31,6 +32,7 @@ export function FarmlandBand() {
           <Reveal delay={0.2}>
             <a
               href="/farmlands"
+              data-cursor="EXPLORE"
               className="group inline-flex items-center gap-3 border border-emerald/40 px-7 py-3.5 text-[12px] font-medium uppercase tracking-[0.12em] text-emerald transition-colors duration-300 hover:bg-emerald/10"
             >
               Explore the land
@@ -44,24 +46,24 @@ export function FarmlandBand() {
         </div>
 
         <Reveal delay={0.15}>
-          <div
-            className="mt-16 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          >
+          <div className="mt-16 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {grounds.map((g) => (
               <article
                 key={g.name}
                 className="group w-[300px] shrink-0 snap-start border-t border-paper/20 lg:w-[360px]"
               >
-                <a href="/farmlands" className="block">
+                <a href="/farmlands" className="block" data-cursor="VIEW">
                   <div className="vignette relative aspect-[4/5] overflow-hidden rounded-[2px]">
                     <Parallax strength={5} className="absolute inset-[-14%]">
-                      <Image
-                        src={`https://picsum.photos/seed/${g.seed}/720/900`}
-                        alt={`${g.name}, ${g.note}`}
-                        fill
-                        sizes="(max-width: 640px) 300px, 360px"
-                        className="object-cover grayscale transition-[filter,transform] duration-[1200ms] ease-out group-hover:scale-[1.06] group-hover:grayscale-0"
-                      />
+                      <SlowZoom>
+                        <Image
+                          src={`https://picsum.photos/seed/${g.seed}/720/900`}
+                          alt={`${g.name}, ${g.note}`}
+                          fill
+                          sizes="(max-width: 640px) 300px, 360px"
+                          className="object-cover grayscale transition-[filter,transform] duration-[1200ms] ease-out group-hover:scale-[1.06] group-hover:grayscale-0"
+                        />
+                      </SlowZoom>
                     </Parallax>
                   </div>
                   <h3 className="mt-5 font-display text-2xl font-light text-paper">

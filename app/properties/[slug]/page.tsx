@@ -108,15 +108,17 @@ export default async function PropertyPage({ params }: PageProps) {
                   <p className="eyebrow text-slate">The facts</p>
                 </div>
                 <dl className="divide-y divide-ink/10 px-7 py-2">
-                  {property.specs.map((s) => (
-                    <div key={s.label} className="flex items-baseline justify-between gap-6 py-4">
-                      <dt className="text-[13px] uppercase tracking-[0.12em] text-ink/50">
-                        {s.label}
-                      </dt>
-                      <dd className="text-right font-display text-lg text-ink">
-                        {s.value}
-                      </dd>
-                    </div>
+                  {property.specs.map((s, i) => (
+                    <Reveal key={s.label} delay={0.05 * i}>
+                      <div className="flex items-baseline justify-between gap-6 py-4 transition-colors duration-300 hover:bg-mist/50">
+                        <dt className="text-[13px] uppercase tracking-[0.12em] text-ink/50">
+                          {s.label}
+                        </dt>
+                        <dd className="text-right font-display text-lg text-ink">
+                          {s.value}
+                        </dd>
+                      </div>
+                    </Reveal>
                   ))}
                 </dl>
                 <div className="border-t border-ink/15 p-7">
@@ -127,7 +129,7 @@ export default async function PropertyPage({ params }: PageProps) {
                   </p>
                   <div className="mt-6 flex flex-col gap-3">
                     <MagneticButton href="/contact">
-                      <Button href="/contact" variant="filled" className="w-full justify-center group">
+                      <Button href="/contact" variant="filled" data-cursor="ENQUIRE" className="group w-full justify-center">
                         Enquire about this property
                         <ArrowRight size={16} strokeWidth={1.5} className="transition-transform duration-300 group-hover:translate-x-1" />
                       </Button>
@@ -169,7 +171,7 @@ export default async function PropertyPage({ params }: PageProps) {
                         ? "/apartments"
                         : "/farmlands"
                   }
-                  className="eyebrow group flex items-center gap-2 whitespace-nowrap text-slate transition-colors hover:text-emerald"
+                  className="link-underline eyebrow group flex items-center gap-2 whitespace-nowrap text-slate transition-colors hover:text-emerald"
                 >
                   View the full list
                   <span className="h-px w-8 bg-slate/50 transition-all duration-300 group-hover:w-14 group-hover:bg-emerald" />

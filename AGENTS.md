@@ -13,7 +13,7 @@ Marketing site for **Josh Properties**, a luxury real-estate house in Hyderabad,
 - **Next.js 16.2.12** (App Router), React 19, TypeScript (strict)
 - **Tailwind CSS v4** — `@import "tailwindcss"` + `@theme inline` tokens in `app/globals.css`
 - **motion** (`motion/react`) for micro-interactions — not `framer-motion`
-- **GSAP + ScrollTrigger** for scroll-scrubbed signature animation (hero word reveal, Method progress line, survey-line draws); `SmoothScroll.tsx` registers ScrollTrigger and syncs it with Lenis (`lenis.on("scroll", ScrollTrigger.update)`), exposing the instance as `window.__lenis`
+- **GSAP + ScrollTrigger** for the Method progress line; **motion/react** drives the scroll-scrubbed hero (spring-smoothed video timeline + text choreography); `SmoothScroll.tsx` registers ScrollTrigger and syncs it with Lenis (`lenis.on("scroll", ScrollTrigger.update)`), exposing the instance as `window.__lenis`
 - **Lenis** smooth scroll, **lucide-react** icons, **clsx** + **tailwind-merge** via `cn()`
 - `next.config.ts` sets `turbopack.root` to the repo to silence the multiple-lockfile warning.
 
@@ -26,15 +26,15 @@ Marketing site for **Josh Properties**, a luxury real-estate house in Hyderabad,
 
 ## Architecture
 
-- `app/page.tsx` — landing page; sections in a fixed order (Hero → TrustStrip → Stats → Featured → Offerings → Story → FarmlandBand → WhyJosh → Process → Testimonials → Faq → FinalCta)
+- `app/page.tsx` — landing page; sections in a fixed order (CinematicHero → TrustStrip → Stats → Featured → Offerings → Story → FarmlandBand → WhyJosh → Process → Testimonials → Faq → FinalCta)
 - `app/layout.tsx` — metadata, JSON-LD (`RealEstateAgent`), Navbar, Footer, FloatingCta, SmoothScroll, ScrollProgress, PageTransition, film-grain overlay
 - `app/villas/`, `app/apartments/`, `app/farmlands/` — category listing pages
 - `app/properties/[slug]/` — detail page for a single property (`generateStaticParams`, async `params: Promise<{ slug }>`); all 9 properties prerender at build
 - `app/contact/` — concierge page + `ContactForm.tsx`
-- `components/sections/` — one component per landing/page section (incl. `PageHero`)
+- `components/sections/` — one component per landing/page section (incl. `PageHero`); `components/CinematicHero.tsx` is the scroll-scrubbed homepage hero
 - `components/ui/` — reusable primitives: `Button`, `MagneticButton`, `ChapterMarker`
 - `components/motion/` — animation primitives: `Reveal`, `RevealMask`, `MaskLines`, `Parallax`, `CountUp`, `ScrollProgress`, `SmoothScroll`, `PageTransition`
-- `components/` (page-level) — `PropertyCard`, `PropertyListing`, `Gallery`, `FarmlandMap`, `DayNightCity`, `DossierForm`, `FloatingCta`
+- `components/` (page-level) — `CinematicHero` (scroll-scrubbed hero film), `PropertyCard`, `PropertyListing`, `Gallery`, `FarmlandMap`, `DayNightCity`, `DossierForm`, `FloatingCta`
 - `data/` — typed content files: `properties`, `farmland`, `stats`, `promises`, `services`, `process`, `partners`, `testimonials`, `faqs`
 - `lib/site.ts` — single source of truth for brand config (name, phone, WhatsApp, email, address, hours, links, heroVideo)
 - `lib/utils.ts` — `cn()` class merger
@@ -48,7 +48,7 @@ Marketing site for **Josh Properties**, a luxury real-estate house in Hyderabad,
 - **Forms have no backend:** `ContactForm` and `DossierForm` compose a message and open a `wa.me` deep link (`site.whatsapp`) with the user's replies. Keep that flow.
 - Images are `picsum.photos` placeholders keyed by a `seed` string (e.g. `josh-park`), allowlisted in `next.config.ts`. Use `next/image` with a unique, descriptive seed.
 - Property `narrative` is `string[]`; wrap single paragraphs in `[...]`.
-- **Placeholders to replace for launch:** phone/WhatsApp/email in `lib/site.ts`, the hero video at `public/hero.mp4` (site falls back to a picsum poster), and the office map block on `/contact`.
+- **Placeholders to replace for launch:** phone/WhatsApp/email in `lib/site.ts` and the office map block on `/contact`. The cinematic hero video ships at `public/hero.mp4` (re-encoded with a keyframe every 6 frames for smooth scroll scrubbing, 1280x720, no audio) with poster `public/hero-poster.jpg`.
 
 ## Motion conventions
 
@@ -64,7 +64,7 @@ Marketing site for **Josh Properties**, a luxury real-estate house in Hyderabad,
 
 The site speaks a **Title Register Book** language: warm linen paper and ink, a deep **forest** green for dark chapters, and **brass** as the single accent. Every surface should read as an artifact of a private land registry — a folio, a ledger, a deed, a stamp — not as a generic marketing page.
 
-- **Colors are Tailwind theme tokens in `app/globals.css`:** `paper #f8f5f0`, `stone #f1ebe2`, `mist #e7e0d4`, `slate #7a7263`, `ink #0e0e0b`, `graphite #201c14`, `carbon #1a2e1e` (the forest dark), `chrome #a79e8c`, `sage #c2b8a3` (clay), `emerald #c5a26b` (the brass accent), `pine #143825` (brass hover/dark). Brass aliases: `brass`, `forest`, `clay`, `line`, `paper-dark`. **`emerald`/`pine`/`carbon`/`sage` still mean brass/forest/dark/clay respectively — `emerald` IS the brass accent.** Use tokens, not raw hex. Plan-named variables (`--paper`, `--ink`, `--forest`, `--brass`, `--clay`, `--line`, `--text-hero`, `--text-h2`, `--text-label`) are also defined in `:root`.
+- **Colors are Tailwind theme tokens in `app/globals.css`:** `paper #faf8f3`, `stone #f2efe8`, `mist #ece6db`, `slate #8d8981`, `ink #0a0a09`, `graphite #191815`, `carbon #11110f` (warm black), `chrome #cbc5b9`, `sage #b9b2a3` (clay), `emerald #c1a36d` (the champagne-brass accent), `pine #7b6746` (bronze hover/dark). Brass aliases: `brass`, `champagne #a88a5a`, `bronze`, `forest`, `clay`, `line`, `paper-dark`. **`emerald`/`pine`/`carbon`/`sage` still mean brass/bronze/warm-black/clay respectively — `emerald` IS the brass accent.** Champagne is the darker text-grade accent (`#a88a5a`); use it for accent text, `emerald` for fills. Use tokens, not raw hex. Plan-named variables (`--paper`, `--ink`, `--forest`, `--brass`, `--champagne`, `--bronze`, `--clay`, `--line`, `--text-hero`, `--text-h2`, `--text-label`) are also defined in `:root`.
 - **Fonts load via `next/font` in `app/fonts.ts`:** `Instrument Serif` (display — weight 400 only, normal + italic), `Sora` (body — 300–600), `IBM Plex Mono` (mono/registry metadata). Exposed as `font-display`, `font-body`, `font-mono`.
 - **Registry devices (reuse, don't re-invent):**
   - `components/ui/Seal.tsx` — circular JP monogram seal ("Josh Properties · Private Advisory"). Use as watermark (large, `text-paper/[0.07]` on dark, `text-emerald/[0.07]` on paper) or as a small brand mark.
@@ -72,7 +72,7 @@ The site speaks a **Title Register Book** language: warm linen paper and ink, a 
   - `components/motion/Parallax.tsx` — `useScroll`/`useTransform` y-parallax; wrap images in `absolute inset-[-12%]` inside an `overflow-hidden` container. Disables under reduced motion.
   - Double-frame "document" cards: `border border-ink/15 outline outline-1 outline-ink/10 outline-offset-[3px]` (Story folio, Stats ledger, Footer deed band).
 - **Utilities in `globals.css`:** `.eyebrow` (mono, 11px, 0.22em, uppercase), `.stamp` (mono, 9px, 0.2em, uppercase), `.rule-solid`, `.vignette`, `.film-grain`, `.animate-marquee`, `heroZoom`, `.animate-wave` (voice-note waveform), `.brass-shimmer` (hover shimmer on brass elements), `.field-underline` + `.group-field:focus-within` (brass underline grows from center on form focus).
-- **Signature GSAP:** Hero word-reveal + brass survey-line draw in `components/sections/HeroIntro.tsx`; Method (Process) sticky headline + brass progress-line fill in `components/sections/Process.tsx`. Both self-disable under reduced motion and clean up via `gsap.context()`.
+- **Signature GSAP:** Method (Process) sticky headline + brass progress-line fill in `components/sections/Process.tsx`. Both self-disable under reduced motion and clean up via `gsap.context()`.
 - **Voice notes:** `Testimonials` renders clients as WhatsApp-style voice notes — brass play/pause toggles a `.animate-wave` on the waveform bars. No blockquote styling.
 - **Copy discipline (anti-slop):** NO em-dashes (use commas/colons/periods; en-dashes only in numeric ranges like `₹1–3 Cr`). No "Khammam", "Victory Atelier", "coordination charges" (except the deliberate FAQ line), no eyebrow on every section.
 - **Eyebrow restraint:** max ~1 eyebrow per 3 sections. Home page currently uses three: hero kicker, "The collection" (Featured), "The farmland" (FarmlandBand). Don't add more.

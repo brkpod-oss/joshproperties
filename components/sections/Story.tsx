@@ -1,5 +1,6 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import { Reveal } from "@/components/motion/Reveal";
+import { RevealMask } from "@/components/motion/RevealMask";
 import { Parallax } from "@/components/motion/Parallax";
 import { Seal } from "@/components/ui/Seal";
 
@@ -38,42 +39,52 @@ export function Story() {
 
               <div className="relative px-7 py-10 sm:px-10">
                 <Seal className="pointer-events-none absolute -right-5 -top-5 h-44 w-44 text-emerald/[0.07]" />
-                <h2 className="font-display text-4xl font-light leading-[1.02] tracking-[-0.02em] text-ink lg:text-5xl">
-                  We sell the title.
-                  <br />
-                  <em className="italic text-emerald">The land is a bonus.</em>
-                </h2>
+                <RevealMask>
+                  <h2 className="font-display text-4xl font-light leading-[1.02] tracking-[-0.02em] text-ink lg:text-5xl">
+                    We sell the title.
+                    <br />
+                    <em className="italic text-emerald">The land is a bonus.</em>
+                  </h2>
+                </RevealMask>
 
-                <p className="mt-8 max-w-[34ch] font-display text-2xl font-light italic leading-snug text-ink/80">
-                  A clear chain of title is the only luxury that compounds.
-                </p>
+                <Reveal delay={0.15}>
+                  <p className="mt-8 max-w-[34ch] font-display text-2xl font-light italic leading-snug text-ink/80">
+                    A clear chain of title is the only luxury that compounds.
+                  </p>
+                </Reveal>
 
-                <p className="mt-8 max-w-[60ch] text-pretty text-[16px] leading-relaxed text-ink/70">
-                  Josh Properties began in 2017 when a family friend bought a
-                  villa with a clouded title and lost it to a dispute. That
-                  single mistake became our method: every property is
-                  title-audited by independent counsel, surveyed by drone, and
-                  shown with the audit in hand, before any price is discussed.
-                </p>
+                <Reveal delay={0.25}>
+                  <p className="mt-8 max-w-[60ch] text-pretty text-[16px] leading-relaxed text-ink/70">
+                    Josh Properties began in 2017 when a family friend bought a
+                    villa with a clouded title and lost it to a dispute. That
+                    single mistake became our method: every property is
+                    title-audited by independent counsel, surveyed by drone, and
+                    shown with the audit in hand, before any price is discussed.
+                  </p>
+                </Reveal>
 
-                <p className="mt-5 max-w-[60ch] text-pretty text-[16px] leading-relaxed text-ink/70">
-                  Nine years on, we have closed a little over four thousand
-                  plots and homes. We are still deliberately small, still by
-                  appointment, and still of the opinion that the best advice we
-                  can give you is sometimes not to buy.
-                </p>
+                <Reveal delay={0.35}>
+                  <p className="mt-5 max-w-[60ch] text-pretty text-[16px] leading-relaxed text-ink/70">
+                    Nine years on, we have closed a little over four thousand
+                    plots and homes. We are still deliberately small, still by
+                    appointment, and still of the opinion that the best advice we
+                    can give you is sometimes not to buy.
+                  </p>
+                </Reveal>
 
-                <div className="mt-12 flex items-center justify-between gap-6 border-t border-ink/15 pt-8">
-                  <div className="flex items-baseline gap-4">
-                    <p className="font-display text-3xl font-light tracking-[0.18em]">
-                      JOSH
-                    </p>
-                    <p className="font-display text-sm italic text-slate">
-                      Principal, Josh Properties
-                    </p>
+                <Reveal delay={0.45}>
+                  <div className="mt-12 flex items-center justify-between gap-6 border-t border-ink/15 pt-8">
+                    <div className="flex items-baseline gap-4">
+                      <p className="font-display text-3xl font-light tracking-[0.18em]">
+                        JOSH
+                      </p>
+                      <p className="font-display text-sm italic text-slate">
+                        Principal, Josh Properties
+                      </p>
+                    </div>
+                    <Seal className="h-14 w-14 shrink-0 text-emerald" />
                   </div>
-                  <Seal className="h-14 w-14 shrink-0 text-emerald" />
-                </div>
+                </Reveal>
               </div>
             </div>
           </Reveal>

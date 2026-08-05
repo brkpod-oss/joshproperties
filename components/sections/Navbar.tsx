@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
@@ -42,9 +42,9 @@ export function Navbar() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6">
       <div
-        className={`mx-auto flex max-w-[1440px] items-center justify-between border px-5 py-3 transition-colors duration-300 sm:px-6 ${
+        className={`mx-auto flex max-w-[1440px] items-center justify-between border px-5 py-3 transition-[background-color,border-color,box-shadow] duration-300 sm:px-6 ${
           solid
-            ? "border-stone bg-paper/92 backdrop-blur-xl"
+            ? "border-line bg-paper/90 shadow-[0_12px_40px_rgba(10,10,9,0.06)] backdrop-blur-xl"
             : "border-paper/15 bg-transparent"
         }`}
       >

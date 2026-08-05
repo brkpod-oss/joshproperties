@@ -1,4 +1,4 @@
-﻿import { promises } from "@/data/promises";
+import { promises } from "@/data/promises";
 import { Reveal } from "@/components/motion/Reveal";
 
 export function WhyJosh() {
@@ -15,7 +15,10 @@ export function WhyJosh() {
           {promises.map((item, i) => (
             <Reveal key={item.title} delay={(i % 3) * 0.08}>
               <div className="group border-t border-ink/15 pt-6 transition-colors duration-300 hover:border-emerald/60">
-                <h3 className="font-display text-2xl font-normal text-ink">
+                <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-slate transition-colors duration-300 group-hover:text-emerald">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 className="mt-3 font-display text-2xl font-normal text-ink transition-transform duration-300 ease-out group-hover:translate-x-[3px]">
                   {item.title}
                 </h3>
                 <p className="mt-3 max-w-[40ch] text-[15px] leading-relaxed text-ink/60">

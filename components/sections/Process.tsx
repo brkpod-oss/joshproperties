@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
@@ -48,6 +48,19 @@ export function Process() {
           }
         );
       }
+
+      // Per-step activation: the dim state and sequential text reveal live
+      // in CSS (.method-step / .is-active), so SSR matches the resting state
+      // with no flash. ScrollTrigger only flips the class.
+      const steps = gsap.utils.toArray<HTMLElement>(".method-step");
+      steps.forEach((step) => {
+        ScrollTrigger.create({
+          trigger: step,
+          start: "top 78%",
+          once: true,
+          onEnter: () => step.classList.add("is-active"),
+        });
+      });
     }, section);
     return () => ctx.revert();
   }, [reduce]);
@@ -107,18 +120,20 @@ export function Process() {
             <ol className="space-y-14 lg:space-y-20">
               {processSteps.map((step, i) => (
                 <Reveal key={step.step} delay={Math.min(i * 0.05, 0.15)}>
-                  <li className="relative grid grid-cols-[44px_1fr] gap-6 lg:gap-10">
-                    <span className="relative z-10 mt-1 flex h-[44px] w-[44px] items-center justify-center border border-brass/50 bg-carbon font-mono text-[11px] tracking-[0.1em] text-brass">
+                  <li className="method-step relative grid grid-cols-[44px_1fr] gap-6 lg:gap-10">
+                    <span className="method-num relative z-10 mt-1 flex h-[44px] w-[44px] items-center justify-center border bg-carbon font-mono text-[11px] tracking-[0.1em]">
                       {step.step}
                     </span>
                     <div>
                       <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                        <h3 className="font-display text-2xl font-normal text-paper lg:text-3xl">
+                        <h3 className="method-text method-title font-display text-2xl font-normal text-paper lg:text-3xl">
                           {step.title}
                         </h3>
-                        <span className="eyebrow text-brass/90">{step.week}</span>
+                        <span className="method-text method-week eyebrow text-brass/90">
+                          {step.week}
+                        </span>
                       </div>
-                      <p className="mt-3 max-w-[58ch] text-pretty text-[15px] leading-relaxed text-paper/60">
+                      <p className="method-text method-desc mt-3 max-w-[58ch] text-pretty text-[15px] leading-relaxed text-paper/60">
                         {step.description}
                       </p>
                     </div>
