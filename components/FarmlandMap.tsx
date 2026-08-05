@@ -18,7 +18,7 @@ export function FarmlandMap() {
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-ink/15 px-6 py-5">
         <p className="eyebrow text-slate">{masterplan.name}</p>
         <p className="font-mono text-[11px] tracking-[0.1em] text-ink/50">
-          Hover the plan to read each holding
+          Hover or tap the plan to read each holding
         </p>
       </div>
 
@@ -63,9 +63,19 @@ export function FarmlandMap() {
             return (
               <g
                 key={p.id}
+                role="button"
+                tabIndex={0}
+                aria-pressed={isActive}
+                onClick={() => setActive(isActive ? null : p.id)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setActive(isActive ? null : p.id);
+                  }
+                }}
                 onMouseEnter={() => setActive(p.id)}
                 onMouseLeave={() => setActive(null)}
-                className="cursor-pointer"
+                className="group cursor-pointer focus-visible:outline-none"
               >
                 <rect
                   x={p.x}
@@ -77,6 +87,7 @@ export function FarmlandMap() {
                   stroke={isActive ? "#1a1a1a" : s.stroke}
                   strokeWidth={isActive ? 0.5 : 0.18}
                   style={{ transition: "fill 0.2s ease, stroke 0.2s ease" }}
+                  className="group-focus-visible:stroke-[#1a1a1a] group-focus-visible:stroke-[0.5]"
                 />
                 <text
                   x={p.x + 10}
@@ -85,6 +96,7 @@ export function FarmlandMap() {
                   fontSize="3.2"
                   fill={isActive ? "#1a1a1a" : "#7a7263"}
                   fontFamily="JetBrains Mono, monospace"
+                  className="transition-colors duration-200 group-focus-visible:fill-[#1a1a1a]"
                 >
                   {p.id}
                 </text>
@@ -118,8 +130,8 @@ export function FarmlandMap() {
             </dl>
           ) : (
             <p className="mt-4 text-[14px] leading-relaxed text-ink/60">
-              Hover the plan to read each holding. Available plots are marked in
-              emerald.
+              Hover or tap the plan to read each holding. Available plots are
+              marked in emerald.
             </p>
           )}
 

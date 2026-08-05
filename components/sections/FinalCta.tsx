@@ -19,7 +19,7 @@ export function FinalCta() {
       <div className="absolute inset-0">
         <SlowZoom>
           <Image
-            src="https://picsum.photos/seed/josh-final/2400/1200"
+            src="/images/villa-06.jpg"
             alt=""
             fill
             sizes="100vw"
@@ -57,13 +57,13 @@ export function FinalCta() {
         </Reveal>
         <Reveal delay={0.3}>
           <div className="mt-14 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <MagneticButton href="/contact">
+            <MagneticButton href="/contact" className="w-full sm:w-auto">
               <Button
                 href="/contact"
                 variant="filled"
                 size="lg"
                 data-cursor="ENQUIRE"
-                className="group"
+                className="group w-full sm:w-auto"
               >
                 Enquire privately
                 <ArrowRight
@@ -73,23 +73,23 @@ export function FinalCta() {
                 />
               </Button>
             </MagneticButton>
-            <MagneticButton href={site.phoneHref}>
+            <MagneticButton href={site.phoneHref} className="w-full sm:w-auto">
               <Button
                 href={site.phoneHref}
                 variant="outline"
                 size="lg"
-                className="border-emerald/50 text-emerald hover:bg-emerald/10"
+                className="w-full border-emerald/50 text-emerald hover:bg-emerald/10 sm:w-auto"
               >
                 <Phone size={16} strokeWidth={1.5} />
                 {site.phone}
               </Button>
             </MagneticButton>
-            <MagneticButton href={site.whatsapp}>
+            <MagneticButton href={site.whatsapp} className="w-full sm:w-auto">
               <Button
                 href={site.whatsapp}
                 variant="ghost"
                 size="lg"
-                className="text-paper/70 hover:text-emerald"
+                className="w-full text-paper/70 hover:text-emerald sm:w-auto"
               >
                 <MessageCircle size={16} strokeWidth={1.5} />
                 WhatsApp the concierge

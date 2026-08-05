@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { site } from "@/lib/site";
+import { Reveal } from "@/components/motion/Reveal";
 
 const explore = [
   { label: "Villas", href: "/villas" },
@@ -25,8 +26,9 @@ export function Footer() {
       </div>
 
       <div className="rule-solid relative w-full opacity-60" />
-      <div className="relative mx-auto max-w-[1440px] px-6 pb-10 pt-20 sm:px-12 lg:px-20">
-        <div className="mb-20 border border-paper/15 outline outline-1 outline-paper/10 outline-offset-[3px] px-6 py-8 sm:px-10">
+      <div className="relative mx-auto max-w-[1440px] px-6 pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-20 sm:px-12 lg:px-20">
+        <Reveal>
+          <div className="mb-20 border border-paper/15 outline outline-1 outline-paper/10 outline-offset-[3px] px-6 py-8 sm:px-10">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <div>
               <p className="stamp text-slate">Registered</p>
@@ -47,8 +49,10 @@ export function Footer() {
               </p>
             </div>
           </div>
-        </div>
+          </div>
+        </Reveal>
 
+        <Reveal delay={0.1}>
         <div className="grid grid-cols-1 gap-14 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
             <Image
@@ -123,7 +127,9 @@ export function Footer() {
             </address>
           </div>
         </div>
+        </Reveal>
 
+        <Reveal delay={0.15}>
         <div className="mt-20 flex flex-col justify-between gap-6 border-t border-paper/15 pt-8 md:flex-row md:items-center">
           <p className="eyebrow text-slate">
             RERA no. P02400005461 · Registration by counsel at every close
@@ -132,6 +138,7 @@ export function Footer() {
             © 2026 {site.name}. {site.legalName} · All rights reserved.
           </p>
         </div>
+        </Reveal>
       </div>
     </footer>
   );

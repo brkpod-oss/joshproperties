@@ -29,6 +29,7 @@ interface PropertyCardProps {
 export function PropertyCard({ property, large, className }: PropertyCardProps) {
   const ratio = large ? "aspect-[4/5]" : "aspect-[4/3]";
   const dim = property.tall || large ? 1200 : 900;
+  const src = property.image ?? `https://picsum.photos/seed/${property.seed}/${dim}/${dim}`;
   const reduce = useReducedMotion();
 
   return (
@@ -41,7 +42,7 @@ export function PropertyCard({ property, large, className }: PropertyCardProps) 
         <div className={cn("relative", ratio)}>
           <CurtainReveal className="absolute inset-0">
             <Image
-              src={`https://picsum.photos/seed/${property.seed}/${dim}/${dim}`}
+              src={src}
               alt={`${property.title} - ${property.area}, ${property.location}`}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

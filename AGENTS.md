@@ -46,9 +46,9 @@ Marketing site for **Josh Properties**, a luxury real-estate house in Hyderabad,
 - Components that use hooks, `motion`, Lenis, or event listeners must start with `"use client"`. Server components stay client-free (e.g. `Hero` reads `public/hero.mp4` via `existsSync`/`process.cwd()` and must NOT be a client component).
 - Interactive surfaces (`a`, `button`, form controls) use the native cursor.
 - **Forms have no backend:** `ContactForm` and `DossierForm` compose a message and open a `wa.me` deep link (`site.whatsapp`) with the user's replies. Keep that flow.
-- Images are `picsum.photos` placeholders keyed by a `seed` string (e.g. `josh-park`), allowlisted in `next.config.ts`. Use `next/image` with a unique, descriptive seed.
+- Images are `picsum.photos` placeholders keyed by a `seed` string (e.g. `josh-park`), allowlisted in `next.config.ts`. Real film stills now live in `public/images/` (`villa-01.jpg`…`villa-10.jpg`, extracted from the hero film) and win over picsum wherever wired: villa `Property` rows carry `image`/`gallery` (local paths), `PageHero` accepts an `image` prop, and `Offerings`/`FinalCta` use local stills. Keep using `next/image`.
 - Property `narrative` is `string[]`; wrap single paragraphs in `[...]`.
-- **Placeholders to replace for launch:** phone/WhatsApp/email in `lib/site.ts` and the office map block on `/contact`. The cinematic hero video ships at `public/hero.mp4` (re-encoded with a keyframe every 6 frames for smooth scroll scrubbing, 1280x720, no audio) with poster `public/hero-poster.jpg`.
+- **Placeholders to replace for launch:** phone/WhatsApp/email in `lib/site.ts` and the office map block on `/contact`. The cinematic hero video ships at `public/hero.mp4` (re-encoded from the upscaled 1440p master with a keyframe every 6 frames for smooth scroll scrubbing, 1920x1080, ~4 Mbps, no audio, faststart) with poster `public/hero-poster.jpg`.
 
 ## Motion conventions
 

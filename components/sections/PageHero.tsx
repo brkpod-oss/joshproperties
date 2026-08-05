@@ -6,15 +6,17 @@ interface PageHeroProps {
   eyebrow: string;
   title: ReactNode;
   seed: string;
+  /** Optional local image that overrides the seeded picsum placeholder. */
+  image?: string;
   children?: ReactNode;
 }
 
-export function PageHero({ eyebrow, title, seed, children }: PageHeroProps) {
+export function PageHero({ eyebrow, title, seed, image, children }: PageHeroProps) {
   return (
     <section className="relative overflow-hidden bg-carbon">
       <div className="absolute inset-0 opacity-50">
         <Image
-          src={`https://picsum.photos/seed/${seed}/2400/1200`}
+          src={image ?? `https://picsum.photos/seed/${seed}/2400/1200`}
           alt=""
           fill
           priority

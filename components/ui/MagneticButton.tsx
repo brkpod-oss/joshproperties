@@ -7,19 +7,21 @@ import { cn } from "@/lib/utils";
 interface MagneticButtonProps {
   children: ReactNode;
   className?: string;
+  /** Accepted for API compatibility with existing call sites but ignored:
+   *  the inner Button renders the real link. */
   href?: string;
   strength?: number;
+  /** Accepted for API compatibility but ignored (see href). */
   label?: string;
 }
 
 export function MagneticButton({
   children,
   className,
-  href,
   strength = 10,
   label,
 }: MagneticButtonProps) {
-  const ref = useRef<HTMLAnchorElement>(null);
+  const ref = useRef<HTMLSpanElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -41,10 +43,12 @@ export function MagneticButton({
     y.set(0);
   }
 
+  // Wrapper only: the inner Button renders the real link, so this is a span.
+  // (Rendering an <a> here would nest anchors inside the Button and break
+  // hydration.)
   return (
-    <motion.a
+    <motion.span
       ref={ref}
-      href={href}
       aria-label={label}
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
@@ -52,6 +56,6 @@ export function MagneticButton({
       className={cn("inline-block", className)}
     >
       {children}
-    </motion.a>
+    </motion.span>
   );
 }

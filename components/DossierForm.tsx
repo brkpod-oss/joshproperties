@@ -67,8 +67,9 @@ export function DossierForm() {
     setSent(true);
   }
 
+  // text-base (16px) keeps iOS Safari from auto-zooming into the field.
   const inputClass =
-    "w-full bg-transparent py-3 text-[15px] text-ink placeholder:text-ink/35 focus:outline-none";
+    "w-full bg-transparent py-3 text-base text-ink placeholder:text-ink/35 focus:outline-none";
 
   if (sent) {
     return (

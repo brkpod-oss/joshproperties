@@ -135,7 +135,7 @@ export function DayNightCity() {
           </span>
         </div>
 
-        <div className="relative mt-4 h-6">
+        <div className="relative mt-4 h-8">
           <div className="absolute left-0 right-0 top-1/2 h-px -translate-y-1/2 bg-emerald/30" />
           <div
             className="absolute left-0 top-1/2 h-px -translate-y-1/2 bg-emerald"
@@ -149,7 +149,7 @@ export function DayNightCity() {
             value={pos}
             aria-label="Change the city outlook from day to night"
             onChange={(e) => setPos(Number(e.target.value))}
-            className="relative z-10 h-full w-full cursor-ew-resize appearance-none bg-transparent [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border [&::-webkit-slider-thumb]:border-emerald [&::-webkit-slider-thumb]:bg-paper [&::-webkit-slider-thumb]:shadow-[0_0_0_5px_rgba(197,162,107,0.28)] [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border [&::-moz-range-thumb]:border-emerald [&::-moz-range-thumb]:bg-paper"
+            className="relative z-10 h-full w-full cursor-ew-resize touch-none appearance-none bg-transparent [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border [&::-webkit-slider-thumb]:border-emerald [&::-webkit-slider-thumb]:bg-paper [&::-webkit-slider-thumb]:shadow-[0_0_0_5px_rgba(197,162,107,0.28)] [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border [&::-moz-range-thumb]:border-emerald [&::-moz-range-thumb]:bg-paper"
           />
         </div>
       </div>

@@ -36,13 +36,18 @@ export default async function PropertyPage({ params }: PageProps) {
   const property = getProperty(slug);
   if (!property) notFound();
 
-  const images = [
-    { src: `https://picsum.photos/seed/${property.seed}-hero/1600/1000`, alt: `${property.title}, main view` },
-    { src: `https://picsum.photos/seed/${property.seed}-2/1600/1000`, alt: `${property.title}, interior detail` },
-    { src: `https://picsum.photos/seed/${property.seed}-3/1600/1000`, alt: `${property.title}, exterior` },
-    { src: `https://picsum.photos/seed/${property.seed}-4/1600/1000`, alt: `${property.title}, interior in light` },
-    { src: `https://picsum.photos/seed/${property.seed}-5/1600/1000`, alt: `${property.title}, outlook` },
-  ];
+  const images = property.gallery
+    ? property.gallery.map((src, i) => ({
+        src,
+        alt: `${property.title}${i === 0 ? ", main view" : `, view ${i + 1}`}`,
+      }))
+    : [
+        { src: `https://picsum.photos/seed/${property.seed}-hero/1600/1000`, alt: `${property.title}, main view` },
+        { src: `https://picsum.photos/seed/${property.seed}-2/1600/1000`, alt: `${property.title}, interior detail` },
+        { src: `https://picsum.photos/seed/${property.seed}-3/1600/1000`, alt: `${property.title}, exterior` },
+        { src: `https://picsum.photos/seed/${property.seed}-4/1600/1000`, alt: `${property.title}, interior in light` },
+        { src: `https://picsum.photos/seed/${property.seed}-5/1600/1000`, alt: `${property.title}, outlook` },
+      ];
   const more = getByCategory(property.category)
     .filter((p) => p.slug !== slug)
     .slice(0, 2);
@@ -53,6 +58,7 @@ export default async function PropertyPage({ params }: PageProps) {
         eyebrow={`${property.category} · ${property.location}`}
         title={property.title}
         seed={`${property.seed}-hero`}
+        image={property.image}
       >
         <p>
           {property.short}

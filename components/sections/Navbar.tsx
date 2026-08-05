@@ -40,7 +40,7 @@ export function Navbar() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6">
+    <header className="fixed inset-x-0 top-0 z-50 px-4 pt-[max(1rem,env(safe-area-inset-top))] sm:px-6">
       <div
         className={`mx-auto flex max-w-[1440px] items-center justify-between border px-5 py-3 transition-[background-color,border-color,box-shadow] duration-300 sm:px-6 ${
           solid
@@ -98,7 +98,7 @@ export function Navbar() {
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className={`inline-flex h-10 w-10 items-center justify-center border transition-colors duration-300 lg:hidden ${
+            className={`inline-flex h-11 w-11 items-center justify-center border transition-colors duration-300 lg:hidden ${
               solid
                 ? "border-ink/30 text-ink"
                 : "border-paper/40 text-paper"
@@ -120,7 +120,7 @@ export function Navbar() {
           >
             <nav
               aria-label="Mobile"
-              className="flex h-full flex-col justify-between px-6 pb-10 pt-32 sm:px-12"
+              className="flex h-full flex-col justify-between px-6 pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-32 sm:px-12"
             >
               <ul className="flex flex-col gap-6">
                 {navLinks.map((l, i) => (

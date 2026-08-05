@@ -14,7 +14,7 @@ export default function ContactPage() {
   return (
     <>
       <section className="bg-paper">
-        <div className="mx-auto max-w-[1200px] px-6 pb-28 pt-16 sm:px-12 lg:px-20 lg:pb-40 lg:pt-24">
+        <div className="mx-auto max-w-[1200px] px-6 pb-28 pt-28 sm:px-12 lg:px-20 lg:pb-40 lg:pt-32">
           <Reveal>
             <ChapterMarker kicker="Start here" />
           </Reveal>

@@ -10,6 +10,10 @@ gsap.registerPlugin(ScrollTrigger);
 export function SmoothScroll() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Coarse pointers (phones, tablets): native momentum + rubber-banding is
+    // the premium mobile feel. Lenis only smooths wheel/keyboard scroll, so
+    // on touch it would add a permanent rAF loop for no benefit.
+    if (window.matchMedia("(pointer: coarse)").matches) return;
     const lenis = new Lenis({ autoRaf: true, anchors: true });
     (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
     lenis.on("scroll", ScrollTrigger.update);

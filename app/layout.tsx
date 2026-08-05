@@ -45,6 +45,9 @@ export const viewport: Viewport = {
   themeColor: "#faf8f3",
   width: "device-width",
   initialScale: 1,
+  // Extend into the notched/hole-punch area on phones so fixed chrome
+  // (nav, floating CTA, lightbox) can pad against real safe-area insets.
+  viewportFit: "cover",
 };
 
 const jsonLd = {

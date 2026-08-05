@@ -20,6 +20,11 @@ const seeds: Record<string, string> = {
   "/farmlands": "josh-farmlands",
 };
 
+// Real film stills where we have them; everything else falls back to the seed.
+const localImages: Record<string, string> = {
+  "/villas": "/images/villa-01.jpg",
+};
+
 export function Offerings() {
   const featured = services.slice(0, 3);
   const advisory = services[3];
@@ -58,9 +63,9 @@ export function Offerings() {
                     {s.detail}
                   </p>
                 </div>
-                <div className="vignette relative hidden aspect-[4/3] overflow-hidden rounded-[2px] md:block">
+                <div className="vignette relative order-first aspect-[4/3] overflow-hidden rounded-[2px] md:order-none">
                   <Image
-                    src={`https://picsum.photos/seed/${seeds[s.href]}/480/360`}
+                    src={localImages[s.href] ?? `https://picsum.photos/seed/${seeds[s.href]}/480/360`}
                     alt={s.name}
                     fill
                     sizes="240px"

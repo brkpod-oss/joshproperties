@@ -145,7 +145,7 @@ export function Gallery({ images, className }: GalleryProps) {
                 e.stopPropagation();
                 close();
               }}
-              className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center border border-paper/25 text-paper transition-colors hover:border-emerald hover:text-emerald sm:right-5 sm:top-5"
+              className="absolute right-[max(1rem,env(safe-area-inset-right))] top-[max(1rem,env(safe-area-inset-top))] z-10 flex h-11 w-11 items-center justify-center border border-paper/25 text-paper transition-colors hover:border-emerald hover:text-emerald"
             >
               <X size={18} strokeWidth={1.5} />
             </button>
@@ -180,7 +180,7 @@ export function Gallery({ images, className }: GalleryProps) {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={reduce ? undefined : { opacity: 0, scale: 0.98 }}
                 transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                className="h-full w-full px-12 py-16 sm:px-20 md:px-24"
+                className="h-full w-full px-3 py-16 sm:px-20 md:px-24"
               >
                 <motion.div
                   className="relative h-full w-full"
@@ -199,7 +199,7 @@ export function Gallery({ images, className }: GalleryProps) {
 
             <figcaption
               onClick={(e) => e.stopPropagation()}
-              className="absolute bottom-4 left-0 right-0 flex items-center justify-between px-8 font-mono text-[10px] uppercase tracking-[0.24em] text-paper/50 sm:bottom-6"
+              className="absolute bottom-[max(1rem,env(safe-area-inset-bottom))] left-0 right-0 flex items-center justify-between px-8 font-mono text-[10px] uppercase tracking-[0.24em] text-paper/50 sm:bottom-6"
             >
               <span>
                 {open + 1} / {images.length}

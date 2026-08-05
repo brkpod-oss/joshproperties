@@ -49,6 +49,19 @@
   --fg: var(--color-ink);
 }
 
+html {
+  /* Keep pinch-zoom usable but stop iOS auto-zooming into 16px inputs. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* No flash of grey on tap; the site's interactive surfaces own their feedback. */
+*,
+*::before,
+*::after {
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   background: var(--bg);
   color: var(--fg);
@@ -56,6 +69,16 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+}
+
+/* Kill the double-tap-zoom delay on taps without breaking pinch-zoom or
+   native range-input dragging. */
+a,
+button,
+input:not([type="range"]),
+textarea,
+select {
+  touch-action: manipulation;
 }
 
 ::selection {

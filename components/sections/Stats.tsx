@@ -45,7 +45,7 @@ export function Stats() {
                     </FadeIn>
 
                     <div>
-                      <span className="font-display text-7xl font-light leading-none text-emerald tabular-nums lg:text-8xl">
+                      <span className="font-display text-6xl font-light leading-none text-emerald tabular-nums sm:text-7xl lg:text-8xl">
                         <CountUp value={stat.value} suffix={stat.suffix} />
                       </span>
                       <p className="mt-6 max-w-[16ch] text-[15px] leading-snug text-paper/80">

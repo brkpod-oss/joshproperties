@@ -13,6 +13,10 @@ export type Property = {
   beds?: string;
   status: "Available" | "Under Offer" | "Sold";
   seed: string;
+  /** Local hero/card image (real film still). Falls back to the picsum seed when absent. */
+  image?: string;
+  /** Local gallery stills for the detail page. Falls back to seeded picsum when absent. */
+  gallery?: string[];
   short: string;
   narrative: string[];
   specs: Spec[];
@@ -32,6 +36,14 @@ export const properties: Property[] = [
     beds: "5 BHK",
     status: "Available",
     seed: "josh-jubilee-house",
+    image: "/images/villa-02.jpg",
+    gallery: [
+      "/images/villa-01.jpg",
+      "/images/villa-02.jpg",
+      "/images/villa-03.jpg",
+      "/images/villa-04.jpg",
+      "/images/villa-05.jpg",
+    ],
     tall: true,
     featured: true,
     short:
@@ -61,6 +73,14 @@ export const properties: Property[] = [
     beds: "4 BHK",
     status: "Available",
     seed: "josh-kokapet",
+    image: "/images/villa-05.jpg",
+    gallery: [
+      "/images/villa-04.jpg",
+      "/images/villa-05.jpg",
+      "/images/villa-06.jpg",
+      "/images/villa-07.jpg",
+      "/images/villa-08.jpg",
+    ],
     short:
       "A four-bedroom modern villa minutes from T-Hub and the outer ring road.",
     narrative: [
@@ -86,6 +106,14 @@ export const properties: Property[] = [
     beds: "4 BHK",
     status: "Under Offer",
     seed: "josh-medchal",
+    image: "/images/villa-08.jpg",
+    gallery: [
+      "/images/villa-07.jpg",
+      "/images/villa-08.jpg",
+      "/images/villa-09.jpg",
+      "/images/villa-10.jpg",
+      "/images/villa-01.jpg",
+    ],
     short:
       "A farmhouse villa on 1.2 acres of orchard, with rooms opening onto citrus groves.",
     narrative: [
