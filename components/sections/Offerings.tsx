@@ -44,7 +44,6 @@ export function Offerings() {
             <Reveal key={s.slug} delay={i * 0.06}>
               <Link
                 href={s.href}
-                data-cursor="Explore"
                 className="group grid grid-cols-1 gap-8 border-b border-ink/15 py-10 md:grid-cols-[auto_1fr_240px] md:items-center md:gap-10 lg:py-12"
               >
                 <span className="font-display text-2xl font-light italic text-slate">
@@ -76,7 +75,6 @@ export function Offerings() {
             <Reveal delay={0.1}>
               <Link
                 href={advisory.href}
-                data-cursor="View"
                 className="group flex items-center justify-between gap-6 py-10 transition-colors duration-300 lg:py-12"
               >
                 <div>

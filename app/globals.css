@@ -54,19 +54,6 @@ body {
   overflow-x: hidden;
 }
 
-@media (pointer: fine) {
-  body,
-  a,
-  button,
-  input,
-  textarea,
-  select,
-  label,
-  [data-cursor] {
-    cursor: none;
-  }
-}
-
 ::selection {
   background: var(--color-emerald);
   color: var(--color-paper);

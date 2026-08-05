@@ -5,7 +5,6 @@ import { Navbar } from "@/components/sections/Navbar";
 import { Footer } from "@/components/sections/Footer";
 import { FloatingCta } from "@/components/FloatingCta";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
-import { Cursor } from "@/components/motion/Cursor";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { PageTransition } from "@/components/motion/PageTransition";
 import "./globals.css";
@@ -92,7 +91,6 @@ export default function RootLayout({
         </a>
         <SmoothScroll />
         <ScrollProgress />
-        <Cursor />
         <PageTransition />
         <div className="film-grain" aria-hidden />
         <Navbar />

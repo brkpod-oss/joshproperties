@@ -26,7 +26,6 @@ export function PropertyCard({ property, large, className }: PropertyCardProps) 
   return (
     <Link
       href={`/properties/${property.slug}`}
-      data-cursor="Explore"
       className={cn("group block", className)}
     >
       <div className="relative overflow-hidden rounded-[2px] bg-carbon">

@@ -45,13 +45,11 @@ export function FarmlandBand() {
 
         <Reveal delay={0.15}>
           <div
-            data-cursor="Drag"
             className="mt-16 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {grounds.map((g) => (
               <article
                 key={g.name}
-                data-cursor="Explore"
                 className="group w-[300px] shrink-0 snap-start border-t border-paper/20 lg:w-[360px]"
               >
                 <a href="/farmlands" className="block">

@@ -36,7 +36,6 @@ export function Gallery({ images, className }: GalleryProps) {
   return (
     <div
       ref={trackRef}
-      data-cursor="Drag"
       onPointerDown={onDown}
       onPointerMove={onMove}
       onPointerUp={end}

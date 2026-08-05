@@ -27,13 +27,13 @@ Marketing site for **Josh Properties**, a luxury real-estate house in Hyderabad,
 ## Architecture
 
 - `app/page.tsx` — landing page; sections in a fixed order (Hero → TrustStrip → Stats → Featured → Offerings → Story → FarmlandBand → WhyJosh → Process → Testimonials → Faq → FinalCta)
-- `app/layout.tsx` — metadata, JSON-LD (`RealEstateAgent`), Navbar, Footer, FloatingCta, SmoothScroll, ScrollProgress, Cursor, PageTransition, film-grain overlay
+- `app/layout.tsx` — metadata, JSON-LD (`RealEstateAgent`), Navbar, Footer, FloatingCta, SmoothScroll, ScrollProgress, PageTransition, film-grain overlay
 - `app/villas/`, `app/apartments/`, `app/farmlands/` — category listing pages
 - `app/properties/[slug]/` — detail page for a single property (`generateStaticParams`, async `params: Promise<{ slug }>`); all 9 properties prerender at build
 - `app/contact/` — concierge page + `ContactForm.tsx`
 - `components/sections/` — one component per landing/page section (incl. `PageHero`)
 - `components/ui/` — reusable primitives: `Button`, `MagneticButton`, `ChapterMarker`
-- `components/motion/` — animation primitives: `Reveal`, `RevealMask`, `MaskLines`, `Parallax`, `CountUp`, `ScrollProgress`, `Cursor`, `SmoothScroll`, `PageTransition`
+- `components/motion/` — animation primitives: `Reveal`, `RevealMask`, `MaskLines`, `Parallax`, `CountUp`, `ScrollProgress`, `SmoothScroll`, `PageTransition`
 - `components/` (page-level) — `PropertyCard`, `PropertyListing`, `Gallery`, `FarmlandMap`, `DayNightCity`, `DossierForm`, `FloatingCta`
 - `data/` — typed content files: `properties`, `farmland`, `stats`, `promises`, `services`, `process`, `partners`, `testimonials`, `faqs`
 - `lib/site.ts` — single source of truth for brand config (name, phone, WhatsApp, email, address, hours, links, heroVideo)
@@ -44,7 +44,7 @@ Marketing site for **Josh Properties**, a luxury real-estate house in Hyderabad,
 
 - **Content lives in `data/*.ts` and `lib/site.ts` — never hardcode copy into components.** Edit those files to change marketing text, properties, stats, plots, etc.
 - Components that use hooks, `motion`, Lenis, or event listeners must start with `"use client"`. Server components stay client-free (e.g. `Hero` reads `public/hero.mp4` via `existsSync`/`process.cwd()` and must NOT be a client component).
-- Interactive surfaces (`a`, `button`, form controls) have `cursor: none` on fine pointers — don't fight the custom cursor.
+- Interactive surfaces (`a`, `button`, form controls) use the native cursor.
 - **Forms have no backend:** `ContactForm` and `DossierForm` compose a message and open a `wa.me` deep link (`site.whatsapp`) with the user's replies. Keep that flow.
 - Images are `picsum.photos` placeholders keyed by a `seed` string (e.g. `josh-park`), allowlisted in `next.config.ts`. Use `next/image` with a unique, descriptive seed.
 - Property `narrative` is `string[]`; wrap single paragraphs in `[...]`.
@@ -53,10 +53,10 @@ Marketing site for **Josh Properties**, a luxury real-estate house in Hyderabad,
 ## Motion conventions
 
 - Import from `motion/react`. Use `useReducedMotion()` in every animated component and disable/degrade motion when true.
-- Standard ease curve: `[0.16, 1, 0.3, 1]`. Durations ~0.5–1s; springs for pointer-reactive motion (Cursor, MagneticButton).
+- Standard ease curve: `[0.16, 1, 0.3, 1]`. Durations ~0.5–1s; springs for pointer-reactive motion (MagneticButton).
 - Reuse the primitives in `components/motion/` (e.g. `Reveal`, `RevealMask`, `MaskLines`) before writing bespoke animations.
-- `SmoothScroll` (Lenis), `ScrollProgress`, `Cursor`, and `PageTransition` mount once in the root layout; all self-disable or degrade under reduced motion / coarse pointers.
-- **Custom cursor + labels:** the global `Cursor` reads a `data-cursor="Label"` attribute and shows that label inside the ring. `PropertyCard` uses `Explore` (villa), `Explore`/darken (apartment), `Explore` (farmland); `Gallery` uses `Drag`; `FarmlandMap` uses `View`. Don't override `cursor: none` for these.
+- `SmoothScroll` (Lenis), `ScrollProgress`, and `PageTransition` mount once in the root layout; all self-disable or degrade under reduced motion / coarse pointers.
+- **Magnetic buttons:** `MagneticButton` wraps `Button` for a subtle pointer-follow on CTAs. No custom cursor.
 - **Page transitions:** `Button` renders `next/link` for internal paths (starts with `/`, not `#` or `http`), enabling client-side nav with the `PageTransition` curtain. Keep cross-page links internal so there are no white flashes.
 - **Category signatures:** villas get a gentle scale+brightness hover; apartments get a deeper zoom with a dark city-night radial overlay (`DayNightCity` is the apartments signature scrubber, day→night); farmland gets a strong slow zoom. Preserve these.
 
