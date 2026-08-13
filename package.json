@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "migrate": "tsx scripts/migrate-to-sanity.ts"
+    "migrate": "node --env-file=.env.local --import tsx scripts/migrate-to-sanity.ts"
   },
   "dependencies": {
     "@sanity/image-url": "^2.1.1",
