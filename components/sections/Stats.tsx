@@ -1,14 +1,14 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { stats } from "@/data/stats";
+import type { Stat, HomePage } from "@/sanity/queries";
 import { CountUp } from "@/components/motion/CountUp";
 import { FadeIn } from "@/components/motion/FadeIn";
 import { Reveal } from "@/components/motion/Reveal";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
-export function Stats() {
+export function Stats({ stats, copy }: { stats: Stat[]; copy: HomePage["stats"] }) {
   const reduce = useReducedMotion();
 
   return (
@@ -17,9 +17,9 @@ export function Stats() {
         <Reveal>
           <div className="border border-paper/15 bg-graphite">
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-paper/15 px-6 py-5 sm:px-10">
-              <p className="stamp text-paper/60">Title register · Select entries</p>
+              <p className="stamp text-paper/60">{copy.label}</p>
               <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-emerald/90">
-                Folio I–IV
+                {copy.folioLabel}
               </p>
             </div>
 
@@ -59,10 +59,10 @@ export function Stats() {
 
             <div className="flex flex-wrap items-center justify-between gap-4 border-t border-paper/15 px-6 py-4 sm:px-10">
               <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-paper/35">
-                As of {new Date().getFullYear()} · Internal register, verified by counsel
+                As of {new Date().getFullYear()} · {copy.footerNote}
               </span>
               <span aria-hidden className="hidden font-mono text-[10px] uppercase tracking-[0.24em] text-paper/35 sm:inline">
-                E. &amp; O.E.
+                {copy.eoe}
               </span>
             </div>
           </div>

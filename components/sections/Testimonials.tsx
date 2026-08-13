@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Pause, Play } from "lucide-react";
 import { useReducedMotion } from "motion/react";
-import { testimonials } from "@/data/testimonials";
+import type { Testimonial } from "@/sanity/queries";
 import { Reveal } from "@/components/motion/Reveal";
 import { cn } from "@/lib/utils";
 
@@ -103,9 +103,9 @@ function VoiceNote({
   );
 }
 
-export function Testimonials() {
-  const featured = testimonials.find((t) => t.featured) ?? testimonials[0];
-  const rest = testimonials.filter((t) => t !== featured);
+export function Testimonials({ items }: { items: Testimonial[] }) {
+  const featured = items.find((t) => t.featured) ?? items[0];
+  const rest = items.filter((t) => t !== featured);
 
   return (
     <section className="bg-paper">

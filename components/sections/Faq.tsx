@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { Plus } from "lucide-react";
-import { faqs } from "@/data/faqs";
+import type { Faq as FaqItem, HomePage } from "@/sanity/queries";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealMask } from "@/components/motion/RevealMask";
 
-export function Faq() {
+export function Faq({ items, copy }: { items: FaqItem[]; copy: HomePage["faqSection"] }) {
   const [open, setOpen] = useState<number | null>(0);
   const reduce = useReducedMotion();
 
@@ -16,12 +16,12 @@ export function Faq() {
       <div className="mx-auto max-w-[920px] px-6 py-28 sm:px-12 lg:py-40">
         <RevealMask delay={0.1}>
           <h2 className="text-balance font-display text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ink lg:text-5xl">
-            The questions every Hyderabad buyer asks.
+            {copy.heading}
           </h2>
         </RevealMask>
 
         <div className="mt-16">
-          {faqs.map((faq, i) => {
+          {items.map((faq, i) => {
             const isOpen = open === i;
             return (
               <Reveal key={faq.question} delay={Math.min(i * 0.03, 0.15)}>
