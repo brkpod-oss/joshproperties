@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { display, body, mono } from "./fonts";
-import { site } from "@/lib/site";
+import { getSiteSettings } from "@/sanity/queries";
 import { Navbar } from "@/components/sections/Navbar";
 import { Footer } from "@/components/sections/Footer";
 import { FloatingCta } from "@/components/FloatingCta";
@@ -16,7 +16,8 @@ export const metadata: Metadata = {
     default: "Josh Properties · Villas, Apartments & Farmlands in Hyderabad",
     template: "%s · Josh Properties",
   },
-  description: site.position,
+  description:
+    "Josh Properties is a private real-estate advisory curating villas, apartments and cleared-title farmland across Hyderabad and Telangana, with verified titles, drone surveys and a single concierge from first call to registration.",
   keywords: [
     "farmlands for sale Hyderabad",
     "villas in Hyderabad",
@@ -28,9 +29,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    siteName: site.name,
+    siteName: "Josh Properties",
     title: "Josh Properties · Villas, Apartments & Farmlands in Hyderabad",
-    description: site.tagline,
+    description: "Curators of Hyderabad's finest villas, apartments and farmlands.",
   },
   alternates: {
     canonical: "/",
@@ -50,33 +51,35 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "RealEstateAgent",
-  "@id": "https://joshproperties.in/#agency",
-  name: site.name,
-  legalName: site.legalName,
-  description: site.position,
-  foundingDate: "2017",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "Road No. 12",
-    addressLocality: "Banjara Hills, Hyderabad",
-    addressRegion: "Telangana",
-    postalCode: "500034",
-    addressCountry: "IN",
-  },
-  telephone: site.phone,
-  email: site.email,
-  openingHours: "Mo-Sa 10:00-19:00",
-  priceRange: "₹₹₹",
-};
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings = await getSiteSettings();
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    "@id": "https://joshproperties.in/#agency",
+    name: settings.name,
+    legalName: settings.legalName,
+    description: settings.position,
+    foundingDate: "2017",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Road No. 12",
+      addressLocality: "Banjara Hills, Hyderabad",
+      addressRegion: "Telangana",
+      postalCode: "500034",
+      addressCountry: "IN",
+    },
+    telephone: settings.phone,
+    email: settings.email,
+    openingHours: "Mo-Sa 10:00-19:00",
+    priceRange: "₹₹₹",
+  };
+
   return (
     <html
       lang="en"
@@ -98,12 +101,12 @@ export default function RootLayout({
         <PremiumCursor />
         <PageTransition />
         <div className="film-grain" aria-hidden />
-        <Navbar />
+        <Navbar settings={settings} />
         <main id="main" className="flex-1">
           {children}
         </main>
-        <Footer />
-        <FloatingCta />
+        <Footer settings={settings} />
+        <FloatingCta whatsapp={settings.whatsapp} />
       </body>
     </html>
   );

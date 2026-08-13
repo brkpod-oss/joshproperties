@@ -6,16 +6,9 @@ import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { Seal } from "@/components/ui/Seal";
-import { site } from "@/lib/site";
+import type { SiteSettings } from "@/sanity/queries";
 
-const navLinks = [
-  { label: "Villas", href: "/villas" },
-  { label: "Apartments", href: "/apartments" },
-  { label: "Farmlands", href: "/farmlands" },
-  { label: "The Collection", href: "#collection" },
-];
-
-export function Navbar() {
+export function Navbar({ settings }: { settings: SiteSettings }) {
   const [open, setOpen] = useState(false);
   const [solid, setSolid] = useState(false);
 
@@ -65,7 +58,7 @@ export function Navbar() {
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex">
-          {navLinks.map((l) => (
+          {settings.navLinks.map((l) => (
             <a
               key={l.href}
               href={l.href}
@@ -91,7 +84,7 @@ export function Navbar() {
                 : "border-paper/40 text-paper hover:border-paper hover:bg-paper/10"
             }`}
           >
-            Enquire privately
+            {settings.enquireLabel}
           </Link>
           <button
             type="button"
@@ -123,7 +116,7 @@ export function Navbar() {
               className="flex h-full flex-col justify-between px-6 pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-32 sm:px-12"
             >
               <ul className="flex flex-col gap-6">
-                {navLinks.map((l, i) => (
+                {settings.navLinks.map((l, i) => (
                   <motion.li
                     key={l.href}
                     initial={{ opacity: 0, y: 24 }}
@@ -165,10 +158,10 @@ export function Navbar() {
                 <div className="flex items-center gap-3">
                   <Seal className="h-9 w-9 text-paper/80" />
                   <div className="flex flex-col gap-1">
-                    <a href={site.phoneHref} className="stamp text-paper">
-                      {site.phone}
+                    <a href={settings.phoneHref} className="stamp text-paper">
+                      {settings.phone}
                     </a>
-                    <span className="text-[12px] text-paper/45">{site.hours}</span>
+                    <span className="text-[12px] text-paper/45">{settings.hours}</span>
                   </div>
                 </div>
               </motion.div>
