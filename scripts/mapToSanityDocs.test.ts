@@ -7,6 +7,14 @@ describe("slugify", () => {
   it("keeps an already-clean slug as the document id suffix", () => {
     expect(slugify("jubilee-house")).toBe("jubilee-house");
   });
+
+  it("lowercases and hyphenates a title-case string with spaces", () => {
+    expect(slugify("The Jubilee House")).toBe("the-jubilee-house");
+  });
+
+  it("collapses special characters and trims leading/trailing hyphens", () => {
+    expect(slugify("  Foo & Bar!  ")).toBe("foo-bar");
+  });
 });
 
 describe("mapProperty", () => {
