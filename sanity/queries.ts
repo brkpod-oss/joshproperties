@@ -198,6 +198,7 @@ export type CategoryPage = {
   category: "villa" | "apartment" | "farmland";
   heroEyebrow: string; heroTitleLine1: string; heroTitleLine2: string; heroBody: string;
   listingKicker: string; listingHeading: string; listingIntro: string;
+  outlookHeading?: string; outlookBody1?: string; outlookBody2?: string;
   masterplan?: {
     name: string; river: boolean;
     plots: { id: string; phase: number; size: string; status: "Available" | "Sold" | "Reserved"; x: number; y: number }[];
