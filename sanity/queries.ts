@@ -111,11 +111,11 @@ export async function getStats(): Promise<Stat[]> {
   );
 }
 
-export type Service = { numeral: string; name: string; description: string; detail: string; href: string };
+export type Service = { slug: string; numeral: string; name: string; description: string; detail: string; href: string };
 
 export async function getServices(): Promise<Service[]> {
   return client.fetch(
-    `*[_type == "service"] | order(order asc) {numeral, name, description, detail, href}`,
+    `*[_type == "service"] | order(order asc) {"slug": slug.current, numeral, name, description, detail, href}`,
     {},
     { next: { tags: ["service"] } }
   );
