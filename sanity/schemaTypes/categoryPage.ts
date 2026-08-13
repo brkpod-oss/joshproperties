@@ -1,0 +1,67 @@
+import { defineField, defineType } from "sanity";
+
+export default defineType({
+  name: "categoryPage",
+  title: "Category page",
+  type: "document",
+  fields: [
+    defineField({
+      name: "category",
+      title: "Category",
+      type: "string",
+      options: { list: ["villa", "apartment", "farmland"] },
+      validation: (r) => r.required(),
+    }),
+    defineField({ name: "heroEyebrow", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "heroTitleLine1", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "heroTitleLine2", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "heroBody", type: "text", rows: 2, validation: (r) => r.required() }),
+    defineField({ name: "listingKicker", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "listingHeading", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "listingIntro", type: "text", rows: 2, validation: (r) => r.required() }),
+    defineField({ name: "outlookHeading", title: "Outlook section heading (apartments only)", type: "string" }),
+    defineField({ name: "outlookBody1", title: "Outlook section paragraph 1 (apartments only)", type: "text", rows: 3 }),
+    defineField({ name: "outlookBody2", title: "Outlook section paragraph 2 (apartments only)", type: "text", rows: 3 }),
+    defineField({
+      name: "masterplan",
+      title: "Masterplan (farmland only)",
+      type: "object",
+      fields: [
+        defineField({ name: "name", type: "string" }),
+        defineField({ name: "river", type: "boolean", initialValue: false }),
+        defineField({
+          name: "plots",
+          type: "array",
+          of: [
+            {
+              type: "object",
+              fields: [
+                defineField({ name: "id", type: "string", validation: (r) => r.required() }),
+                defineField({ name: "phase", type: "number", validation: (r) => r.required() }),
+                defineField({ name: "size", type: "string", validation: (r) => r.required() }),
+                defineField({
+                  name: "status",
+                  type: "string",
+                  options: { list: ["Available", "Sold", "Reserved"] },
+                  validation: (r) => r.required(),
+                }),
+                defineField({ name: "x", type: "number", validation: (r) => r.required() }),
+                defineField({ name: "y", type: "number", validation: (r) => r.required() }),
+              ],
+            },
+          ],
+        }),
+      ],
+    }),
+    defineField({ name: "masterplanKicker", type: "string" }),
+    defineField({ name: "masterplanHeading", type: "string" }),
+    defineField({ name: "masterplanBody", type: "text", rows: 2 }),
+    defineField({ name: "holdingsKicker", type: "string" }),
+    defineField({ name: "holdingsHeading", type: "string" }),
+    defineField({ name: "holdingsNote", type: "string" }),
+    defineField({ name: "dossierKicker", type: "string" }),
+    defineField({ name: "dossierHeading", type: "string" }),
+    defineField({ name: "dossierBody", type: "text", rows: 3 }),
+  ],
+  preview: { select: { title: "category" } },
+});

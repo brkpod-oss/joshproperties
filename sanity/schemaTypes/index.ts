@@ -8,7 +8,25 @@ import service from "./service";
 import processStep from "./processStep";
 import partnerLogo from "./partnerLogo";
 import promiseItem from "./promiseItem";
+import siteSettings from "./siteSettings";
+import homePage from "./homePage";
+import categoryPage from "./categoryPage";
+import contactPage from "./contactPage";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [property, farmlandOption, testimonial, faq, stat, service, processStep, partnerLogo, promiseItem],
+  types: [
+    property,
+    farmlandOption,
+    testimonial,
+    faq,
+    stat,
+    service,
+    processStep,
+    partnerLogo,
+    promiseItem,
+    siteSettings,
+    homePage,
+    categoryPage,
+    contactPage,
+  ],
 };
