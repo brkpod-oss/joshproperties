@@ -1,25 +1,22 @@
-﻿import type { PropertyCategory } from "@/data/properties";
-import { getByCategory } from "@/data/properties";
+﻿import type { Property } from "@/sanity/queries";
 import { ChapterMarker } from "@/components/ui/ChapterMarker";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealMask } from "@/components/motion/RevealMask";
 import { PropertyCard } from "@/components/PropertyCard";
 
 interface PropertyListingProps {
-  category: PropertyCategory;
   kicker: string;
   heading: string;
   intro: string;
+  items: Property[];
 }
 
 export function PropertyListing({
-  category,
   kicker,
   heading,
   intro,
+  items,
 }: PropertyListingProps) {
-  const items = getByCategory(category);
-
   return (
     <section className="bg-paper">
       <div className="mx-auto max-w-[1440px] px-6 py-24 sm:px-12 lg:px-20 lg:py-32">

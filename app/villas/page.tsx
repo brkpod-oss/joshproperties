@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/PageHero";
 import { PropertyListing } from "@/components/PropertyListing";
+import { getCategoryPage, getPropertiesByCategory } from "@/sanity/queries";
 
 export const metadata: Metadata = {
   title: "Villas in Hyderabad",
@@ -8,30 +9,32 @@ export const metadata: Metadata = {
     "Freehold villas across Jubilee Hills, Kokapet and Medchal, shown once, by appointment, with the full title chain verified before any price is discussed.",
 };
 
-export default function VillasPage() {
+export default async function VillasPage() {
+  const [page, properties] = await Promise.all([
+    getCategoryPage("villa"),
+    getPropertiesByCategory("villa"),
+  ]);
+
   return (
     <>
       <PageHero
-        eyebrow="The villas"
+        eyebrow={page.heroEyebrow}
         title={
           <>
-            Houses on quiet,
+            {page.heroTitleLine1}
             <br />
-            tree-lined plots.
+            {page.heroTitleLine2}
           </>
         }
         seed="josh-villas"
       >
-        <p>
-          A short list of freehold homes where the garden is the luxury and
-          the title is verified before we ever talk money.
-        </p>
+        <p>{page.heroBody}</p>
       </PageHero>
       <PropertyListing
-        category="villa"
-        kicker="Freehold villas"
-        heading="Three houses, none of them hurried."
-        intro="Every villa is shown once, with its chain-of-title audit on the table. If you are not ready to buy, we say so."
+        kicker={page.listingKicker}
+        heading={page.listingHeading}
+        intro={page.listingIntro}
+        items={properties}
       />
     </>
   );
