@@ -1,18 +1,18 @@
-import { promises } from "@/data/promises";
+import type { PromiseItem, HomePage } from "@/sanity/queries";
 import { Reveal } from "@/components/motion/Reveal";
 
-export function WhyJosh() {
+export function WhyJosh({ items, copy }: { items: PromiseItem[]; copy: HomePage["whyJosh"] }) {
   return (
     <section className="bg-paper">
       <div className="mx-auto max-w-[1440px] px-6 py-28 sm:px-12 lg:px-20 lg:py-40">
         <Reveal className="mx-auto max-w-[760px] text-center">
           <h2 className="text-balance font-display text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ink lg:text-5xl">
-            Why Hyderabad&rsquo;s quietest buyers deal with us.
+            {copy.heading}
           </h2>
         </Reveal>
 
         <div className="mt-20 grid grid-cols-1 gap-x-16 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
-          {promises.map((item, i) => (
+          {items.map((item, i) => (
             <Reveal key={item.title} delay={(i % 3) * 0.08}>
               <div className="group border-t border-ink/15 pt-6 transition-colors duration-300 hover:border-emerald/60">
                 <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-slate transition-colors duration-300 group-hover:text-emerald">

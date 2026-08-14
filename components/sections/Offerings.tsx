@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { services } from "@/data/services";
+import type { Service, HomePage } from "@/sanity/queries";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealMask } from "@/components/motion/RevealMask";
 
@@ -25,7 +25,7 @@ const localImages: Record<string, string> = {
   "/villas": "/images/villa-01.jpg",
 };
 
-export function Offerings() {
+export function Offerings({ services, copy }: { services: Service[]; copy: HomePage["offerings"] }) {
   const featured = services.slice(0, 3);
   const advisory = services[3];
 
@@ -34,13 +34,12 @@ export function Offerings() {
       <div className="mx-auto max-w-[1440px] px-6 py-28 sm:px-12 lg:px-20 lg:py-40">
         <RevealMask>
           <h2 className="max-w-[18ch] text-balance font-display text-5xl font-light leading-[1.02] tracking-[-0.02em] text-ink lg:text-7xl">
-            Three kinds of quiet.
+            {copy.heading}
           </h2>
         </RevealMask>
         <Reveal delay={0.1}>
           <p className="mt-6 max-w-[58ch] text-pretty text-[16px] leading-relaxed text-ink/60">
-            Villas, apartments and cleared-title farmland. Each holding is
-            shown once, by appointment, with its audit on the table.
+            {copy.body}
           </p>
         </Reveal>
 

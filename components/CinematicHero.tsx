@@ -14,7 +14,7 @@ import {
 import { ArrowRight } from "lucide-react";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { Button } from "@/components/ui/Button";
-import { site } from "@/lib/site";
+import type { HomePage } from "@/sanity/queries";
 
 // Easing *function* for scroll-mapped transforms. useTransform's `ease` option
 // expects an easing function (or array of them), unlike animation transitions
@@ -39,7 +39,7 @@ const SMOOTH_FACTOR = 0.1;
  * smoothed progress, ending in a gradient dissolve into the Title Register
  * section. Reduced motion renders a static poster hero instead.
  */
-export function CinematicHero() {
+export function CinematicHero({ copy, heroVideo }: { copy: HomePage["hero"]; heroVideo: string }) {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const reduce = useReducedMotion();
@@ -147,7 +147,7 @@ export function CinematicHero() {
         >
           <video
             ref={videoRef}
-            src={site.heroVideo}
+            src={heroVideo}
             poster="/hero-poster.jpg"
             muted
             playsInline
@@ -178,7 +178,7 @@ export function CinematicHero() {
                 style={{ opacity: advisory, y: advisoryY }}
                 className="mt-5 font-mono text-[10px] uppercase tracking-[0.22em] text-paper/80 sm:text-[11px]"
               >
-                Private real estate advisory
+                {copy.kicker}
               </motion.p>
             </motion.div>
             <motion.div
@@ -189,7 +189,7 @@ export function CinematicHero() {
                 style={{ y: hyderabadY }}
                 className="font-display text-[clamp(2.8rem,9vw,7.5rem)] font-light leading-[0.95] text-paper"
               >
-                Hyderabad
+                {copy.place}
               </motion.h1>
             </motion.div>
           </div>
@@ -207,21 +207,21 @@ export function CinematicHero() {
               range={[0.31, 0.37]}
               className="font-display text-[clamp(2.2rem,6vw,5.5rem)] font-light leading-[1.1] text-paper"
             >
-              CURATED.
+              {copy.words[0]}
             </MaskedLine>
             <MaskedLine
               progress={smooth}
               range={[0.34, 0.4]}
               className="font-display text-[clamp(2.2rem,6vw,5.5rem)] font-light leading-[1.1] text-emerald"
             >
-              VERIFIED.
+              {copy.words[1]}
             </MaskedLine>
             <MaskedLine
               progress={smooth}
               range={[0.37, 0.43]}
               className="font-display text-[clamp(2.2rem,6vw,5.5rem)] font-light leading-[1.1] text-paper"
             >
-              PRIVATE.
+              {copy.words[2]}
             </MaskedLine>
           </motion.div>
         </motion.div>
@@ -238,14 +238,14 @@ export function CinematicHero() {
               range={[0.54, 0.6]}
               className="font-display text-[clamp(2.6rem,7.5vw,6.5rem)] font-light leading-[1.02] text-paper"
             >
-              THE TITLE
+              {copy.titleLine1}
             </MaskedLine>
             <MaskedLine
               progress={smooth}
               range={[0.56, 0.62]}
               className="font-display text-[clamp(2.6rem,7.5vw,6.5rem)] font-light leading-[1.02] italic text-paper"
             >
-              COMES FIRST.
+              {copy.titleLine2}
             </MaskedLine>
             <motion.div
               style={{ opacity: s3Meta, y: s3MetaY }}
@@ -253,7 +253,7 @@ export function CinematicHero() {
             >
               <span className="h-px w-10 bg-emerald/80" />
               <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-paper/70">
-                EVERY PROPERTY. INDEPENDENTLY VERIFIED.
+                {copy.verificationNote}
               </p>
             </motion.div>
           </motion.div>
@@ -267,10 +267,10 @@ export function CinematicHero() {
         >
           <motion.div style={{ opacity: s4In, y: s4InY }} className="text-center">
             <p className="font-display text-[clamp(1.6rem,3.5vw,3rem)] font-light tracking-[0.08em] text-paper">
-              JOSH PROPERTIES
+              {copy.brandLine}
             </p>
             <p className="mt-3 font-mono text-[9px] uppercase tracking-[0.3em] text-paper/60">
-              Hyderabad · Est. 2017
+              {copy.brandSub}
             </p>
           </motion.div>
         </motion.div>
@@ -282,7 +282,7 @@ export function CinematicHero() {
           className="group absolute inset-x-0 bottom-10 z-40 flex justify-center px-6"
         >
           <span className="link-underline flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/80 transition-colors duration-300 hover:text-bronze">
-            View the Collection
+            {copy.ctaLabel}
             <ArrowRight
               size={14}
               strokeWidth={1.5}

@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
-import type { Property } from "@/data/properties";
+import type { Property } from "@/sanity/queries";
+import { urlFor } from "@/sanity/image";
 import { Stamp } from "@/components/ui/Stamp";
 import { CurtainReveal } from "@/components/motion/CurtainReveal";
 import { cn } from "@/lib/utils";
@@ -29,7 +30,9 @@ interface PropertyCardProps {
 export function PropertyCard({ property, large, className }: PropertyCardProps) {
   const ratio = large ? "aspect-[4/5]" : "aspect-[4/3]";
   const dim = property.tall || large ? 1200 : 900;
-  const src = property.image ?? `https://picsum.photos/seed/${property.seed}/${dim}/${dim}`;
+  const src = property.image
+    ? urlFor(property.image).width(dim).height(dim).url()
+    : `https://picsum.photos/seed/${property.slug}/${dim}/${dim}`;
   const reduce = useReducedMotion();
 
   return (

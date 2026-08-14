@@ -22,33 +22,35 @@ Marketing site for **Josh Properties**, a luxury real-estate house in Hyderabad,
 - `npm run dev` — dev server
 - `npm run build` / `npm run start` — production
 - `npm run lint` — ESLint (strict: `react-hooks/set-state-in-effect` and `react-hooks/refs` errors are on)
-- No test suite configured.
+- `npm run test` — vitest suite (currently covers `app/api/revalidate/route.test.ts`)
 
 ## Architecture
 
-- `app/page.tsx` — landing page; sections in a fixed order (CinematicHero → TrustStrip → Stats → Featured → Offerings → Story → FarmlandBand → WhyJosh → Process → Testimonials → Faq → FinalCta)
-- `app/layout.tsx` — metadata, JSON-LD (`RealEstateAgent`), Navbar, Footer, FloatingCta, SmoothScroll, ScrollProgress, PageTransition, film-grain overlay
-- `app/villas/`, `app/apartments/`, `app/farmlands/` — category listing pages
-- `app/properties/[slug]/` — detail page for a single property (`generateStaticParams`, async `params: Promise<{ slug }>`); all 9 properties prerender at build
-- `app/contact/` — concierge page + `ContactForm.tsx`
+- `app/(site)/` — route group holding every public page and its layout; the parentheses don't affect the URL, so `/`, `/villas`, `/contact`, etc. are unchanged.
+  - `app/(site)/page.tsx` — landing page; sections in a fixed order (CinematicHero → TrustStrip → Stats → Featured → Offerings → Story → FarmlandBand → WhyJosh → Process → Testimonials → Faq → FinalCta)
+  - `app/(site)/layout.tsx` — metadata, JSON-LD (`RealEstateAgent`), Navbar, Footer, FloatingCta, SmoothScroll, ScrollProgress, PageTransition, film-grain overlay
+  - `app/(site)/villas/`, `app/(site)/apartments/`, `app/(site)/farmlands/` — category listing pages
+  - `app/(site)/properties/[slug]/` — detail page for a single property (`generateStaticParams`, async `params: Promise<{ slug }>`); all 9 properties prerender at build
+  - `app/(site)/contact/` — concierge page + `ContactForm.tsx`
+- `app/(studio)/` — route group holding `/studio`, isolated from the site: its own minimal `layout.tsx` (bare `<html><body>`, no Lenis/cursor/transition/navbar/footer/floating-cta, noindex) so Sanity Studio's own scroll panes and fixed toolbar don't fight the site's chrome.
+  - `app/(studio)/studio/[[...tool]]/` — `page.tsx` (`dynamic = "force-static"`) + `StudioClient.tsx` (mounts `NextStudio`)
 - `components/sections/` — one component per landing/page section (incl. `PageHero`); `components/CinematicHero.tsx` is the scroll-scrubbed homepage hero
 - `components/ui/` — reusable primitives: `Button`, `MagneticButton`, `ChapterMarker`
 - `components/motion/` — animation primitives: `Reveal`, `RevealMask`, `MaskLines`, `Parallax`, `CountUp`, `ScrollProgress`, `SmoothScroll`, `PageTransition`
 - `components/` (page-level) — `CinematicHero` (scroll-scrubbed hero film), `PropertyCard`, `PropertyListing`, `Gallery`, `FarmlandMap`, `DayNightCity`, `DossierForm`, `FloatingCta`
-- `data/` — typed content files: `properties`, `farmland`, `stats`, `promises`, `services`, `process`, `partners`, `testimonials`, `faqs`
-- `lib/site.ts` — single source of truth for brand config (name, phone, WhatsApp, email, address, hours, links, heroVideo)
+- `sanity/` — Sanity CMS integration: `client.ts` (read `client` + token-authenticated `writeClient`, server-only), `env.ts`, `image.ts` (`urlFor()`), `queries.ts` (typed GROQ fetchers, one per content type), `schemaTypes/` (document schemas), `structure.ts` (Studio desk structure, pins the singletons). `sanity.config.ts` at the repo root wires it all together for `/studio`.
 - `lib/utils.ts` — `cn()` class merger
 - Path alias `@/*` maps to the repo root (see `tsconfig.json`).
 
 ## Rules
 
-- **Content lives in `data/*.ts` and `lib/site.ts` — never hardcode copy into components.** Edit those files to change marketing text, properties, stats, plots, etc.
+- **Content lives in Sanity — edit via Studio at `/studio`, or query via `sanity/queries.ts`. Never hardcode copy into components.** `getSiteSettings()`, `getHomePage()`, `getCategoryPage()` and `getContactPage()` fetch singleton documents and can return `null` if the document is missing in Sanity — every caller must guard for that (`notFound()` for page-level singletons, a thrown `Error` for the foundational `siteSettings`/`homePage` docs the whole site depends on).
 - Components that use hooks, `motion`, Lenis, or event listeners must start with `"use client"`. Server components stay client-free (e.g. `Hero` reads `public/hero.mp4` via `existsSync`/`process.cwd()` and must NOT be a client component).
 - Interactive surfaces (`a`, `button`, form controls) use the native cursor.
 - **Forms have no backend:** `ContactForm` and `DossierForm` compose a message and open a `wa.me` deep link (`site.whatsapp`) with the user's replies. Keep that flow.
 - Images are `picsum.photos` placeholders keyed by a `seed` string (e.g. `josh-park`), allowlisted in `next.config.ts`. Real film stills now live in `public/images/` (`villa-01.jpg`…`villa-10.jpg`, extracted from the hero film) and win over picsum wherever wired: villa `Property` rows carry `image`/`gallery` (local paths), `PageHero` accepts an `image` prop, and `Offerings`/`FinalCta` use local stills. Keep using `next/image`.
 - Property `narrative` is `string[]`; wrap single paragraphs in `[...]`.
-- **Placeholders to replace for launch:** phone/WhatsApp/email in `lib/site.ts` and the office map block on `/contact`. The cinematic hero video ships at `public/hero.mp4` (re-encoded from the upscaled 1440p master with a keyframe every 6 frames for smooth scroll scrubbing, 1920x1080, ~4 Mbps, no audio, faststart) with poster `public/hero-poster.jpg`.
+- **Placeholders to replace for launch:** phone/WhatsApp/email on the `siteSettings` singleton in Sanity Studio and the office map block on `/contact`. The cinematic hero video ships at `public/hero.mp4` (re-encoded from the upscaled 1440p master with a keyframe every 6 frames for smooth scroll scrubbing, 1920x1080, ~4 Mbps, no audio, faststart) with poster `public/hero-poster.jpg`.
 
 ## Motion conventions
 
@@ -82,5 +84,16 @@ The site speaks a **Title Register Book** language: warm linen paper and ink, a 
 
 ## SEO / metadata
 
-- Set per-page `Metadata` via `export const metadata` in each `page.tsx` (see `layout.tsx` for site-wide defaults, `app/properties/[slug]/page.tsx` for dynamic per-property metadata).
-- Update `lib/site.ts` if business details change (phone, hours, address, schema JSON-LD in layout).
+- Set per-page `Metadata` via `export const metadata` in each `page.tsx` (see `app/(site)/layout.tsx` for site-wide defaults, `app/(site)/properties/[slug]/page.tsx` for dynamic per-property metadata).
+- Update the `siteSettings` singleton in Sanity Studio if business details change (phone, hours, address); the JSON-LD in `app/(site)/layout.tsx` reads from it directly.
+- `/studio` is excluded from indexing (`robots: { index: false, follow: false }` in `app/(studio)/layout.tsx`) and does not inherit the site's metadata/viewport — it re-exports Studio's own defaults from `next-sanity/studio`.
+
+## Environment variables
+
+Required in `.env.local` (see `.env.example` for the full list):
+
+- `NEXT_PUBLIC_SANITY_PROJECT_ID` — Sanity project ID
+- `NEXT_PUBLIC_SANITY_DATASET` — dataset name (e.g. `production`)
+- `NEXT_PUBLIC_SANITY_API_VERSION` — GROQ API version date
+- `SANITY_API_TOKEN` — Editor-permission token, server-only, used by `writeClient` (`sanity/client.ts`)
+- `SANITY_REVALIDATE_SECRET` — shared secret checked by the `/api/revalidate` webhook

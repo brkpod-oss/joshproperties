@@ -1,11 +1,11 @@
-﻿import { featuredProperties } from "@/data/properties";
+﻿import type { Property, HomePage } from "@/sanity/queries";
 import { ChapterMarker } from "@/components/ui/ChapterMarker";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealMask } from "@/components/motion/RevealMask";
 import { PropertyCard } from "@/components/PropertyCard";
 
-export function Featured() {
-  const [first, second, third] = featuredProperties;
+export function Featured({ properties, copy }: { properties: Property[]; copy: HomePage["featured"] }) {
+  const [first, second, third] = properties;
 
   return (
     <section id="collection" className="bg-paper">
@@ -15,13 +15,12 @@ export function Featured() {
         </Reveal>
         <RevealMask delay={0.1}>
           <h2 className="mt-8 max-w-[18ch] text-balance font-display text-5xl font-light leading-[1.02] tracking-[-0.02em] text-ink lg:text-7xl">
-            Three properties, none of them in a rush.
+            {copy.heading}
           </h2>
         </RevealMask>
         <Reveal delay={0.2}>
           <p className="mt-8 max-w-[58ch] text-pretty text-[16px] leading-relaxed text-ink/60">
-            We hold a deliberately short list. When a property is right, we
-            show it once, with the full title chain on the table.
+            {copy.body}
           </p>
         </Reveal>
 

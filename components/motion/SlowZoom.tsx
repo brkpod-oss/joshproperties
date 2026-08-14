@@ -18,11 +18,11 @@ interface SlowZoomProps {
 export function SlowZoom({ children, className, delay = 0 }: SlowZoomProps) {
   const reduce = useReducedMotion();
 
-  if (reduce) return <div className={cn("h-full w-full", className)}>{children}</div>;
+  if (reduce) return <div className={cn("relative h-full w-full", className)}>{children}</div>;
 
   return (
     <motion.div
-      className={cn("h-full w-full will-change-transform", className)}
+      className={cn("relative h-full w-full will-change-transform", className)}
       initial={{ scale: 1.08 }}
       whileInView={{ scale: 1 }}
       viewport={{ once: true, amount: 0.2 }}

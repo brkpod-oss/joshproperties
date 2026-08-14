@@ -4,13 +4,13 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "motion/react";
-import { processSteps } from "@/data/process";
+import type { ProcessStep, HomePage } from "@/sanity/queries";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealMask } from "@/components/motion/RevealMask";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function Process() {
+export function Process({ steps, copy }: { steps: ProcessStep[]; copy: HomePage["process"] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
 
@@ -74,12 +74,12 @@ export function Process() {
               <Reveal>
                 <p className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.3em] text-brass/90">
                   <span className="h-px w-10 bg-brass/60" aria-hidden />
-                  The method
+                  {copy.kicker}
                 </p>
               </Reveal>
               <RevealMask delay={0.1}>
                 <h2 className="mt-8 text-balance font-display text-4xl font-light leading-[1.05] tracking-[-0.02em] lg:text-6xl">
-                  A clear chain of title is the only luxury that compounds.
+                  {copy.heading}
                 </h2>
               </RevealMask>
               <svg
@@ -101,8 +101,7 @@ export function Process() {
               </svg>
               <Reveal delay={0.2}>
                 <p className="mt-10 max-w-[42ch] text-pretty text-[15px] leading-relaxed text-paper/55">
-                  Five steps, in writing. Counsel is present from the first
-                  call to the sub-registrar.
+                  {copy.intro}
                 </p>
               </Reveal>
             </div>
@@ -118,7 +117,7 @@ export function Process() {
               className="method-progress absolute bottom-4 left-[22px] top-4 w-px origin-top bg-brass"
             />
             <ol className="space-y-14 lg:space-y-20">
-              {processSteps.map((step, i) => (
+              {steps.map((step, i) => (
                 <Reveal key={step.step} delay={Math.min(i * 0.05, 0.15)}>
                   <li className="method-step relative grid grid-cols-[44px_1fr] gap-6 lg:gap-10">
                     <span className="method-num relative z-10 mt-1 flex h-[44px] w-[44px] items-center justify-center border bg-carbon font-mono text-[11px] tracking-[0.1em]">

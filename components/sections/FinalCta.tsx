@@ -8,9 +8,14 @@ import { MagneticButton } from "@/components/ui/MagneticButton";
 import { Seal } from "@/components/ui/Seal";
 import { Reveal } from "@/components/motion/Reveal";
 import { SlowZoom } from "@/components/motion/SlowZoom";
-import { site } from "@/lib/site";
+import type { HomePage } from "@/sanity/queries";
+import { urlFor } from "@/sanity/image";
 
-export function FinalCta() {
+export function FinalCta({
+  copy, phone, phoneHref, whatsapp, reraNumber,
+}: {
+  copy: HomePage["finalCta"]; phone: string; phoneHref: string; whatsapp: string; reraNumber: string;
+}) {
   const reduce = useReducedMotion();
 
   return (
@@ -19,7 +24,7 @@ export function FinalCta() {
       <div className="absolute inset-0">
         <SlowZoom>
           <Image
-            src="/images/villa-06.jpg"
+            src={copy.image ? urlFor(copy.image).width(1920).url() : "/images/villa-06.jpg"}
             alt=""
             fill
             sizes="100vw"
@@ -44,15 +49,13 @@ export function FinalCta() {
         </Reveal>
         <Reveal delay={0.1}>
           <h2 className="mx-auto mt-8 max-w-[18ch] text-balance font-display text-5xl font-light leading-[1.02] tracking-[-0.02em] text-paper lg:text-7xl">
-            Every great purchase begins with a{" "}
-            <span className="text-emerald">private call.</span>
+            {copy.headingPlain}{" "}
+            <span className="text-emerald">{copy.headingEmphasis}</span>
           </h2>
         </Reveal>
         <Reveal delay={0.2}>
           <p className="mx-auto mt-8 max-w-[52ch] text-pretty text-lg leading-relaxed text-paper/60">
-            Tell us what you are looking for and where. If we can serve it, a
-            viewing is scheduled within the week, and the dossier stays yours,
-            whether you buy or not.
+            {copy.body}
           </p>
         </Reveal>
         <Reveal delay={0.3}>
@@ -65,7 +68,7 @@ export function FinalCta() {
                 data-cursor="ENQUIRE"
                 className="group w-full sm:w-auto"
               >
-                Enquire privately
+                {copy.ctaEnquireLabel}
                 <ArrowRight
                   size={16}
                   strokeWidth={1.5}
@@ -73,26 +76,26 @@ export function FinalCta() {
                 />
               </Button>
             </MagneticButton>
-            <MagneticButton href={site.phoneHref} className="w-full sm:w-auto">
+            <MagneticButton href={phoneHref} className="w-full sm:w-auto">
               <Button
-                href={site.phoneHref}
+                href={phoneHref}
                 variant="outline"
                 size="lg"
                 className="w-full border-emerald/50 text-emerald hover:bg-emerald/10 sm:w-auto"
               >
                 <Phone size={16} strokeWidth={1.5} />
-                {site.phone}
+                {phone}
               </Button>
             </MagneticButton>
-            <MagneticButton href={site.whatsapp} className="w-full sm:w-auto">
+            <MagneticButton href={whatsapp} className="w-full sm:w-auto">
               <Button
-                href={site.whatsapp}
+                href={whatsapp}
                 variant="ghost"
                 size="lg"
                 className="w-full text-paper/70 hover:text-emerald sm:w-auto"
               >
                 <MessageCircle size={16} strokeWidth={1.5} />
-                WhatsApp the concierge
+                {copy.ctaWhatsappLabel}
               </Button>
             </MagneticButton>
           </div>
@@ -100,13 +103,13 @@ export function FinalCta() {
         <Reveal delay={0.4}>
           <div className="mx-auto mt-16 flex max-w-3xl flex-col items-center justify-between gap-3 border-t border-paper/15 pt-8 sm:flex-row sm:gap-8">
             <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-paper/40">
-              Est. 2017
+              {copy.founded}
             </p>
             <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-paper/40">
-              By appointment only · {site.hours}
+              {copy.byAppointment}
             </p>
             <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-paper/40">
-              RERA P02400005461
+              RERA {reraNumber}
             </p>
           </div>
         </Reveal>

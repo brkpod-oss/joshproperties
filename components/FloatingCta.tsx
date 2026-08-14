@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { ArrowUp, MessageCircle } from "lucide-react";
-import { site } from "@/lib/site";
 
-export function FloatingCta() {
+export function FloatingCta({ whatsapp }: { whatsapp: string }) {
   const [showTop, setShowTop] = useState(false);
   const reduce = useReducedMotion();
 
@@ -35,7 +34,7 @@ export function FloatingCta() {
         )}
       </AnimatePresence>
       <a
-        href={site.whatsapp}
+        href={whatsapp}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with Josh Properties on WhatsApp"

@@ -1,7 +1,7 @@
-import { partnerLogos } from "@/data/partners";
+import type { PartnerLogo } from "@/sanity/queries";
 
-export function TrustStrip() {
-  const doubled = [...partnerLogos, ...partnerLogos];
+export function TrustStrip({ logos }: { logos: PartnerLogo[] }) {
+  const doubled = [...logos, ...logos];
   return (
     <section aria-label="Grounds across Hyderabad" className="border-y border-ink/15 bg-stone">
       <div className="group relative overflow-hidden py-6 [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]">
@@ -15,7 +15,7 @@ export function TrustStrip() {
                 {logo.name}
               </span>
               <span
-                aria-hidden={i >= partnerLogos.length}
+                aria-hidden={i >= logos.length}
                 className="hidden font-mono text-[10px] uppercase tracking-[0.18em] text-ink/30 transition-colors duration-300 group-hover/item:text-ink/60 md:inline"
               >
                 {logo.note}

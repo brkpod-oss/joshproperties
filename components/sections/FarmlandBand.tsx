@@ -5,16 +5,10 @@ import { Reveal } from "@/components/motion/Reveal";
 import { RevealMask } from "@/components/motion/RevealMask";
 import { Parallax } from "@/components/motion/Parallax";
 import { SlowZoom } from "@/components/motion/SlowZoom";
+import type { HomePage } from "@/sanity/queries";
+import { urlFor } from "@/sanity/image";
 
-const grounds = [
-  { name: "Shankarpally", note: "Green belt", seed: "josh-farm-1" },
-  { name: "Moinabad", note: "Lake country", seed: "josh-farm-2" },
-  { name: "Chevella", note: "River plots", seed: "josh-farm-3" },
-  { name: "Wyra", note: "Full holding", seed: "josh-farm-4" },
-  { name: "Medchal", note: "Farmhouses", seed: "josh-farm-5" },
-];
-
-export function FarmlandBand() {
+export function FarmlandBand({ copy }: { copy: HomePage["farmlandBand"] }) {
   return (
     <section className="overflow-hidden bg-carbon">
       <div className="mx-auto max-w-[1440px] px-6 py-28 sm:px-12 lg:px-20 lg:py-36">
@@ -25,7 +19,7 @@ export function FarmlandBand() {
             </Reveal>
             <RevealMask delay={0.1}>
               <h2 className="mt-8 max-w-[18ch] text-balance font-display text-5xl font-light leading-[1.02] tracking-[-0.02em] text-paper lg:text-7xl">
-                Over 1,200 acres, flown and surveyed.
+                {copy.heading}
               </h2>
             </RevealMask>
           </div>
@@ -35,7 +29,7 @@ export function FarmlandBand() {
               data-cursor="EXPLORE"
               className="group inline-flex items-center gap-3 border border-emerald/40 px-7 py-3.5 text-[12px] font-medium uppercase tracking-[0.12em] text-emerald transition-colors duration-300 hover:bg-emerald/10"
             >
-              Explore the land
+              {copy.ctaLabel}
               <ArrowRight
                 size={16}
                 strokeWidth={1.5}
@@ -47,7 +41,7 @@ export function FarmlandBand() {
 
         <Reveal delay={0.15}>
           <div className="mt-16 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {grounds.map((g) => (
+            {copy.grounds.map((g) => (
               <article
                 key={g.name}
                 className="group w-[300px] shrink-0 snap-start border-t border-paper/20 lg:w-[360px]"
@@ -57,7 +51,7 @@ export function FarmlandBand() {
                     <Parallax strength={5} className="absolute inset-[-14%]">
                       <SlowZoom>
                         <Image
-                          src={`https://picsum.photos/seed/${g.seed}/720/900`}
+                          src={g.image ? urlFor(g.image).width(720).height(900).url() : `https://picsum.photos/seed/josh-farm-${g.name}/720/900`}
                           alt={`${g.name}, ${g.note}`}
                           fill
                           sizes="(max-width: 640px) 300px, 360px"

@@ -1,14 +1,15 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { stats } from "@/data/stats";
+import type { Stat, HomePage } from "@/sanity/queries";
 import { CountUp } from "@/components/motion/CountUp";
 import { FadeIn } from "@/components/motion/FadeIn";
 import { Reveal } from "@/components/motion/Reveal";
+import { cn } from "@/lib/utils";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
-export function Stats() {
+export function Stats({ stats, copy }: { stats: Stat[]; copy: HomePage["stats"] }) {
   const reduce = useReducedMotion();
 
   return (
@@ -17,16 +18,23 @@ export function Stats() {
         <Reveal>
           <div className="border border-paper/15 bg-graphite">
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-paper/15 px-6 py-5 sm:px-10">
-              <p className="stamp text-paper/60">Title register · Select entries</p>
+              <p className="stamp text-paper/60">{copy.label}</p>
               <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-emerald/90">
-                Folio I–IV
+                {copy.folioLabel}
               </p>
             </div>
 
-            <div className="grid grid-cols-1 divide-y divide-paper/15 sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4">
               {stats.map((stat, i) => (
                 <Reveal key={stat.label} delay={i * 0.08}>
-                  <div className="group relative flex h-full flex-col justify-between gap-10 px-6 py-12 sm:px-10 lg:border-l lg:first:border-l-0 lg:border-paper/15">
+                  <div
+                    className={cn(
+                      "group relative flex h-full flex-col justify-between gap-6 border-paper/15 px-5 py-8 sm:gap-10 sm:px-10 sm:py-12",
+                      i >= 2 && "border-t lg:border-t-0",
+                      i % 2 === 1 && "border-l lg:border-l-0",
+                      i !== 0 && "lg:border-l"
+                    )}
+                  >
                     {/* Champagne draw-line over the divider */}
                     <motion.span
                       aria-hidden
@@ -45,10 +53,10 @@ export function Stats() {
                     </FadeIn>
 
                     <div>
-                      <span className="font-display text-6xl font-light leading-none text-emerald tabular-nums sm:text-7xl lg:text-8xl">
+                      <span className="font-display text-4xl font-light leading-none text-emerald tabular-nums whitespace-nowrap sm:text-6xl lg:text-7xl">
                         <CountUp value={stat.value} suffix={stat.suffix} />
                       </span>
-                      <p className="mt-6 max-w-[16ch] text-[15px] leading-snug text-paper/80">
+                      <p className="mt-4 max-w-[16ch] text-[13px] leading-snug text-paper/80 sm:mt-6 sm:text-[15px]">
                         {stat.label}
                       </p>
                     </div>
@@ -59,10 +67,10 @@ export function Stats() {
 
             <div className="flex flex-wrap items-center justify-between gap-4 border-t border-paper/15 px-6 py-4 sm:px-10">
               <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-paper/35">
-                As of {new Date().getFullYear()} · Internal register, verified by counsel
+                As of {new Date().getFullYear()} · {copy.footerNote}
               </span>
               <span aria-hidden className="hidden font-mono text-[10px] uppercase tracking-[0.24em] text-paper/35 sm:inline">
-                E. &amp; O.E.
+                {copy.eoe}
               </span>
             </div>
           </div>
