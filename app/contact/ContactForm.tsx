@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Check, Send } from "lucide-react";
-import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 type FormState = {
@@ -39,7 +38,15 @@ const initial: FormState = {
   message: "",
 };
 
-export function ContactForm() {
+export function ContactForm({
+  whatsapp,
+  phone,
+  phoneHref,
+}: {
+  whatsapp: string;
+  phone: string;
+  phoneHref: string;
+}) {
   const [form, setForm] = useState<FormState>(initial);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -68,7 +75,7 @@ export function ContactForm() {
       form.message ? `\nNotes:\n${form.message}` : "",
     ].join("\n");
     window.open(
-      `${site.whatsapp}?text=${encodeURIComponent(text)}`,
+      `${whatsapp}?text=${encodeURIComponent(text)}`,
       "_blank",
       "noopener,noreferrer"
     );
@@ -96,8 +103,8 @@ export function ContactForm() {
         <p className="mt-3 max-w-[42ch] text-pretty text-[15px] leading-relaxed text-ink/65">
           We&rsquo;ve opened WhatsApp with your details, hit send there and a
           concierge will reply within two working days. Prefer to talk? Dial{" "}
-          <a href={site.phoneHref} className="text-emerald underline-offset-4 hover:underline">
-            {site.phone}
+          <a href={phoneHref} className="text-emerald underline-offset-4 hover:underline">
+            {phone}
           </a>
           .
         </p>
