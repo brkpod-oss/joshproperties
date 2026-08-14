@@ -3,8 +3,6 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Check, Send } from "lucide-react";
-import { farmlandOptions } from "@/data/farmland";
-import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 type FormState = {
@@ -31,7 +29,7 @@ const initial: FormState = {
   message: "",
 };
 
-export function DossierForm() {
+export function DossierForm({ holdings, whatsapp }: { holdings: { slug: string; name: string }[]; whatsapp: string }) {
   const [form, setForm] = useState<FormState>(initial);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -60,7 +58,7 @@ export function DossierForm() {
       form.message ? `\nNotes:\n${form.message}` : "",
     ].join("\n");
     window.open(
-      `${site.whatsapp}?text=${encodeURIComponent(text)}`,
+      `${whatsapp}?text=${encodeURIComponent(text)}`,
       "_blank",
       "noopener,noreferrer"
     );
@@ -134,7 +132,7 @@ export function DossierForm() {
       <div>
         <p className="eyebrow text-slate">Holding of interest</p>
         <div className="mt-4 flex flex-wrap gap-2">
-          {farmlandOptions.map((o) => (
+          {holdings.map((o) => (
             <button
               key={o.slug}
               type="button"
