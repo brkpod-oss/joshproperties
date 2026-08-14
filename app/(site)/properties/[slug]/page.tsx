@@ -36,6 +36,9 @@ export default async function PropertyPage({ params }: PageProps) {
   const { slug } = await params;
   const [property, settings] = await Promise.all([getProperty(slug), getSiteSettings()]);
   if (!property) notFound();
+  if (!settings) {
+    throw new Error("siteSettings document is missing — check Sanity Studio");
+  }
 
   const images = property.gallery && property.gallery.length > 0
     ? property.gallery.map((img, i) => ({

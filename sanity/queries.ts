@@ -75,7 +75,7 @@ export type FarmlandOption = {
 
 export async function getFarmlandOptions(): Promise<FarmlandOption[]> {
   return client.fetch(
-    `*[_type == "farmlandOption"]{"slug": slug.current, name, area, price, status, acres, image}`,
+    `*[_type == "farmlandOption"] | order(order asc) {"slug": slug.current, name, area, price, status, acres, image}`,
     {},
     { next: { tags: ["farmlandOption"] } }
   );
@@ -85,7 +85,7 @@ export type Testimonial = { quote: string; name: string; context: string; projec
 
 export async function getTestimonials(): Promise<Testimonial[]> {
   return client.fetch(
-    `*[_type == "testimonial"]{quote, name, context, project, featured}`,
+    `*[_type == "testimonial"] | order(order asc) {quote, name, context, project, featured}`,
     {},
     { next: { tags: ["testimonial"] } }
   );
@@ -163,7 +163,7 @@ export type SiteSettings = {
   enquireLabel: string;
 };
 
-export async function getSiteSettings(): Promise<SiteSettings> {
+export async function getSiteSettings(): Promise<SiteSettings | null> {
   return client.fetch(`*[_type == "siteSettings"][0]`, {}, { next: { tags: ["siteSettings"] } });
 }
 
@@ -190,7 +190,7 @@ export type HomePage = {
   };
 };
 
-export async function getHomePage(): Promise<HomePage> {
+export async function getHomePage(): Promise<HomePage | null> {
   return client.fetch(`*[_type == "homePage"][0]`, {}, { next: { tags: ["homePage"] } });
 }
 
@@ -208,7 +208,7 @@ export type CategoryPage = {
   dossierKicker?: string; dossierHeading?: string; dossierBody?: string;
 };
 
-export async function getCategoryPage(category: string): Promise<CategoryPage> {
+export async function getCategoryPage(category: string): Promise<CategoryPage | null> {
   return client.fetch(
     `*[_type == "categoryPage" && category == $category][0]`,
     { category },
@@ -221,6 +221,6 @@ export type ContactPage = {
   emailNote: string; officeHeading: string; officeNote: string;
 };
 
-export async function getContactPage(): Promise<ContactPage> {
+export async function getContactPage(): Promise<ContactPage | null> {
   return client.fetch(`*[_type == "contactPage"][0]`, {}, { next: { tags: ["contactPage"] } });
 }

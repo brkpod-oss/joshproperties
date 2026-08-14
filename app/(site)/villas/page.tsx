@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { PageHero } from "@/components/sections/PageHero";
 import { PropertyListing } from "@/components/PropertyListing";
 import { getCategoryPage, getPropertiesByCategory } from "@/sanity/queries";
@@ -14,6 +15,8 @@ export default async function VillasPage() {
     getCategoryPage("villa"),
     getPropertiesByCategory("villa"),
   ]);
+
+  if (!page) notFound();
 
   return (
     <>

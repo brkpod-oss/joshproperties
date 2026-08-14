@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { ContactForm } from "./ContactForm";
 import { ChapterMarker } from "@/components/ui/ChapterMarker";
 import { Reveal } from "@/components/motion/Reveal";
@@ -12,6 +13,11 @@ export const metadata: Metadata = {
 
 export default async function ContactPage() {
   const [page, settings] = await Promise.all([getContactPage(), getSiteSettings()]);
+
+  if (!page) notFound();
+  if (!settings) {
+    throw new Error("siteSettings document is missing — check Sanity Studio");
+  }
 
   return (
     <>

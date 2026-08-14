@@ -10,6 +10,8 @@ export default defineType({
     defineField({ name: "context", title: "Context (e.g. city)", type: "string", validation: (r) => r.required() }),
     defineField({ name: "project", title: "Project", type: "string", validation: (r) => r.required() }),
     defineField({ name: "featured", title: "Featured (shown large)", type: "boolean", initialValue: false }),
+    defineField({ name: "order", title: "Order", type: "number", validation: (r) => r.required() }),
   ],
+  orderings: [{ title: "Display order", name: "orderAsc", by: [{ field: "order", direction: "asc" }] }],
   preview: { select: { title: "name", subtitle: "project" } },
 });

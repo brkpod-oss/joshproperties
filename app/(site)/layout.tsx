@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { display, body, mono } from "./fonts";
+import { display, body, mono } from "../fonts";
 import { getSiteSettings } from "@/sanity/queries";
 import { Navbar } from "@/components/sections/Navbar";
 import { Footer } from "@/components/sections/Footer";
@@ -8,7 +8,7 @@ import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { PremiumCursor } from "@/components/motion/PremiumCursor";
 import { PageTransition } from "@/components/motion/PageTransition";
-import "./globals.css";
+import "../globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://joshproperties.in"),
@@ -57,6 +57,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const settings = await getSiteSettings();
+  if (!settings) {
+    throw new Error("siteSettings document is missing — check Sanity Studio");
+  }
 
   const jsonLd = {
     "@context": "https://schema.org",

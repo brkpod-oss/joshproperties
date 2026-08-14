@@ -1,10 +1,12 @@
 import type { StructureResolver } from "sanity/structure";
 
-const SINGLETONS = [
+export const SINGLETONS = [
   { id: "siteSettings", title: "Site settings" },
   { id: "homePage", title: "Home page" },
   { id: "contactPage", title: "Contact page" },
 ];
+
+export const SINGLETON_IDS = new Set(SINGLETONS.map((s) => s.id));
 
 export const structure: StructureResolver = (S) =>
   S.list()

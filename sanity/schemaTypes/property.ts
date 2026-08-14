@@ -62,7 +62,14 @@ export default defineType({
       ],
     }),
     defineField({ name: "tall", title: "Tall card layout", type: "boolean", initialValue: false }),
-    defineField({ name: "featured", title: "Featured on homepage", type: "boolean", initialValue: false }),
+    defineField({
+      name: "featured",
+      title: "Featured on homepage",
+      type: "boolean",
+      description:
+        "Only the first 3 properties with featured on (ordered by folio) display on the homepage Featured section. A 4th featured property will not render there.",
+      initialValue: false,
+    }),
   ],
   preview: {
     select: { title: "title", subtitle: "location", media: "image" },

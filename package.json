@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run",
-    "migrate": "node --env-file=.env.local --import tsx scripts/migrate-to-sanity.ts"
+    "test": "vitest run"
   },
   "dependencies": {
     "@sanity/image-url": "^2.1.1",
@@ -24,6 +23,7 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "sanity": "^6.9.2",
+    "server-only": "^0.0.1",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {

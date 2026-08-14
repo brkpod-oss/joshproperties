@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Image from "next/image";
 import { PageHero } from "@/components/sections/PageHero";
 import { FarmlandMap } from "@/components/FarmlandMap";
@@ -21,6 +22,11 @@ export default async function FarmlandsPage() {
     getFarmlandOptions(),
     getSiteSettings(),
   ]);
+
+  if (!page) notFound();
+  if (!settings) {
+    throw new Error("siteSettings document is missing — check Sanity Studio");
+  }
 
   return (
     <>

@@ -22,6 +22,13 @@ export default async function Home() {
       getServices(), getPromiseItems(), getProcessSteps(), getTestimonials(), getFaqs(),
     ]);
 
+  if (!homePage) {
+    throw new Error("homePage document is missing — check Sanity Studio");
+  }
+  if (!settings) {
+    throw new Error("siteSettings document is missing — check Sanity Studio");
+  }
+
   return (
     <>
       <CinematicHero copy={homePage.hero} heroVideo={settings.heroVideo} />

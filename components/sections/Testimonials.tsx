@@ -104,6 +104,8 @@ function VoiceNote({
 }
 
 export function Testimonials({ items }: { items: Testimonial[] }) {
+  if (items.length === 0) return null;
+
   const featured = items.find((t) => t.featured) ?? items[0];
   const rest = items.filter((t) => t !== featured);
 
