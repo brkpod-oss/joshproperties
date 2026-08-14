@@ -26,7 +26,7 @@ export function CountUp({
     const el = ref.current;
     if (!el || !inView) return;
     if (reduce) {
-      el.textContent = `${prefix}${value}${suffix}`;
+      el.textContent = `${prefix}${value.toLocaleString("en-IN")}${suffix}`;
       return;
     }
     let raf = 0;
@@ -34,7 +34,7 @@ export function CountUp({
     const tick = (now: number) => {
       const p = Math.min((now - start) / (duration * 1000), 1);
       const eased = 1 - Math.pow(1 - p, 4);
-      el.textContent = `${prefix}${Math.round(value * eased)}${suffix}`;
+      el.textContent = `${prefix}${Math.round(value * eased).toLocaleString("en-IN")}${suffix}`;
       if (p < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
