@@ -3,8 +3,10 @@ import { Reveal } from "@/components/motion/Reveal";
 import { RevealMask } from "@/components/motion/RevealMask";
 import { Parallax } from "@/components/motion/Parallax";
 import { Seal } from "@/components/ui/Seal";
+import type { HomePage } from "@/sanity/queries";
+import { urlFor } from "@/sanity/image";
 
-export function Story() {
+export function Story({ copy }: { copy: HomePage["story"] }) {
   return (
     <section className="relative overflow-hidden bg-stone">
       <div className="mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-16 px-6 py-28 sm:px-12 lg:grid-cols-2 lg:gap-24 lg:px-20 lg:py-40">
@@ -12,7 +14,7 @@ export function Story() {
           <div className="vignette relative aspect-[4/5] overflow-hidden rounded-[2px] lg:mr-24">
             <Parallax strength={6} className="absolute inset-[-12%]">
               <Image
-                src="https://picsum.photos/seed/josh-story/1000/1250"
+                src={copy.image ? urlFor(copy.image).width(1000).height(1250).url() : "https://picsum.photos/seed/josh-story/1000/1250"}
                 alt="Late-afternoon light across a surveyed farmland holding"
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
@@ -21,7 +23,7 @@ export function Story() {
             </Parallax>
           </div>
           <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.22em] text-slate">
-            Surveyed plot, Chevella
+            {copy.imageCaption}
           </p>
         </Reveal>
 
@@ -30,10 +32,10 @@ export function Story() {
             <div className="border border-ink/15 bg-paper outline outline-1 outline-ink/10 outline-offset-[3px]">
               <div className="flex items-center justify-between gap-6 border-b border-ink/15 px-7 py-5 sm:px-10">
                 <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-slate">
-                  Folio 001 · Title chain
+                  {copy.folioLabel}
                 </p>
                 <p className="hidden font-mono text-[10px] uppercase tracking-[0.24em] text-slate sm:block">
-                  Verified by counsel
+                  {copy.verifiedLabel}
                 </p>
               </div>
 
@@ -41,45 +43,34 @@ export function Story() {
                 <Seal className="pointer-events-none absolute -right-5 -top-5 h-44 w-44 text-emerald/[0.07]" />
                 <RevealMask>
                   <h2 className="font-display text-4xl font-light leading-[1.02] tracking-[-0.02em] text-ink lg:text-5xl">
-                    We sell the title.
+                    {copy.headingPlain}
                     <br />
-                    <em className="italic text-emerald">The land is a bonus.</em>
+                    <em className="italic text-emerald">{copy.headingItalic}</em>
                   </h2>
                 </RevealMask>
 
                 <Reveal delay={0.15}>
                   <p className="mt-8 max-w-[34ch] font-display text-2xl font-light italic leading-snug text-ink/80">
-                    A clear chain of title is the only luxury that compounds.
+                    {copy.pullQuote}
                   </p>
                 </Reveal>
 
-                <Reveal delay={0.25}>
-                  <p className="mt-8 max-w-[60ch] text-pretty text-[16px] leading-relaxed text-ink/70">
-                    Josh Properties began in 2017 when a family friend bought a
-                    villa with a clouded title and lost it to a dispute. That
-                    single mistake became our method: every property is
-                    title-audited by independent counsel, surveyed by drone, and
-                    shown with the audit in hand, before any price is discussed.
-                  </p>
-                </Reveal>
-
-                <Reveal delay={0.35}>
-                  <p className="mt-5 max-w-[60ch] text-pretty text-[16px] leading-relaxed text-ink/70">
-                    Nine years on, we have closed a little over four thousand
-                    plots and homes. We are still deliberately small, still by
-                    appointment, and still of the opinion that the best advice we
-                    can give you is sometimes not to buy.
-                  </p>
-                </Reveal>
+                {copy.bodyParagraphs.map((para, i) => (
+                  <Reveal key={i} delay={0.05 * (i + 1)}>
+                    <p className={`${i === 0 ? "mt-8" : "mt-5"} max-w-[60ch] text-pretty text-[16px] leading-relaxed text-ink/70`}>
+                      {para}
+                    </p>
+                  </Reveal>
+                ))}
 
                 <Reveal delay={0.45}>
                   <div className="mt-12 flex items-center justify-between gap-6 border-t border-ink/15 pt-8">
                     <div className="flex items-baseline gap-4">
                       <p className="font-display text-3xl font-light tracking-[0.18em]">
-                        JOSH
+                        {copy.signoffName}
                       </p>
                       <p className="font-display text-sm italic text-slate">
-                        Principal, Josh Properties
+                        {copy.signoffTitle}
                       </p>
                     </div>
                     <Seal className="h-14 w-14 shrink-0 text-emerald" />

@@ -10,22 +10,38 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { Faq } from "@/components/sections/Faq";
 import { WhyJosh } from "@/components/sections/WhyJosh";
 import { FinalCta } from "@/components/sections/FinalCta";
+import {
+  getHomePage, getSiteSettings, getStats, getPartnerLogos, getFeaturedProperties,
+  getServices, getPromiseItems, getProcessSteps, getTestimonials, getFaqs,
+} from "@/sanity/queries";
 
-export default function Home() {
+export default async function Home() {
+  const [homePage, settings, stats, logos, featuredProperties, services, promiseItems, processSteps, testimonials, faqs] =
+    await Promise.all([
+      getHomePage(), getSiteSettings(), getStats(), getPartnerLogos(), getFeaturedProperties(),
+      getServices(), getPromiseItems(), getProcessSteps(), getTestimonials(), getFaqs(),
+    ]);
+
   return (
     <>
-      <CinematicHero />
-      <TrustStrip />
-      <Stats />
-      <Featured />
-      <Offerings />
-      <Story />
-      <FarmlandBand />
-      <WhyJosh />
-      <Process />
-      <Testimonials />
-      <Faq />
-      <FinalCta />
+      <CinematicHero copy={homePage.hero} heroVideo={settings.heroVideo} />
+      <TrustStrip logos={logos} />
+      <Stats stats={stats} copy={homePage.stats} />
+      <Featured properties={featuredProperties} copy={homePage.featured} />
+      <Offerings services={services} copy={homePage.offerings} />
+      <Story copy={homePage.story} />
+      <FarmlandBand copy={homePage.farmlandBand} />
+      <WhyJosh items={promiseItems} copy={homePage.whyJosh} />
+      <Process steps={processSteps} copy={homePage.process} />
+      <Testimonials items={testimonials} />
+      <Faq items={faqs} copy={homePage.faqSection} />
+      <FinalCta
+        copy={homePage.finalCta}
+        phone={settings.phone}
+        phoneHref={settings.phoneHref}
+        whatsapp={settings.whatsapp}
+        reraNumber={settings.rera.number}
+      />
     </>
   );
 }
