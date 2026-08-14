@@ -12,9 +12,13 @@ interface CurtainRevealProps {
 }
 
 /**
- * Signature Josh Properties image reveal: a wrapper that clips from
- * 100% to 0 while the image inside settles from scale(1.08) to 1.
- * Animates only transform + clip-path. Disables under reduced motion.
+ * Signature Josh Properties image reveal: an opaque curtain wipes away
+ * (top to bottom) while the image beneath settles from scale(1.08) to 1.
+ * The curtain is a decorative sibling, not an ancestor of the image —
+ * clip-path on an ancestor zeroes out the image's IntersectionObserver
+ * rect (ancestor clipping counts toward it per spec), which silently
+ * defeats next/image's native lazy-loading and the photo never fetches.
+ * Disables under reduced motion.
  */
 export function CurtainReveal({
   children,
@@ -29,13 +33,7 @@ export function CurtainReveal({
       {reduce ? (
         children
       ) : (
-        <motion.div
-          className="h-full w-full will-change-transform"
-          initial={{ clipPath: "inset(0 0 100% 0)" }}
-          whileInView={{ clipPath: "inset(0 0 0% 0)" }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration, delay, ease: [0.16, 1, 0.3, 1] }}
-        >
+        <div className="relative h-full w-full">
           <motion.div
             className="relative h-full w-full will-change-transform"
             initial={{ scale: 1.08 }}
@@ -49,7 +47,15 @@ export function CurtainReveal({
           >
             {children}
           </motion.div>
-        </motion.div>
+          <motion.div
+            aria-hidden
+            className="absolute inset-0 origin-bottom bg-carbon will-change-transform"
+            initial={{ scaleY: 1 }}
+            whileInView={{ scaleY: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration, delay, ease: [0.16, 1, 0.3, 1] }}
+          />
+        </div>
       )}
     </div>
   );

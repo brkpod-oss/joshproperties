@@ -26,7 +26,7 @@ export function Parallax({ children, className, strength = 6 }: ParallaxProps) {
     <div ref={ref} className={className}>
       <motion.div
         style={reduce ? undefined : { y }}
-        className="h-full w-full will-change-transform"
+        className="relative h-full w-full will-change-transform"
       >
         {children}
       </motion.div>
