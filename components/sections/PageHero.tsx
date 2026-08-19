@@ -1,6 +1,7 @@
 ﻿import Image from "next/image";
 import type { ReactNode } from "react";
 import { RevealMask } from "@/components/motion/RevealMask";
+import { cn } from "@/lib/utils";
 
 interface PageHeroProps {
   eyebrow: string;
@@ -8,10 +9,12 @@ interface PageHeroProps {
   seed: string;
   /** Optional local image that overrides the seeded picsum placeholder. */
   image?: string;
+  /** When true, the children container spans the full hero width. */
+  wide?: boolean;
   children?: ReactNode;
 }
 
-export function PageHero({ eyebrow, title, seed, image, children }: PageHeroProps) {
+export function PageHero({ eyebrow, title, seed, image, wide, children }: PageHeroProps) {
   return (
     <section className="relative overflow-hidden bg-carbon">
       <div className="absolute inset-0 opacity-50">
@@ -32,7 +35,16 @@ export function PageHero({ eyebrow, title, seed, image, children }: PageHeroProp
             {title}
           </h1>
         </RevealMask>
-        {children && <div className="mt-8 max-w-[56ch] text-pretty text-lg leading-relaxed text-paper/70">{children}</div>}
+        {children && (
+          <div
+            className={cn(
+              "mt-8 text-pretty text-lg leading-relaxed text-paper/70",
+              wide ? "w-full max-w-none" : "max-w-[56ch]"
+            )}
+          >
+            {children}
+          </div>
+        )}
       </div>
     </section>
   );

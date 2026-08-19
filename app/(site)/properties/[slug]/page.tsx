@@ -2,17 +2,27 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight, Phone } from "lucide-react";
-import { getProperty, getPropertiesByCategory, getPropertyPage, getPropertySlugs, getSiteSettings } from "@/sanity/queries";
+import {
+  getProperty,
+  getPropertiesByLocation,
+  getPropertyPage,
+  getPropertySlugs,
+  getSiteSettings,
+} from "@/sanity/queries";
 import { urlFor } from "@/sanity/image";
 import { getYouTubeEmbedUrl } from "@/lib/youtube";
+import type { Property } from "@/sanity/queries";
 import { PageHero } from "@/components/sections/PageHero";
 import { Gallery } from "@/components/Gallery";
 import { PropertyCard } from "@/components/PropertyCard";
 import { ChapterMarker } from "@/components/ui/ChapterMarker";
+import { Seal } from "@/components/ui/Seal";
+import { Stamp } from "@/components/ui/Stamp";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealMask } from "@/components/motion/RevealMask";
 import { Button } from "@/components/ui/Button";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { cn } from "@/lib/utils";
 
 export const revalidate = 60;
 
@@ -35,6 +45,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+const quickFactKeys = ["approval", "condition", "facing", "floor", "age", "ventilation"];
+
+function stampTone(property: Property) {
+  if (property.status === "Available") return "available";
+  if (property.status === "Sold") return "sold";
+  return "reserved";
+}
+
 export default async function PropertyPage({ params }: PageProps) {
   const { slug } = await params;
   const [property, settings, pageCopy] = await Promise.all([
@@ -46,6 +64,9 @@ export default async function PropertyPage({ params }: PageProps) {
   if (!settings) {
     throw new Error("siteSettings document is missing — check Sanity Studio");
   }
+  const sameGround = (await getPropertiesByLocation(property.location)).filter((p) => p.slug !== slug);
+  const inGround = sameGround.slice(0, 3);
+  const groundCount = sameGround.length + 1;
 
   const copy = {
     walkthroughKicker: "Walk through",
@@ -66,59 +87,110 @@ export default async function PropertyPage({ params }: PageProps) {
 
   const embedSrc = getYouTubeEmbedUrl(property.youtubeUrl);
 
-  const images = property.gallery && property.gallery.length > 0
-    ? property.gallery.map((img, i) => ({
-        src: urlFor(img).width(1600).height(1000).url(),
-        alt: `${property.title}${i === 0 ? ", main view" : `, view ${i + 1}`}`,
-      }))
-    : [
-        { src: `https://picsum.photos/seed/${property.slug}-hero/1600/1000`, alt: `${property.title}, main view` },
-        { src: `https://picsum.photos/seed/${property.slug}-2/1600/1000`, alt: `${property.title}, interior detail` },
-        { src: `https://picsum.photos/seed/${property.slug}-3/1600/1000`, alt: `${property.title}, exterior` },
-        { src: `https://picsum.photos/seed/${property.slug}-4/1600/1000`, alt: `${property.title}, interior in light` },
-        { src: `https://picsum.photos/seed/${property.slug}-5/1600/1000`, alt: `${property.title}, outlook` },
-      ];
+  const heroUrl = property.image ? urlFor(property.image).width(2400).height(1200).url() : undefined;
+  const galleryImages =
+    property.gallery && property.gallery.length > 0
+      ? property.gallery.map((img, i) => ({
+          src: urlFor(img).width(1600).height(1000).url(),
+          alt: `${property.title}${i === 0 ? ", main view" : `, view ${i + 1}`}`,
+        }))
+      : property.image
+        ? [{ src: heroUrl ?? "", alt: `${property.title}, main view` }]
+        : [];
+  const hasPhotos = galleryImages.length > 0;
 
-  const sameCategory = await getPropertiesByCategory(property.category);
-  const more = sameCategory.filter((p) => p.slug !== slug).slice(0, 2);
+  const listHref =
+    property.category === "villa" ? "/villas" : property.category === "apartment" ? "/apartments" : "/farmlands";
+
+  const quickFacts = property.specs.filter((s) =>
+    quickFactKeys.some((k) => s.label.toLowerCase().includes(k))
+  );
 
   return (
     <>
       <PageHero
-        eyebrow={`${property.category} · ${property.location}`}
+        eyebrow={`${property.category} · ${property.location.trim()}`}
         title={property.title}
         seed={`${property.slug}-hero`}
-        image={property.image ? urlFor(property.image).width(2400).height(1200).url() : undefined}
+        image={heroUrl}
+        wide
       >
-        <p>{property.short}</p>
-        <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.2em] text-emerald">
-          {property.price} · {property.area}
-          {property.beds ? ` · ${property.beds}` : ""} · {property.status}
-        </p>
+        <div className="w-full">
+          <div className="flex flex-col gap-8 pt-6 lg:flex-row lg:items-end lg:justify-between">
+            <p className="max-w-[54ch] text-pretty text-lg leading-relaxed text-paper/75">{property.short}</p>
+            <div className="shrink-0">
+              <div className="flex items-center gap-3">
+                <Stamp label={property.status} tone={stampTone(property)} />
+                <span className="stamp border border-paper/25 bg-carbon/40 px-2.5 py-1 text-paper/70">
+                  Folio {property.folio}
+                </span>
+              </div>
+              <p className="mt-3 font-display text-4xl font-light text-paper lg:text-5xl">{property.price}</p>
+              <p className="mt-1 text-right font-mono text-[12px] uppercase tracking-[0.2em] text-paper/60">
+                {[property.beds, property.area].filter(Boolean).join(" · ")}
+              </p>
+            </div>
+          </div>
+        </div>
       </PageHero>
 
-      <section className="bg-paper py-24 lg:py-32">
+      <section className="bg-paper py-16 lg:py-20">
         <div className="mx-auto max-w-[1440px] px-6 sm:px-12 lg:px-20">
-          <Reveal><ChapterMarker kicker={copy.walkthroughKicker} /></Reveal>
-          <RevealMask delay={0.1}>
-            <h2 className="mt-8 max-w-[20ch] text-balance font-display text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ink lg:text-6xl">
-              {copy.walkthroughHeading}
-            </h2>
-          </RevealMask>
+          <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <Reveal>
+                <ChapterMarker kicker={copy.walkthroughKicker} />
+              </Reveal>
+              <RevealMask delay={0.1}>
+                <h2 className="mt-6 max-w-[20ch] text-balance font-display text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ink lg:text-5xl">
+                  {copy.walkthroughHeading}
+                </h2>
+              </RevealMask>
+            </div>
+            {quickFacts.length > 0 && (
+              <Reveal delay={0.15}>
+                <dl className="grid grid-cols-3 gap-x-8 gap-y-2">
+                  {quickFacts.map((f) => (
+                    <div key={f.label} className="border-l border-ink/15 pl-4">
+                      <dt className="stamp text-slate">{f.label}</dt>
+                      <dd className="mt-1 text-[15px] font-light text-ink">{f.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </Reveal>
+            )}
+          </div>
+
+          {hasPhotos ? (
+            <Reveal delay={0.2} className="mt-10">
+              <Gallery images={galleryImages} className="lg:px-0" />
+            </Reveal>
+          ) : (
+            <Reveal delay={0.2} className="mt-10">
+              <div className="vignette relative flex aspect-[16/9] items-center justify-center overflow-hidden bg-carbon lg:aspect-[21/9]">
+                <Seal className="h-28 w-28 text-paper/[0.1]" />
+                <div className="absolute bottom-6 left-6">
+                  <p className="stamp text-emerald">Photographs</p>
+                  <p className="stamp mt-1 text-paper/70">On request from the Private Advisory</p>
+                </div>
+              </div>
+            </Reveal>
+          )}
         </div>
-        <Reveal delay={0.2} className="mt-12"><Gallery images={images} className="lg:px-0" /></Reveal>
       </section>
 
       {embedSrc && (
         <section className="bg-stone">
-          <div className="mx-auto max-w-[1440px] px-6 py-24 sm:px-12 lg:px-20 lg:py-32">
-            <Reveal><ChapterMarker kicker={copy.videoKicker} /></Reveal>
+          <div className="mx-auto max-w-[1440px] px-6 py-16 sm:px-12 lg:px-20 lg:py-24">
+            <Reveal>
+              <ChapterMarker kicker={copy.videoKicker} />
+            </Reveal>
             <RevealMask delay={0.1}>
-              <h2 className="mt-8 text-balance font-display text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ink lg:text-5xl">
+              <h2 className="mt-6 text-balance font-display text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ink lg:text-5xl">
                 {copy.videoHeading}
               </h2>
             </RevealMask>
-            <Reveal delay={0.2} className="mt-12">
+            <Reveal delay={0.2} className="mt-10">
               <div className="vignette relative aspect-video overflow-hidden bg-carbon">
                 <iframe
                   src={embedSrc}
@@ -134,45 +206,80 @@ export default async function PropertyPage({ params }: PageProps) {
       )}
 
       <section className="bg-stone">
-        <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-16 px-6 py-24 sm:px-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-24 lg:px-20 lg:py-32">
+        <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-16 px-6 py-16 sm:px-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-24 lg:px-20 lg:py-24">
           <div>
-            <Reveal><ChapterMarker kicker={copy.storyKicker} /></Reveal>
+            <Reveal>
+              <ChapterMarker kicker={copy.storyKicker} />
+            </Reveal>
             <RevealMask delay={0.1}>
-              <h2 className="mt-8 text-balance font-display text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ink lg:text-5xl">
+              <h2 className="mt-6 text-balance font-display text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ink lg:text-5xl">
                 {copy.storyHeading}
               </h2>
             </RevealMask>
-            <div className="mt-10 space-y-6">
+            <div className="mt-8 space-y-5">
               {property.narrative.map((para, i) => (
                 <Reveal key={i} delay={0.05 * i}>
                   <p className="max-w-[64ch] text-pretty text-[17px] leading-relaxed text-ink/75">{para}</p>
                 </Reveal>
               ))}
             </div>
+
+            {inGround.length >= 0 && (
+              <Reveal delay={0.2} className="mt-10">
+                <div className="border-t border-ink/15 pt-8">
+                  <p className="eyebrow text-slate">The ground</p>
+                  <p className="mt-3 font-display text-2xl font-light text-ink">
+                    {property.location.trim()}
+                  </p>
+                  <p className="mt-3 max-w-[56ch] text-[15px] leading-relaxed text-ink/60">
+                    This ground currently holds {groundCount} listed propert{groundCount === 1 ? "y" : "ies"} on the open roster.
+                  </p>
+                </div>
+              </Reveal>
+            )}
           </div>
-          <aside className="lg:sticky lg:top-28 lg:self-start">
+
+          <aside className="lg:sticky lg:top-24 lg:self-start">
             <Reveal>
               <div className="border border-ink/15 bg-paper">
-                <div className="border-b border-ink/15 px-7 py-5"><p className="eyebrow text-slate">{copy.factsKicker}</p></div>
-                <dl className="divide-y divide-ink/10 px-7 py-2">
-                  {property.specs.map((s, i) => (
-                    <Reveal key={s.label} delay={0.05 * i}>
-                      <div className="flex items-baseline justify-between gap-6 py-4 transition-colors duration-300 hover:bg-mist/50">
-                        <dt className="text-[13px] uppercase tracking-[0.12em] text-ink/50">{s.label}</dt>
-                        <dd className="text-right font-display text-lg text-ink">{s.value}</dd>
-                      </div>
-                    </Reveal>
-                  ))}
-                </dl>
+                <div className="flex items-center justify-between border-b border-ink/15 px-7 py-5">
+                  <p className="eyebrow text-slate">{copy.factsKicker}</p>
+                  <span className="stamp text-slate">Pragathi Nagar · Hyderabad</span>
+                </div>
+                {property.specs.length > 0 ? (
+                  <dl className="divide-y divide-ink/10 px-7 py-2">
+                    {property.specs.map((s, i) => (
+                      <Reveal key={s.label} delay={0.05 * i}>
+                        <div className="flex items-baseline justify-between gap-6 py-4 transition-colors duration-300 hover:bg-mist/50">
+                          <dt className="text-[13px] uppercase tracking-[0.12em] text-ink/50">{s.label}</dt>
+                          <dd className="text-right font-display text-lg font-light text-ink">{s.value}</dd>
+                        </div>
+                      </Reveal>
+                    ))}
+                  </dl>
+                ) : (
+                  <div className="px-7 py-10">
+                    <p className="text-[15px] leading-relaxed text-ink/60">
+                      The private details arrive with the full dossier, on enquiry.
+                    </p>
+                  </div>
+                )}
                 <div className="border-t border-ink/15 p-7">
-                  <p className="text-[14px] leading-relaxed text-ink/60">
-                    {copy.titleChainNote}
-                  </p>
+                  <p className="text-[14px] leading-relaxed text-ink/60">{copy.titleChainNote}</p>
                   <div className="mt-6 flex flex-col gap-3">
                     <MagneticButton href="/contact">
-                      <Button href="/contact" variant="filled" data-cursor="ENQUIRE" className="group w-full justify-center">
+                      <Button
+                        href="/contact"
+                        variant="filled"
+                        data-cursor="ENQUIRE"
+                        className="group w-full justify-center"
+                      >
                         {copy.enquireLabel}
-                        <ArrowRight size={16} strokeWidth={1.5} className="transition-transform duration-300 group-hover:translate-x-1" />
+                        <ArrowRight
+                          size={16}
+                          strokeWidth={1.5}
+                          className="transition-transform duration-300 group-hover:translate-x-1"
+                        />
                       </Button>
                     </MagneticButton>
                     <MagneticButton href={settings.phoneHref}>
@@ -189,21 +296,23 @@ export default async function PropertyPage({ params }: PageProps) {
         </div>
       </section>
 
-      {more.length > 0 && (
+      {inGround.length > 0 && (
         <section className="bg-paper">
-          <div className="mx-auto max-w-[1440px] px-6 py-24 sm:px-12 lg:px-20 lg:py-32">
+          <div className="mx-auto max-w-[1440px] px-6 py-16 sm:px-12 lg:px-20 lg:py-24">
             <div className="flex items-end justify-between gap-8">
               <div>
-                <Reveal><ChapterMarker kicker={copy.alsoKicker} /></Reveal>
+                <Reveal>
+                  <ChapterMarker kicker={copy.alsoKicker} />
+                </Reveal>
                 <RevealMask delay={0.1}>
-                  <h2 className="mt-8 text-balance font-display text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ink lg:text-5xl">
+                  <h2 className="mt-6 text-balance font-display text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ink lg:text-5xl">
                     {copy.alsoHeading}
                   </h2>
                 </RevealMask>
               </div>
               <Reveal delay={0.2}>
                 <Link
-                  href={property.category === "villa" ? "/villas" : property.category === "apartment" ? "/apartments" : "/farmlands"}
+                  href={listHref}
                   className="link-underline eyebrow group flex items-center gap-2 whitespace-nowrap text-slate transition-colors hover:text-emerald"
                 >
                   {copy.viewFullListLabel}
@@ -211,8 +320,12 @@ export default async function PropertyPage({ params }: PageProps) {
                 </Link>
               </Reveal>
             </div>
-            <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
-              {more.map((p) => (<Reveal key={p.slug}><PropertyCard property={p} /></Reveal>))}
+            <div className={cn("mt-12 grid grid-cols-1 gap-8", inGround.length > 1 ? "md:grid-cols-3" : "md:grid-cols-1")}>
+              {inGround.map((p) => (
+                <Reveal key={p.slug}>
+                  <PropertyCard property={p} />
+                </Reveal>
+              ))}
             </div>
           </div>
         </section>

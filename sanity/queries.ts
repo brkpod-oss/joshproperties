@@ -58,6 +58,12 @@ export async function getPropertiesByCategory(category: string): Promise<Propert
   );
 }
 
+export async function getPropertiesByLocation(location: string): Promise<Property[]> {
+  const all = await getProperties();
+  const target = location.trim().toLowerCase();
+  return all.filter((p) => p.location.trim().toLowerCase() === target);
+}
+
 export async function getProperty(slug: string): Promise<Property | null> {
   return client.fetch(
     `*[_type == "property" && slug.current == $slug][0] ${propertyProjection}`,
