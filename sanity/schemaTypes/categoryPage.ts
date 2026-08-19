@@ -22,6 +22,9 @@ export default defineType({
     defineField({ name: "outlookHeading", title: "Outlook section heading (apartments only)", type: "string" }),
     defineField({ name: "outlookBody1", title: "Outlook section paragraph 1 (apartments only)", type: "text", rows: 3 }),
     defineField({ name: "outlookBody2", title: "Outlook section paragraph 2 (apartments only)", type: "text", rows: 3 }),
+    defineField({ name: "outlookKicker", title: "Day/night small label (apartments only)", type: "string", description: "e.g. \"Outlook · day to night\"" }),
+    defineField({ name: "outlookNote", title: "Day/night intro line (apartments only)", type: "text", rows: 2 }),
+    defineField({ name: "outlookImage", title: "Day/night skyline photo (apartments only)", type: "image", options: { hotspot: true }, description: "The image the scrubber animates from day into night." }),
     defineField({
       name: "masterplan",
       title: "Masterplan (farmland only)",

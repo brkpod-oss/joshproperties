@@ -10,6 +10,7 @@ import {
   getSiteSettings,
 } from "@/sanity/queries";
 import { urlFor } from "@/sanity/image";
+import { buildMetadata } from "@/lib/metadata";
 import { getYouTubeEmbedUrl } from "@/lib/youtube";
 import type { Property } from "@/sanity/queries";
 import { PageHero } from "@/components/sections/PageHero";
@@ -37,12 +38,20 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const property = await getProperty(slug);
+  const [property, settings] = await Promise.all([getProperty(slug), getSiteSettings()]);
+  if (!settings) return { title: "Property · Josh Properties" };
   if (!property) return { title: "Property · Josh Properties" };
-  return {
-    title: property.title,
-    description: `${property.short} ${property.location}. ${property.price} · ${property.area}.`,
-  };
+  const ogImage = property.seo?.ogImage ?? property.image;
+  return buildMetadata(settings, `/properties/${slug}`, {
+    title: property.seo?.title || property.title,
+    description:
+      property.seo?.description ||
+      `${property.short} ${property.location}. ${property.price} · ${property.area}.`,
+    openGraph: {
+      images: ogImage ? [{ url: urlFor(ogImage).width(1200).height(630).url() }] : undefined,
+    },
+    robots: property.seo?.noIndex ? { index: false, follow: false } : undefined,
+  });
 }
 
 const quickFactKeys = ["approval", "condition", "facing", "floor", "age", "ventilation"];
@@ -79,9 +88,12 @@ export default async function PropertyPage({ params }: PageProps) {
     titleChainNote:
       "The full chain of title, revenue records and survey maps are provided to serious enquirers before any payment is discussed.",
     enquireLabel: "Enquire about this property",
-    alsoKicker: "Also in this ground",
+    factsOriginLabel: "Ground holdings",
+    groundHeading: "Also in this ground",
     alsoHeading: "If this is almost right.",
     viewFullListLabel: "View the full list",
+    photosLabel: "Photographs",
+    photosNote: "On request from the Private Advisory",
     ...(pageCopy ?? {}),
   };
 
@@ -169,9 +181,9 @@ export default async function PropertyPage({ params }: PageProps) {
             <Reveal delay={0.2} className="mt-10">
               <div className="vignette relative flex aspect-[16/9] items-center justify-center overflow-hidden bg-carbon lg:aspect-[21/9]">
                 <Seal className="h-28 w-28 text-paper/[0.1]" />
-                <div className="absolute bottom-6 left-6">
-                  <p className="stamp text-emerald">Photographs</p>
-                  <p className="stamp mt-1 text-paper/70">On request from the Private Advisory</p>
+                <div className="absolute bottom-6 left-6 max-w-[80%]">
+                  <p className="stamp text-emerald">{copy.photosLabel}</p>
+                  <p className="stamp mt-1 text-paper/70">{copy.photosNote}</p>
                 </div>
               </div>
             </Reveal>
@@ -227,7 +239,7 @@ export default async function PropertyPage({ params }: PageProps) {
             {inGround.length >= 0 && (
               <Reveal delay={0.2} className="mt-10">
                 <div className="border-t border-ink/15 pt-8">
-                  <p className="eyebrow text-slate">The ground</p>
+                  <p className="eyebrow text-slate">{copy.factsOriginLabel}</p>
                   <p className="mt-3 font-display text-2xl font-light text-ink">
                     {property.location.trim()}
                   </p>
@@ -302,7 +314,7 @@ export default async function PropertyPage({ params }: PageProps) {
             <div className="flex items-end justify-between gap-8">
               <div>
                 <Reveal>
-                  <ChapterMarker kicker={copy.alsoKicker} />
+                  <ChapterMarker kicker={copy.groundHeading} />
                 </Reveal>
                 <RevealMask delay={0.1}>
                   <h2 className="mt-6 text-balance font-display text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ink lg:text-5xl">

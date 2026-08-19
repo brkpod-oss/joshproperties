@@ -13,7 +13,7 @@ type FormState = {
   message: string;
 };
 
-const budgets = [
+const defaultBudgets = [
   "Under ₹1 Cr",
   "₹1–3 Cr",
   "₹3–6 Cr",
@@ -29,7 +29,16 @@ const initial: FormState = {
   message: "",
 };
 
-export function DossierForm({ holdings, whatsapp }: { holdings: { slug: string; name: string }[]; whatsapp: string }) {
+export function DossierForm({
+  holdings,
+  budgets,
+  whatsapp,
+}: {
+  holdings: { slug: string; name: string }[];
+  budgets?: string[];
+  whatsapp: string;
+}) {
+  const budgetOptions = budgets && budgets.length > 0 ? budgets : defaultBudgets;
   const [form, setForm] = useState<FormState>(initial);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -165,7 +174,7 @@ export function DossierForm({ holdings, whatsapp }: { holdings: { slug: string; 
       <div>
         <p className="eyebrow text-slate">Budget range</p>
         <div className="mt-4 flex flex-wrap gap-2">
-          {budgets.map((b) => (
+          {budgetOptions.map((b) => (
             <button
               key={b}
               type="button"

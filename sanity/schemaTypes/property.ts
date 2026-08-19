@@ -6,10 +6,17 @@ export default defineType({
   type: "document",
   description:
     "One listing = one property page on the website. To add a new property, click \"Create new\" above, fill the form and press Publish. Add the private property details, drag & drop photos, and paste the YouTube link if there is a walkthrough video.",
+  groups: [
+    { name: "general", title: "General" },
+    { name: "publish", title: "Publish" },
+    { name: "media", title: "Photos & video" },
+    { name: "seo", title: "SEO" },
+  ],
   fields: [
     defineField({
       name: "title",
       title: "Name of the property",
+      group: "general",
       type: "string",
       description: "e.g. \"2 BHK Resale - Pragathi Nagar\"",
       validation: (r) => r.required(),
@@ -17,6 +24,7 @@ export default defineType({
     defineField({
       name: "slug",
       title: "Slug",
+      group: "general",
       type: "slug",
       description: "Leave this as it is - it becomes the web address. Click Generate if it is empty.",
       options: { source: "title", maxLength: 96 },
@@ -25,6 +33,7 @@ export default defineType({
     defineField({
       name: "folio",
       title: "Folio number",
+      group: "general",
       type: "string",
       description: "A short file number, e.g. \"JP-001\". Listings are shown in this order.",
       validation: (r) => r.required(),
@@ -32,6 +41,7 @@ export default defineType({
     defineField({
       name: "category",
       title: "Category",
+      group: "general",
       type: "string",
       description: "Which section should this appear under?",
       options: { list: ["villa", "apartment", "farmland"] },
@@ -40,6 +50,7 @@ export default defineType({
     defineField({
       name: "location",
       title: "Location",
+      group: "general",
       type: "string",
       description: "e.g. \"Pragathi Nagar, Hyderabad\"",
       validation: (r) => r.required(),
@@ -47,6 +58,7 @@ export default defineType({
     defineField({
       name: "price",
       title: "Price",
+      group: "general",
       type: "string",
       description: "e.g. \"₹56 Lakhs (Negotiable)\"",
       validation: (r) => r.required(),
@@ -54,6 +66,7 @@ export default defineType({
     defineField({
       name: "area",
       title: "Area / SFT",
+      group: "general",
       type: "string",
       description: "e.g. \"1,015 sq.ft\" or \"UDS 26 sq.yds\"",
       validation: (r) => r.required(),
@@ -61,20 +74,60 @@ export default defineType({
     defineField({
       name: "beds",
       title: "Beds (optional)",
+      group: "general",
       type: "string",
       description: "e.g. \"2 BHK\"",
     }),
     defineField({
       name: "status",
       title: "Status",
+      group: "general",
       type: "string",
       description: "Is it still for sale?",
-      options: { list: ["Available", "Under Offer", "Sold"] },
+      options: { list: ["Available", "Limited", "Under Offer", "Reserved", "Sold", "Coming Soon"] },
       validation: (r) => r.required(),
     }),
     defineField({
+      name: "featured",
+      title: "Show on homepage",
+      group: "publish",
+      type: "boolean",
+      description:
+        "Turn on to show this on the homepage. Only the first 3 properties with this on (by folio order) appear there.",
+      initialValue: false,
+    }),
+    defineField({
+      name: "tall",
+      title: "Tall card layout",
+      group: "publish",
+      type: "boolean",
+      description: "Leave off unless you want the card to be a tall portrait shape.",
+      initialValue: false,
+    }),
+    defineField({
+      name: "published",
+      title: "Published",
+      group: "publish",
+      type: "boolean",
+      description:
+        "Only published listings appear on the website. Turn this off to quietly take a property offline without deleting it.",
+      initialValue: true,
+    }),
+    defineField({
+      name: "verification",
+      title: "Verification",
+      group: "publish",
+      type: "object",
+      fields: [
+        defineField({ name: "status", title: "Status", type: "string", options: { list: ["Verified", "Pending", "Unverified"] } }),
+        defineField({ name: "label", title: "Label shown on the page", type: "string", description: "e.g. \"Title verified\" or \"Under legal review\"" }),
+      ],
+    }),
+
+    defineField({
       name: "image",
       title: "Main photo",
+      group: "media",
       type: "image",
       description: "Drag & drop the main photo here. This is used on cards across the site.",
       options: { hotspot: true },
@@ -82,6 +135,7 @@ export default defineType({
     defineField({
       name: "gallery",
       title: "Photo gallery",
+      group: "media",
       type: "array",
       description:
         "Drag & drop more photos here. Drag to reorder - the first photo is shown first in the gallery.",
@@ -90,6 +144,7 @@ export default defineType({
     defineField({
       name: "youtubeUrl",
       title: "YouTube walkthrough video (optional)",
+      group: "media",
       type: "url",
       description:
         "Paste the YouTube link (from the address bar or Share > Copy). Leave empty if there is no video. The video will play on the property page.",
@@ -97,6 +152,7 @@ export default defineType({
     defineField({
       name: "short",
       title: "Short description",
+      group: "media",
       type: "text",
       rows: 2,
       description: "One or two lines shown under the photo on the property page.",
@@ -105,6 +161,7 @@ export default defineType({
     defineField({
       name: "narrative",
       title: "Full description",
+      group: "media",
       type: "array",
       description: "One paragraph per block. Click Add to write another paragraph.",
       of: [{ type: "text", rows: 3 }],
@@ -113,6 +170,7 @@ export default defineType({
     defineField({
       name: "specs",
       title: "Key facts (the points table)",
+      group: "media",
       type: "array",
       description:
         "Each fact has a label and a value, e.g. Label: \"Approval\", Value: \"GP Approved & Gramapanchyath\". Click Add to add more.",
@@ -126,20 +184,18 @@ export default defineType({
         },
       ],
     }),
+
     defineField({
-      name: "tall",
-      title: "Tall card layout",
-      type: "boolean",
-      description: "Leave off unless you want the card to be a tall portrait shape.",
-      initialValue: false,
-    }),
-    defineField({
-      name: "featured",
-      title: "Show on homepage",
-      type: "boolean",
-      description:
-        "Turn on to show this on the homepage. Only the first 3 properties with this on (by folio order) appear there.",
-      initialValue: false,
+      name: "seo",
+      title: "Search result preview",
+      group: "seo",
+      type: "object",
+      fields: [
+        defineField({ name: "title", title: "Title", type: "string", description: "Leave empty to use the property name." }),
+        defineField({ name: "description", title: "Description", type: "text", rows: 2, description: "Leave empty to use the short description." }),
+        defineField({ name: "ogImage", title: "Social sharing image", type: "image", description: "Leave empty to use the main photo." }),
+        defineField({ name: "noIndex", title: "Hide from Google", type: "boolean", initialValue: false, description: "Turn on to stop search engines from listing this property." }),
+      ],
     }),
   ],
   preview: {

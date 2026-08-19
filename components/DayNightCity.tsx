@@ -47,7 +47,7 @@ const LIGHT_DOTS =
   "radial-gradient(circle at 55% 64%, rgba(255,214,150,0.85) 0.8%, transparent 2%)," +
   "radial-gradient(circle at 80% 52%, rgba(255,214,150,0.85) 0.8%, transparent 2%)";
 
-export function DayNightCity() {
+export function DayNightCity({ image, kicker = "Outlook · day to night", intro = "The skyline is the decoration. Drag the scrubber and watch the tower change with the light." }: { image?: string; kicker?: string; intro?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState(72);
   const reduce = useReducedMotion();
@@ -74,10 +74,9 @@ export function DayNightCity() {
 
   return (
     <div ref={ref}>
-      <p className="eyebrow text-slate">Outlook · day to night</p>
+      <p className="eyebrow text-slate">{kicker}</p>
       <p className="mt-2 max-w-[42ch] text-[15px] leading-relaxed text-ink/60">
-        The skyline is the decoration. Drag the scrubber and watch the tower
-        change with the light.
+        {intro}
       </p>
 
       <div className="vignette relative mt-6 aspect-[16/10] overflow-hidden rounded-[2px]">
@@ -86,7 +85,7 @@ export function DayNightCity() {
           className="absolute inset-[-8%]"
         >
           <Image
-            src="https://picsum.photos/seed/josh-skyline/1200/750"
+            src={image ?? "https://picsum.photos/seed/josh-skyline/1200/750"}
             alt="Hyderabad skyline from day to night"
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"

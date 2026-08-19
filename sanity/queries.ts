@@ -11,7 +11,7 @@ export type Property = {
   price: string;
   area: string;
   beds?: string;
-  status: "Available" | "Under Offer" | "Sold";
+  status: "Available" | "Limited" | "Under Offer" | "Reserved" | "Sold" | "Coming Soon";
   image?: SanityImage;
   gallery?: SanityImage[];
   youtubeUrl?: string;
@@ -20,6 +20,9 @@ export type Property = {
   specs: { label: string; value: string }[];
   tall?: boolean;
   featured?: boolean;
+  published?: boolean;
+  verification?: { status?: "Verified" | "Pending" | "Unverified"; label?: string };
+  seo?: { title?: string; description?: string; ogImage?: SanityImage; noIndex?: boolean };
 };
 
 const propertyProjection = `{
@@ -31,12 +34,16 @@ const propertyProjection = `{
   short,
   "narrative": coalesce(narrative, []),
   "specs": coalesce(specs, []),
-  tall, featured
+  tall, featured, published,
+  verification,
+  seo
 }`;
+
+const publishedFilter = `published != false`;
 
 export async function getProperties(): Promise<Property[]> {
   return client.fetch(
-    `*[_type == "property"] | order(folio asc) ${propertyProjection}`,
+    `*[_type == "property" && ${publishedFilter}] | order(folio asc) ${propertyProjection}`,
     {},
     { next: { tags: ["property"] } }
   );
@@ -44,7 +51,7 @@ export async function getProperties(): Promise<Property[]> {
 
 export async function getFeaturedProperties(): Promise<Property[]> {
   return client.fetch(
-    `*[_type == "property" && featured == true] | order(folio asc) ${propertyProjection}`,
+    `*[_type == "property" && ${publishedFilter} && featured == true] | order(folio asc) ${propertyProjection}`,
     {},
     { next: { tags: ["property"] } }
   );
@@ -52,7 +59,7 @@ export async function getFeaturedProperties(): Promise<Property[]> {
 
 export async function getPropertiesByCategory(category: string): Promise<Property[]> {
   return client.fetch(
-    `*[_type == "property" && category == $category] | order(folio asc) ${propertyProjection}`,
+    `*[_type == "property" && ${publishedFilter} && category == $category] | order(folio asc) ${propertyProjection}`,
     { category },
     { next: { tags: ["property"] } }
   );
@@ -66,14 +73,14 @@ export async function getPropertiesByLocation(location: string): Promise<Propert
 
 export async function getProperty(slug: string): Promise<Property | null> {
   return client.fetch(
-    `*[_type == "property" && slug.current == $slug][0] ${propertyProjection}`,
+    `*[_type == "property" && slug.current == $slug && ${publishedFilter}][0] ${propertyProjection}`,
     { slug },
     { next: { tags: ["property"] } }
   );
 }
 
 export async function getPropertySlugs(): Promise<string[]> {
-  return client.fetch(`*[_type == "property"].slug.current`, {}, { next: { tags: ["property"] } });
+  return client.fetch(`*[_type == "property" && ${publishedFilter}].slug.current`, {}, { next: { tags: ["property"] } });
 }
 
 export type FarmlandOption = {
@@ -85,6 +92,45 @@ export type FarmlandOption = {
   acres: string;
   image?: SanityImage;
 };
+
+export type FarmlandPlot = {
+  id: string;
+  title?: string;
+  size: string;
+  phase: number;
+  status: "Available" | "Reserved" | "Sold";
+  x: number;
+  y: number;
+};
+
+export type MasterplanData = {
+  name: string;
+  river?: boolean;
+  plots: FarmlandPlot[];
+};
+
+export type FarmlandProject = {
+  name: string;
+  location: string;
+  acres: string;
+  river: boolean;
+  note?: string;
+  image?: SanityImage;
+  plots: FarmlandPlot[];
+};
+
+export async function getFarmlandProjects(): Promise<FarmlandProject[]> {
+  return client.fetch(
+    `*[_type == "farmlandProject" && published != false] | order(order asc) {
+      name, location, acres, river, note, image,
+      "plots": *[_type == "farmlandPlot" && references(^._id)] | order(order asc) {
+        id, title, size, phase, status, x, y
+      }
+    }`,
+    {},
+    { next: { tags: ["farmlandProject", "farmlandPlot"] } }
+  );
+}
 
 export async function getFarmlandOptions(): Promise<FarmlandOption[]> {
   return client.fetch(
@@ -164,6 +210,17 @@ export async function getPromiseItems(): Promise<PromiseItem[]> {
   );
 }
 
+export type EnquiryOption = { label: string; group: "holding" | "budget"; order: number; active?: boolean };
+
+export async function getEnquiryOptions(group?: "holding" | "budget"): Promise<EnquiryOption[]> {
+  const filter = group ? ` && group == $group` : "";
+  return client.fetch(
+    `*[_type == "enquiryOption" && active != false${filter}] | order(order asc) {label, group, order, active}`,
+    group ? { group } : {},
+    { next: { tags: ["enquiryOption"] } }
+  );
+}
+
 export type SiteSettings = {
   name: string; legalName: string; logo?: SanityImage; city: string; state: string;
   phone: string; phoneHref: string; whatsapp: string; email: string; address: string;
@@ -173,7 +230,19 @@ export type SiteSettings = {
   footerGroundsLinks: string[];
   footerBlurb: string;
   rera: { registeredUnder: string; number: string; note: string };
+  legal?: { disclaimer?: string; privacyUrl?: string; termsUrl?: string };
   enquireLabel: string;
+  siteUrl: string;
+  metaDescription?: string;
+  keywords?: string[];
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: SanityImage;
+  org?: {
+    foundingYear?: string; streetAddress?: string; addressLocality?: string;
+    postalCode?: string; openingHours?: string; priceRange?: string;
+  };
+  socialLinks?: { platform: string; href: string; label?: string; enabled?: boolean }[];
 };
 
 export async function getSiteSettings(): Promise<SiteSettings | null> {
@@ -201,6 +270,7 @@ export type HomePage = {
     image?: SanityImage; headingPlain: string; headingEmphasis: string; body: string;
     ctaEnquireLabel: string; ctaWhatsappLabel: string; founded: string; byAppointment: string;
   };
+  sections?: Partial<Record<"hero" | "trustStrip" | "stats" | "featured" | "offerings" | "story" | "farmlandBand" | "whyJosh" | "process" | "testimonials" | "faq" | "finalCta", boolean>>;
 };
 
 export async function getHomePage(): Promise<HomePage | null> {
@@ -212,10 +282,8 @@ export type CategoryPage = {
   heroEyebrow: string; heroTitleLine1: string; heroTitleLine2: string; heroBody: string;
   listingKicker: string; listingHeading: string; listingIntro: string;
   outlookHeading?: string; outlookBody1?: string; outlookBody2?: string;
-  masterplan?: {
-    name: string; river: boolean;
-    plots: { id: string; phase: number; size: string; status: "Available" | "Sold" | "Reserved"; x: number; y: number }[];
-  };
+  outlookKicker?: string; outlookNote?: string; outlookImage?: SanityImage;
+  masterplan?: MasterplanData;
   masterplanKicker?: string; masterplanHeading?: string; masterplanBody?: string;
   holdingsKicker?: string; holdingsHeading?: string; holdingsNote?: string;
   dossierKicker?: string; dossierHeading?: string; dossierBody?: string;
@@ -248,9 +316,12 @@ export type PropertyPage = {
   factsKicker: string;
   titleChainNote: string;
   enquireLabel: string;
-  alsoKicker: string;
+  factsOriginLabel: string;
+  groundHeading: string;
   alsoHeading: string;
   viewFullListLabel: string;
+  photosLabel: string;
+  photosNote: string;
 };
 
 export async function getPropertyPage(): Promise<PropertyPage | null> {

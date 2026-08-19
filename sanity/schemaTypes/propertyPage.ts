@@ -66,7 +66,14 @@ export default defineType({
       initialValue: "Enquire about this property",
     }),
     defineField({
-      name: "alsoKicker",
+      name: "factsOriginLabel",
+      title: "Key facts - the holdings source label",
+      type: "string",
+      description: "e.g. \"Ground holdings\" - the label for the list of other properties in the same ground.",
+      initialValue: "Ground holdings",
+    }),
+    defineField({
+      name: "groundHeading",
       title: "More properties - small label",
       type: "string",
       initialValue: "Also in this ground",
@@ -82,6 +89,19 @@ export default defineType({
       title: "View full list link text",
       type: "string",
       initialValue: "View the full list",
+    }),
+    defineField({
+      name: "photosLabel",
+      title: "Photos placeholder - heading",
+      type: "string",
+      initialValue: "Photographs on request",
+    }),
+    defineField({
+      name: "photosNote",
+      title: "Photos placeholder - note",
+      type: "string",
+      initialValue:
+        "Site photographs and the full walkthrough are shared privately with serious enquirers.",
     }),
   ],
   preview: { prepare: () => ({ title: "Property page" }) },

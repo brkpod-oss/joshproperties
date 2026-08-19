@@ -2,15 +2,19 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/sections/PageHero";
 import { PropertyListing } from "@/components/PropertyListing";
-import { getCategoryPage, getPropertiesByCategory } from "@/sanity/queries";
+import { getCategoryPage, getPropertiesByCategory, getSiteSettings } from "@/sanity/queries";
+import { buildMetadata } from "@/lib/metadata";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Villas in Hyderabad",
-  description:
-    "Freehold villas across Jubilee Hills, Kokapet and Medchal, shown once, by appointment, with the full title chain verified before any price is discussed.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const [page, settings] = await Promise.all([getCategoryPage("villa"), getSiteSettings()]);
+  if (!settings) return {};
+  return buildMetadata(settings, "/villas", {
+    title: page ? `${page.heroTitleLine1} ${page.heroTitleLine2 ?? ""}`.trim() : undefined,
+    description: page?.heroBody,
+  });
+}
 
 export default async function VillasPage() {
   const [page, properties] = await Promise.all([

@@ -139,6 +139,27 @@ export default defineType({
         defineField({ name: "byAppointment", type: "string", validation: (r) => r.required() }),
       ],
     }),
+    defineField({
+      name: "sections",
+      title: "Section visibility",
+      description:
+        "Show or hide each section of the homepage. Everything is on by default; turn a switch off to take that section off the site without deleting any of its content.",
+      type: "object",
+      fields: [
+        defineField({ name: "hero", type: "boolean", initialValue: true, title: "Hero film" }),
+        defineField({ name: "trustStrip", type: "boolean", initialValue: true, title: "Trust strip" }),
+        defineField({ name: "stats", type: "boolean", initialValue: true, title: "Stats ledger" }),
+        defineField({ name: "featured", type: "boolean", initialValue: true, title: "Featured properties" }),
+        defineField({ name: "offerings", type: "boolean", initialValue: true, title: "Offerings" }),
+        defineField({ name: "story", type: "boolean", initialValue: true, title: "Story" }),
+        defineField({ name: "farmlandBand", type: "boolean", initialValue: true, title: "Farmland band" }),
+        defineField({ name: "whyJosh", type: "boolean", initialValue: true, title: "Why Josh" }),
+        defineField({ name: "process", type: "boolean", initialValue: true, title: "Process (Method)" }),
+        defineField({ name: "testimonials", type: "boolean", initialValue: true, title: "Testimonials" }),
+        defineField({ name: "faq", type: "boolean", initialValue: true, title: "FAQ" }),
+        defineField({ name: "finalCta", type: "boolean", initialValue: true, title: "Final CTA" }),
+      ],
+    }),
   ],
   preview: { prepare: () => ({ title: "Home page" }) },
 });

@@ -7,28 +7,36 @@ import { DossierForm } from "@/components/DossierForm";
 import { ChapterMarker } from "@/components/ui/ChapterMarker";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealMask } from "@/components/motion/RevealMask";
-import { getCategoryPage, getFarmlandOptions, getSiteSettings } from "@/sanity/queries";
+import { getCategoryPage, getEnquiryOptions, getFarmlandOptions, getFarmlandProjects, getSiteSettings } from "@/sanity/queries";
+import { buildMetadata } from "@/lib/metadata";
 import { urlFor } from "@/sanity/image";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Farmlands in Hyderabad & Telangana",
-  description:
-    "Over 1,200 acres of cleared-title farmland across Shankarpally, Moinabad and Chevella, flown by drone, boundary-surveyed, and offered by appointment.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const [page, settings] = await Promise.all([getCategoryPage("farmland"), getSiteSettings()]);
+  if (!settings) return {};
+  return buildMetadata(settings, "/farmlands", {
+    title: page ? `${page.heroTitleLine1} ${page.heroTitleLine2 ?? ""}`.trim() : undefined,
+    description: page?.heroBody,
+  });
+}
 
 export default async function FarmlandsPage() {
-  const [page, options, settings] = await Promise.all([
+  const [page, options, settings, budgets, projects] = await Promise.all([
     getCategoryPage("farmland"),
     getFarmlandOptions(),
     getSiteSettings(),
+    getEnquiryOptions("budget"),
+    getFarmlandProjects(),
   ]);
 
   if (!page) notFound();
   if (!settings) {
     throw new Error("siteSettings document is missing — check Sanity Studio");
   }
+
+  const masterplan = projects[0] ?? page.masterplan;
 
   return (
     <>
@@ -49,9 +57,9 @@ export default async function FarmlandsPage() {
               {page.masterplanBody}
             </p>
           </Reveal>
-          {page.masterplan && (
+          {masterplan && (
             <Reveal delay={0.15} className="mt-12">
-              <FarmlandMap masterplan={page.masterplan} />
+              <FarmlandMap masterplan={masterplan} />
             </Reveal>
           )}
         </div>
@@ -127,7 +135,7 @@ export default async function FarmlandsPage() {
             </Reveal>
           </div>
           <Reveal delay={0.15}>
-            <DossierForm holdings={options.map((o) => ({ slug: o.slug, name: o.name }))} whatsapp={settings.whatsapp} />
+            <DossierForm holdings={options.map((o) => ({ slug: o.slug, name: o.name }))} budgets={budgets.map((b) => b.label)} whatsapp={settings.whatsapp} />
           </Reveal>
         </div>
       </section>

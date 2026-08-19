@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { useState } from "react";
-import type { CategoryPage } from "@/sanity/queries";
+import type { MasterplanData } from "@/sanity/queries";
 
 const statusStyles: Record<string, { fill: string; stroke: string }> = {
   Available: { fill: "rgba(197,162,107,0.32)", stroke: "#c5a26b" },
@@ -9,7 +9,7 @@ const statusStyles: Record<string, { fill: string; stroke: string }> = {
   Sold: { fill: "rgba(14,14,11,0.22)", stroke: "#0e0e0b" },
 };
 
-export function FarmlandMap({ masterplan }: { masterplan: NonNullable<CategoryPage["masterplan"]> }) {
+export function FarmlandMap({ masterplan }: { masterplan: MasterplanData }) {
   const [active, setActive] = useState<string | null>(null);
   const selected = masterplan.plots.find((p) => p.id === active);
 

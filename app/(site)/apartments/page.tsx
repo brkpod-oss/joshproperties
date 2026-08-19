@@ -4,15 +4,20 @@ import { PageHero } from "@/components/sections/PageHero";
 import { PropertyListing } from "@/components/PropertyListing";
 import { DayNightCity } from "@/components/DayNightCity";
 import { Reveal } from "@/components/motion/Reveal";
-import { getCategoryPage, getPropertiesByCategory } from "@/sanity/queries";
+import { getCategoryPage, getPropertiesByCategory, getSiteSettings } from "@/sanity/queries";
+import { buildMetadata } from "@/lib/metadata";
+import { urlFor } from "@/sanity/image";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Apartments in Hyderabad",
-  description:
-    "A curated list of apartments and penthouses in the city's sharpest towers, chosen for light, outlook and the quietness of the corridor.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const [page, settings] = await Promise.all([getCategoryPage("apartment"), getSiteSettings()]);
+  if (!settings) return {};
+  return buildMetadata(settings, "/apartments", {
+    title: page ? `${page.heroTitleLine1} ${page.heroTitleLine2 ?? ""}`.trim() : undefined,
+    description: page?.heroBody,
+  });
+}
 
 export default async function ApartmentsPage() {
   const [page, properties] = await Promise.all([
@@ -41,7 +46,11 @@ export default async function ApartmentsPage() {
       <section className="bg-stone">
         <div className="mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-16 px-6 py-24 sm:px-12 lg:grid-cols-2 lg:gap-24 lg:px-20 lg:py-32">
           <Reveal>
-            <DayNightCity />
+            <DayNightCity
+              image={page.outlookImage ? urlFor(page.outlookImage).width(1200).height(750).url() : undefined}
+              kicker={page.outlookKicker}
+              intro={page.outlookNote}
+            />
           </Reveal>
           <div>
             <Reveal>

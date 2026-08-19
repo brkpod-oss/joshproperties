@@ -14,6 +14,7 @@ import {
   getHomePage, getSiteSettings, getStats, getPartnerLogos, getFeaturedProperties,
   getServices, getPromiseItems, getProcessSteps, getTestimonials, getFaqs,
 } from "@/sanity/queries";
+import type { HomePage } from "@/sanity/queries";
 
 export const revalidate = 60;
 
@@ -31,26 +32,31 @@ export default async function Home() {
     throw new Error("siteSettings document is missing — check Sanity Studio");
   }
 
+  const show = homePage.sections ?? {};
+  const on = (key: keyof NonNullable<HomePage["sections"]>) => show[key] !== false;
+
   return (
     <>
-      <CinematicHero copy={homePage.hero} heroVideo={settings.heroVideo} />
-      <TrustStrip logos={logos} />
-      <Stats stats={stats} copy={homePage.stats} />
-      <Featured properties={featuredProperties} copy={homePage.featured} />
-      <Offerings services={services} copy={homePage.offerings} />
-      <Story copy={homePage.story} />
-      <FarmlandBand copy={homePage.farmlandBand} />
-      <WhyJosh items={promiseItems} copy={homePage.whyJosh} />
-      <Process steps={processSteps} copy={homePage.process} />
-      <Testimonials items={testimonials} />
-      <Faq items={faqs} copy={homePage.faqSection} />
-      <FinalCta
-        copy={homePage.finalCta}
-        phone={settings.phone}
-        phoneHref={settings.phoneHref}
-        whatsapp={settings.whatsapp}
-        reraNumber={settings.rera.number}
-      />
+      {on("hero") && <CinematicHero copy={homePage.hero} heroVideo={settings.heroVideo} />}
+      {on("trustStrip") && <TrustStrip logos={logos} />}
+      {on("stats") && <Stats stats={stats} copy={homePage.stats} />}
+      {on("featured") && <Featured properties={featuredProperties} copy={homePage.featured} />}
+      {on("offerings") && <Offerings services={services} copy={homePage.offerings} />}
+      {on("story") && <Story copy={homePage.story} />}
+      {on("farmlandBand") && <FarmlandBand copy={homePage.farmlandBand} />}
+      {on("whyJosh") && <WhyJosh items={promiseItems} copy={homePage.whyJosh} />}
+      {on("process") && <Process steps={processSteps} copy={homePage.process} />}
+      {on("testimonials") && <Testimonials items={testimonials} />}
+      {on("faq") && <Faq items={faqs} copy={homePage.faqSection} />}
+      {on("finalCta") && (
+        <FinalCta
+          copy={homePage.finalCta}
+          phone={settings.phone}
+          phoneHref={settings.phoneHref}
+          whatsapp={settings.whatsapp}
+          reraNumber={settings.rera.number}
+        />
+      )}
     </>
   );
 }

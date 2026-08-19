@@ -119,9 +119,30 @@ export function Footer({ settings }: { settings: SiteSettings }) {
             RERA no. {settings.rera.number} · Registration by counsel at every close
           </p>
           <p className="text-[12px] text-paper/35">
-            © 2026 {settings.name}. {settings.legalName} · All rights reserved.
+            © {new Date().getFullYear()} {settings.name}. {settings.legalName} · All rights reserved.
           </p>
         </div>
+        {settings.legal?.disclaimer && (
+          <div className="mt-6 border-t border-paper/10 pt-6">
+            <p className="max-w-[90ch] text-[12px] leading-relaxed text-paper/30">
+              {settings.legal.disclaimer}
+            </p>
+          </div>
+        )}
+        {(settings.legal?.privacyUrl || settings.legal?.termsUrl) && (
+          <div className="mt-4 flex flex-wrap gap-6">
+            {settings.legal.privacyUrl && (
+              <a href={settings.legal.privacyUrl} target="_blank" rel="noopener noreferrer" className="text-[12px] text-paper/45 transition-colors hover:text-paper">
+                Privacy policy
+              </a>
+            )}
+            {settings.legal.termsUrl && (
+              <a href={settings.legal.termsUrl} target="_blank" rel="noopener noreferrer" className="text-[12px] text-paper/45 transition-colors hover:text-paper">
+                Terms of use
+              </a>
+            )}
+          </div>
+        )}
         </Reveal>
       </div>
     </footer>

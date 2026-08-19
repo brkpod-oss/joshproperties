@@ -13,7 +13,7 @@ type FormState = {
   message: string;
 };
 
-const interests = [
+const defaultInterests = [
   "A villa",
   "An apartment",
   "Farmland",
@@ -22,7 +22,7 @@ const interests = [
   "Other",
 ];
 
-const budgets = [
+const defaultBudgets = [
   "Under ₹1 Cr",
   "₹1–3 Cr",
   "₹3–6 Cr",
@@ -42,11 +42,17 @@ export function ContactForm({
   whatsapp,
   phone,
   phoneHref,
+  interests,
+  budgets,
 }: {
   whatsapp: string;
   phone: string;
   phoneHref: string;
+  interests?: string[];
+  budgets?: string[];
 }) {
+  const interestOptions = interests && interests.length > 0 ? interests : defaultInterests;
+  const budgetOptions = budgets && budgets.length > 0 ? budgets : defaultBudgets;
   const [form, setForm] = useState<FormState>(initial);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -152,7 +158,7 @@ export function ContactForm({
       <div>
         <p className="eyebrow text-slate">You are looking for</p>
         <div className="mt-4 flex flex-wrap gap-2">
-          {interests.map((i) => (
+          {interestOptions.map((i) => (
             <button
               key={i}
               type="button"
@@ -173,7 +179,7 @@ export function ContactForm({
       <div>
         <p className="eyebrow text-slate">Budget range</p>
         <div className="mt-4 flex flex-wrap gap-2">
-          {budgets.map((b) => (
+          {budgetOptions.map((b) => (
             <button
               key={b}
               type="button"

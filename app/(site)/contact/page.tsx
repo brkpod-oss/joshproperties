@@ -3,18 +3,27 @@ import { notFound } from "next/navigation";
 import { ContactForm } from "./ContactForm";
 import { ChapterMarker } from "@/components/ui/ChapterMarker";
 import { Reveal } from "@/components/motion/Reveal";
-import { getContactPage, getSiteSettings } from "@/sanity/queries";
+import { getContactPage, getEnquiryOptions, getSiteSettings } from "@/sanity/queries";
+import { buildMetadata } from "@/lib/metadata";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Enquire privately",
-  description:
-    "Enquire privately with Josh Properties. A concierge replies within two working days, no walk-ins, no mailing list.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const [page, settings] = await Promise.all([getContactPage(), getSiteSettings()]);
+  if (!settings) return {};
+  return buildMetadata(settings, "/contact", {
+    title: page?.heading,
+    description: page?.body,
+  });
+}
 
 export default async function ContactPage() {
-  const [page, settings] = await Promise.all([getContactPage(), getSiteSettings()]);
+  const [page, settings, interests, budgets] = await Promise.all([
+    getContactPage(),
+    getSiteSettings(),
+    getEnquiryOptions("holding"),
+    getEnquiryOptions("budget"),
+  ]);
 
   if (!page) notFound();
   if (!settings) {
@@ -41,7 +50,13 @@ export default async function ContactPage() {
                 </p>
               </Reveal>
               <Reveal delay={0.3}>
-                <ContactForm whatsapp={settings.whatsapp} phone={settings.phone} phoneHref={settings.phoneHref} />
+                <ContactForm
+                  whatsapp={settings.whatsapp}
+                  phone={settings.phone}
+                  phoneHref={settings.phoneHref}
+                  interests={interests.map((o) => o.label)}
+                  budgets={budgets.map((o) => o.label)}
+                />
               </Reveal>
             </div>
 
