@@ -14,6 +14,7 @@ export type Property = {
   status: "Available" | "Under Offer" | "Sold";
   image?: SanityImage;
   gallery?: SanityImage[];
+  youtubeUrl?: string;
   short: string;
   narrative: string[];
   specs: { label: string; value: string }[];
@@ -26,6 +27,7 @@ const propertyProjection = `{
   folio, title, category, location, price, area, beds, status,
   image,
   "gallery": coalesce(gallery, []),
+  youtubeUrl,
   short,
   "narrative": coalesce(narrative, []),
   "specs": coalesce(specs, []),
@@ -228,4 +230,23 @@ export type ContactPage = {
 
 export async function getContactPage(): Promise<ContactPage | null> {
   return client.fetch(`*[_type == "contactPage"][0]`, {}, { next: { tags: ["contactPage"] } });
+}
+
+export type PropertyPage = {
+  walkthroughKicker: string;
+  walkthroughHeading: string;
+  videoKicker: string;
+  videoHeading: string;
+  storyKicker: string;
+  storyHeading: string;
+  factsKicker: string;
+  titleChainNote: string;
+  enquireLabel: string;
+  alsoKicker: string;
+  alsoHeading: string;
+  viewFullListLabel: string;
+};
+
+export async function getPropertyPage(): Promise<PropertyPage | null> {
+  return client.fetch(`*[_type == "propertyPage"][0]`, {}, { next: { tags: ["propertyPage"] } });
 }

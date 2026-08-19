@@ -5,6 +5,8 @@ import { ChapterMarker } from "@/components/ui/ChapterMarker";
 import { Reveal } from "@/components/motion/Reveal";
 import { getContactPage, getSiteSettings } from "@/sanity/queries";
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Enquire privately",
   description:

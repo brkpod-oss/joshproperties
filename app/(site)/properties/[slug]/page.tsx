@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight, Phone } from "lucide-react";
-import { getProperty, getPropertiesByCategory, getPropertySlugs, getSiteSettings } from "@/sanity/queries";
+import { getProperty, getPropertiesByCategory, getPropertyPage, getPropertySlugs, getSiteSettings } from "@/sanity/queries";
 import { urlFor } from "@/sanity/image";
+import { getYouTubeEmbedUrl } from "@/lib/youtube";
 import { PageHero } from "@/components/sections/PageHero";
 import { Gallery } from "@/components/Gallery";
 import { PropertyCard } from "@/components/PropertyCard";
@@ -12,6 +13,8 @@ import { Reveal } from "@/components/motion/Reveal";
 import { RevealMask } from "@/components/motion/RevealMask";
 import { Button } from "@/components/ui/Button";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+
+export const revalidate = 60;
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -34,11 +37,34 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function PropertyPage({ params }: PageProps) {
   const { slug } = await params;
-  const [property, settings] = await Promise.all([getProperty(slug), getSiteSettings()]);
+  const [property, settings, pageCopy] = await Promise.all([
+    getProperty(slug),
+    getSiteSettings(),
+    getPropertyPage(),
+  ]);
   if (!property) notFound();
   if (!settings) {
     throw new Error("siteSettings document is missing — check Sanity Studio");
   }
+
+  const copy = {
+    walkthroughKicker: "Walk through",
+    walkthroughHeading: "Drag through the property.",
+    videoKicker: "On film",
+    videoHeading: "The walkthrough, in motion.",
+    storyKicker: "The story",
+    storyHeading: "Why this property exists.",
+    factsKicker: "The facts",
+    titleChainNote:
+      "The full chain of title, revenue records and survey maps are provided to serious enquirers before any payment is discussed.",
+    enquireLabel: "Enquire about this property",
+    alsoKicker: "Also in this ground",
+    alsoHeading: "If this is almost right.",
+    viewFullListLabel: "View the full list",
+    ...(pageCopy ?? {}),
+  };
+
+  const embedSrc = getYouTubeEmbedUrl(property.youtubeUrl);
 
   const images = property.gallery && property.gallery.length > 0
     ? property.gallery.map((img, i) => ({
@@ -73,23 +99,47 @@ export default async function PropertyPage({ params }: PageProps) {
 
       <section className="bg-paper py-24 lg:py-32">
         <div className="mx-auto max-w-[1440px] px-6 sm:px-12 lg:px-20">
-          <Reveal><ChapterMarker kicker="Walk through" /></Reveal>
+          <Reveal><ChapterMarker kicker={copy.walkthroughKicker} /></Reveal>
           <RevealMask delay={0.1}>
             <h2 className="mt-8 max-w-[20ch] text-balance font-display text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ink lg:text-6xl">
-              Drag through the property.
+              {copy.walkthroughHeading}
             </h2>
           </RevealMask>
         </div>
         <Reveal delay={0.2} className="mt-12"><Gallery images={images} className="lg:px-0" /></Reveal>
       </section>
 
+      {embedSrc && (
+        <section className="bg-stone">
+          <div className="mx-auto max-w-[1440px] px-6 py-24 sm:px-12 lg:px-20 lg:py-32">
+            <Reveal><ChapterMarker kicker={copy.videoKicker} /></Reveal>
+            <RevealMask delay={0.1}>
+              <h2 className="mt-8 text-balance font-display text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ink lg:text-5xl">
+                {copy.videoHeading}
+              </h2>
+            </RevealMask>
+            <Reveal delay={0.2} className="mt-12">
+              <div className="vignette relative aspect-video overflow-hidden bg-carbon">
+                <iframe
+                  src={embedSrc}
+                  title={`${property.title} walkthrough`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="absolute inset-0 h-full w-full"
+                />
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      )}
+
       <section className="bg-stone">
         <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-16 px-6 py-24 sm:px-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-24 lg:px-20 lg:py-32">
           <div>
-            <Reveal><ChapterMarker kicker="The story" /></Reveal>
+            <Reveal><ChapterMarker kicker={copy.storyKicker} /></Reveal>
             <RevealMask delay={0.1}>
               <h2 className="mt-8 text-balance font-display text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ink lg:text-5xl">
-                Why this property exists.
+                {copy.storyHeading}
               </h2>
             </RevealMask>
             <div className="mt-10 space-y-6">
@@ -103,7 +153,7 @@ export default async function PropertyPage({ params }: PageProps) {
           <aside className="lg:sticky lg:top-28 lg:self-start">
             <Reveal>
               <div className="border border-ink/15 bg-paper">
-                <div className="border-b border-ink/15 px-7 py-5"><p className="eyebrow text-slate">The facts</p></div>
+                <div className="border-b border-ink/15 px-7 py-5"><p className="eyebrow text-slate">{copy.factsKicker}</p></div>
                 <dl className="divide-y divide-ink/10 px-7 py-2">
                   {property.specs.map((s, i) => (
                     <Reveal key={s.label} delay={0.05 * i}>
@@ -116,12 +166,12 @@ export default async function PropertyPage({ params }: PageProps) {
                 </dl>
                 <div className="border-t border-ink/15 p-7">
                   <p className="text-[14px] leading-relaxed text-ink/60">
-                    The full chain of title, revenue records and survey maps are provided to serious enquirers before any payment is discussed.
+                    {copy.titleChainNote}
                   </p>
                   <div className="mt-6 flex flex-col gap-3">
                     <MagneticButton href="/contact">
                       <Button href="/contact" variant="filled" data-cursor="ENQUIRE" className="group w-full justify-center">
-                        Enquire about this property
+                        {copy.enquireLabel}
                         <ArrowRight size={16} strokeWidth={1.5} className="transition-transform duration-300 group-hover:translate-x-1" />
                       </Button>
                     </MagneticButton>
@@ -144,10 +194,10 @@ export default async function PropertyPage({ params }: PageProps) {
           <div className="mx-auto max-w-[1440px] px-6 py-24 sm:px-12 lg:px-20 lg:py-32">
             <div className="flex items-end justify-between gap-8">
               <div>
-                <Reveal><ChapterMarker kicker="Also in this ground" /></Reveal>
+                <Reveal><ChapterMarker kicker={copy.alsoKicker} /></Reveal>
                 <RevealMask delay={0.1}>
                   <h2 className="mt-8 text-balance font-display text-4xl font-light leading-[1.05] tracking-[-0.02em] text-ink lg:text-5xl">
-                    If this is almost right.
+                    {copy.alsoHeading}
                   </h2>
                 </RevealMask>
               </div>
@@ -156,7 +206,7 @@ export default async function PropertyPage({ params }: PageProps) {
                   href={property.category === "villa" ? "/villas" : property.category === "apartment" ? "/apartments" : "/farmlands"}
                   className="link-underline eyebrow group flex items-center gap-2 whitespace-nowrap text-slate transition-colors hover:text-emerald"
                 >
-                  View the full list
+                  {copy.viewFullListLabel}
                   <span className="h-px w-8 bg-slate/50 transition-all duration-300 group-hover:w-14 group-hover:bg-emerald" />
                 </Link>
               </Reveal>

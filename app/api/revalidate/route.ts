@@ -6,7 +6,7 @@ export function getTagsForType(type: string): string[] {
   const knownTypes = [
     "property", "farmlandOption", "testimonial", "faq", "stat", "service",
     "processStep", "partnerLogo", "promiseItem", "siteSettings", "homePage",
-    "categoryPage", "contactPage",
+    "propertyPage", "categoryPage", "contactPage",
   ];
   return knownTypes.includes(type) ? [type] : [];
 }
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
 
   const tags = getTagsForType(payload._type);
   tags.forEach((tag) => {
-    revalidateTag(tag, {});
+    revalidateTag(tag, { expire: 0 });
   });
 
   return NextResponse.json({ revalidated: true, tags, now: Date.now() });

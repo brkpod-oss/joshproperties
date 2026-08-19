@@ -10,6 +10,8 @@ import { RevealMask } from "@/components/motion/RevealMask";
 import { getCategoryPage, getFarmlandOptions, getSiteSettings } from "@/sanity/queries";
 import { urlFor } from "@/sanity/image";
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Farmlands in Hyderabad & Telangana",
   description:

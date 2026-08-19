@@ -4,6 +4,8 @@ import { PageHero } from "@/components/sections/PageHero";
 import { PropertyListing } from "@/components/PropertyListing";
 import { getCategoryPage, getPropertiesByCategory } from "@/sanity/queries";
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Villas in Hyderabad",
   description:

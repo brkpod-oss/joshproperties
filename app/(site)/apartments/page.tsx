@@ -6,6 +6,8 @@ import { DayNightCity } from "@/components/DayNightCity";
 import { Reveal } from "@/components/motion/Reveal";
 import { getCategoryPage, getPropertiesByCategory } from "@/sanity/queries";
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Apartments in Hyderabad",
   description:

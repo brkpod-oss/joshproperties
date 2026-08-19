@@ -15,6 +15,8 @@ import {
   getServices, getPromiseItems, getProcessSteps, getTestimonials, getFaqs,
 } from "@/sanity/queries";
 
+export const revalidate = 60;
+
 export default async function Home() {
   const [homePage, settings, stats, logos, featuredProperties, services, promiseItems, processSteps, testimonials, faqs] =
     await Promise.all([

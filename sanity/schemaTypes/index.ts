@@ -10,6 +10,7 @@ import partnerLogo from "./partnerLogo";
 import promiseItem from "./promiseItem";
 import siteSettings from "./siteSettings";
 import homePage from "./homePage";
+import propertyPage from "./propertyPage";
 import categoryPage from "./categoryPage";
 import contactPage from "./contactPage";
 
@@ -26,6 +27,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     promiseItem,
     siteSettings,
     homePage,
+    propertyPage,
     categoryPage,
     contactPage,
   ],
