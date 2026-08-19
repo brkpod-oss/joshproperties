@@ -183,11 +183,11 @@ export function CinematicHero({ copy, heroVideo }: { copy: HomePage["hero"]; her
             </motion.div>
             <motion.div
               style={{ opacity: hyderabadOpacity, y: hyderabadExitY }}
-              className="mt-2 overflow-hidden"
+              className="mt-2 overflow-hidden pb-[0.1em] pt-[0.05em]"
             >
               <motion.h1
                 style={{ y: hyderabadY }}
-                className="font-display text-[clamp(2.8rem,9vw,7.5rem)] font-light leading-[0.95] text-paper"
+                className="font-display text-[clamp(2.8rem,9vw,7.5rem)] font-light leading-[1] text-paper"
               >
                 {copy.place}
               </motion.h1>
@@ -337,7 +337,7 @@ function MaskedLine({
 }) {
   const y = useTransform(progress, range, ["105%", "0%"], { ease: EASE_FN });
   return (
-    <span className="block overflow-hidden">
+    <span className="block overflow-hidden pb-[0.1em] pt-[0.04em]">
       <motion.span className={`block will-change-transform ${className}`} style={{ y }}>
         {children}
       </motion.span>

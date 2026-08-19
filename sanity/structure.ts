@@ -1,4 +1,5 @@
 import type { StructureResolver } from "sanity/structure";
+import { propertiesMenu } from "./structure/properties";
 
 export const SINGLETONS = [
   { id: "siteSettings", title: "Site settings" },
@@ -20,12 +21,15 @@ export const structure: StructureResolver = (S) =>
           .child(S.document().schemaType(id).documentId(id))
       ),
       S.divider(),
+      propertiesMenu(S),
+      S.divider(),
       S.documentTypeListItem("categoryPage").title("Category pages"),
       S.divider(),
       ...S.documentTypeListItems().filter(
         (item) =>
           item.getId() &&
           !SINGLETONS.some((s) => s.id === item.getId()) &&
-          item.getId() !== "categoryPage"
+          item.getId() !== "categoryPage" &&
+          item.getId() !== "property"
       ),
     ]);

@@ -143,6 +143,17 @@ export default defineType({
     }),
   ],
   preview: {
-    select: { title: "title", subtitle: "location", media: "image" },
+    select: {
+      title: "title",
+      location: "location",
+      price: "price",
+      status: "status",
+      media: "image",
+    },
+    prepare: ({ title, location, price, status, media }) => ({
+      title,
+      subtitle: [location, price, status].filter(Boolean).join(" · "),
+      media,
+    }),
   },
 });
