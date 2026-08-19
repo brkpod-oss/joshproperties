@@ -10,6 +10,7 @@ export default defineConfig({
   title: "Josh Properties",
   projectId,
   dataset,
+  basePath: "/studio",
   schema,
   plugins: [structureTool({ structure }), visionTool({ defaultApiVersion: apiVersion })],
   document: {

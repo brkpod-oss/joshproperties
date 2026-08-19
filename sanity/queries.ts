@@ -24,7 +24,12 @@ export type Property = {
 const propertyProjection = `{
   "slug": slug.current,
   folio, title, category, location, price, area, beds, status,
-  image, gallery, short, narrative, specs, tall, featured
+  image,
+  "gallery": coalesce(gallery, []),
+  short,
+  "narrative": coalesce(narrative, []),
+  "specs": coalesce(specs, []),
+  tall, featured
 }`;
 
 export async function getProperties(): Promise<Property[]> {
